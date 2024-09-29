@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "215010547123",
+    "project_id": "just-chat-afd29",
+    "storage_bucket": "just-chat-afd29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215010547123:android:4982ff19195a606e0ee7c6",
+        "android_client_info": {
+          "package_name": "com.example.just_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQS1lzoLP4e8OiaLjkqDPhIwGJqndPMm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
