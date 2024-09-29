@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/app_entry.dart';
+import 'package:just_chat/modules/onboarding/view/page/onboarding.dart';
 
 import 'core/lang_manager.dart';
 import 'core/services/cache/cache_helper.dart';
@@ -45,7 +46,7 @@ void main() async {
         ],
         path: 'assets/translations',
         child: JustChatApp(
-          initialRoute: 'initialRoute',
+          initialRoute: OnboardingPage.routeName,
         )),
   );
 }

@@ -38,6 +38,7 @@ dependencies:
   # this package for drawing shimmer without need to build it from scratch
   skeletonizer: ^1.4.2
   awesome_dialog: ^3.2.1
+  lottie: ^3.1.2
 
 dev_dependencies:
   flutter_test:
