@@ -1,11 +1,10 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/app_entry.dart';
-import 'package:just_chat/modules/onboarding/view/page/onboarding.dart';
+import 'package:just_chat/modules/onboarding/view/page/onboarding_page.dart';
 
 import 'core/lang_manager.dart';
 import 'core/services/cache/cache_helper.dart';
@@ -15,8 +14,8 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
   await CacheHelper.init();

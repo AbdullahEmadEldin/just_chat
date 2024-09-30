@@ -86,7 +86,7 @@ TextStyle getTextStyle(BuildContext context,
       fontSize: fontSize.sp,
       fontFamily: context.locale.languageCode == LanguageType.arabic.code
           ? AppFonts.notoKufiArabic
-          : AppFonts.montserrat,
+          : AppFonts.fredoka,
       color: color,
       fontWeight: fontWeight);
 }
