@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../modules/onboarding/view/page/onboarding_page.dart';
+import '../../modules/onboarding/view/page/onboarding_page_view_item.dart';
 
 //! =================== Naming convention for routes ===================
 //? to handle nested routes with the handler properly naming routes should start with '/' then the route name
@@ -9,8 +11,8 @@ class AppRouter {
   static Route? onGenerate(RouteSettings settings) {
     final String? route = mapRoute(settings.name);
     switch (route) {
-      // case OnboardingPage.routeName:
-      //   return MaterialPageRoute(builder: (context) => const OnboardingPage());
+      case OnboardingPage.routeName:
+        return MaterialPageRoute(builder: (context) => const OnboardingPage());
       // case LoginPage.routeName:
       //   return AuthRouter.onGenerate(settings);
       // case HomePage.routeName:
