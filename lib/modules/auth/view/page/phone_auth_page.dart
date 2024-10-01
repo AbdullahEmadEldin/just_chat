@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/widgets/app_logo.dart';
 import 'package:just_chat/core/widgets/main_button.dart';
+import 'package:just_chat/modules/auth/logic/cubit/auth_cubit.dart';
 import 'package:just_chat/modules/auth/view/widgets/enter_phone_field.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/constants/loties_assets.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../widgets/policy_text.dart';
+import '../widgets/submit_phone_listener.dart';
 
 class PhoneAuthPage extends StatelessWidget {
   static const String routeName = '/phone_auth_page';
@@ -41,9 +44,16 @@ class PhoneAuthPage extends StatelessWidget {
 
             Center(child: Lottie.asset(LottiesAssets.unlock, width: 250.w)),
             const Spacer(),
-            MainButton(title: 'Get Verification Code', onPressed: () {}),
+            MainButton(
+                title: 'Get Verification Code',
+                onPressed: () async {
+                  await context
+                      .read<PhoneAuthCubit>()
+                      .verifyPhoneNumber();
+                }),
             SizedBox(height: 16.h),
             const TermsAndConditionsText(),
+            const SubmitPhoneListener(),
           ],
         ),
       ),

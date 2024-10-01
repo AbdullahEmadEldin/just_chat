@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/app_entry.dart';
 import 'package:just_chat/modules/onboarding/view/page/onboarding_page.dart';
 
+import 'core/di/dependency_injection.dart';
 import 'core/lang_manager.dart';
 import 'core/services/cache/cache_helper.dart';
 import 'core/theme/colors/colors_manager.dart';
@@ -18,6 +19,7 @@ void main() async {
   );
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
+  setUpGetIt();
   await CacheHelper.init();
   //setUpGetIt();
   final String startLocale = await LanguageManager.getAppLang();

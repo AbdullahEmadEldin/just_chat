@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'logic/cubit/auth_cubit.dart';
+import 'view/page/check_otp_page.dart';
+import 'view/page/phone_auth_page.dart';
 
 class AuthRouter {
   static Route? onGenerate(RouteSettings settings) {
@@ -7,8 +11,15 @@ class AuthRouter {
       case PhoneAuthPage.routeName:
         return PageRouteBuilder(
           transitionsBuilder: _authPagesAnimationBuilder,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const PhoneAuthPage(),
+          pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
+            create: (context) => PhoneAuthCubit(),
+            child: const PhoneAuthPage(),
+          ),
+        );
+        case OtpVerificationPage.routeName:
+        return PageRouteBuilder(
+          transitionsBuilder: _authPagesAnimationBuilder,
+          pageBuilder: (context, animation, secondaryAnimation) => const OtpVerificationPage(),
         );
       default:
         return null;

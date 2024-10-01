@@ -29,7 +29,7 @@ dependencies:
   # used to autogenerate bloc states 
   freezed: 2.5.7
   freezed_annotation: 2.4.4
-  get_it: 7.7.0
+  get_it: ^8.0.0
   intl: 0.19.0
   pretty_dio_logger: 1.4.0
   shared_preferences: ^2.3.2
