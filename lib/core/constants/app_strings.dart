@@ -9,4 +9,9 @@ class AppStrings {
   static String onBoardingText2 = 'onBoardingTitle2';
 
   static String getStarted = 'get_started';
+
+  static const String policy1 = 'policy1';
+  static const String policy2 = 'policy2';
+  static const String policy3 = 'policy3';
+  static const String policy4 = 'policy4';
 }

@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "just_chat",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "just_chat (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "just_chat (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "intl_phone_number_input-develop",
+            "cwd": "lib\\packages\\intl_phone_number_input-develop",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "intl_phone_number_input-develop (profile mode)",
+            "cwd": "lib\\packages\\intl_phone_number_input-develop",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "intl_phone_number_input-develop (release mode)",
+            "cwd": "lib\\packages\\intl_phone_number_input-develop",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
