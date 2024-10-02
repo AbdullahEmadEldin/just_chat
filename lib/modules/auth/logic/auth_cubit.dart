@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_state.dart';
@@ -12,22 +13,33 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
 
   ///
 
-  final formKey = GlobalKey<FormFieldState>();
+  final formKey = GlobalKey<FormState>();
   String phoneNumber = '';
   final _instance = FirebaseAuth.instance;
   String verificationId = '';
 
   ///! Identify Phone number on firebase and send SMS code
   ///
+  Future<void> validateAndVerify() async {
+    if (formKey.currentState!.validate()) {
+      await verifyPhoneNumber();
+    }
+  }
+
   Future<void> verifyPhoneNumber() async {
     emit(SubmitNumberLoading());
-    await _instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: _verificationCompleted,
-      verificationFailed: _verificationFailed,
-      codeSent: _codeSent,
-      codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout,
-    );
+    try {
+      await _instance.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: _verificationCompleted,
+        verificationFailed: _verificationFailed,
+        codeSent: _codeSent,
+        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout,
+      );
+    } on PlatformException catch (e) {
+      emit(SubmitNumberFailure(errorMsg: e.message.toString()));
+      print(e.message);
+    }
   }
 
   ///! verify OTP code
@@ -72,8 +84,8 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   }
 
   _verificationFailed(FirebaseAuthException error) {
-    print('error ----------------- on verfivation: ${error.toString()}');
-    emit(SubmitNumberFailure(errorMsg: error.toString()));
+    print('error ----------------- on verfivation: ${error.code.toString()}');
+    emit(SubmitNumberFailure(errorMsg: error.code.toString()));
   }
 
   _codeSent(String verificationId, int? resendToken) {
@@ -86,30 +98,4 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   _codeAutoRetrievalTimeout(String verificationId) {
     print('codeAutoRetrievalTimeout');
   }
-  // Future<void> validateAndVerifyPhoneNumber() async {
-  //   await _verifyPhoneNumber();
-  // }
-
-  // ///
-  // Future<void> _verifyPhoneNumber() async {
-  //   emit(SubmitNumberLoading());
-  //   try {
-  //     await _repo.verifyPhoneNumber(phoneNumber: phoneController.text);
-  //     emit(SubmitNumberSuccess());
-  //   } catch (e) {
-  //     print('===>  Submit auth cubit ${e.toString()}');
-  //     emit(SubmitNumberFailure(errorMsg: e.toString()));
-  //   }
-  // }
-
-  // Future<void> verifyOtp(String otpCode) async {
-  //   emit(OtpVerifiedLoading());
-  //   try {
-  //     await _repo.verifyOtp(otpCode);
-  //     emit(OtpVerifiedSuccess());
-  //   } catch (e) {
-  //     print('===>  OTP auth cubit ${e.toString()}');
-  //     emit(OtpVerifiedFailure(errorMsg: e.toString()));
-  //   }
-  // }
 }
