@@ -45,10 +45,21 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   ///! verify OTP code
   ///
   Future<void> verifyOtp(String otpCode) async {
+    emit(OtpVerifiedLoading());
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId, smsCode: otpCode);
+      verificationId: verificationId, // comes from verify phone number method.
+      smsCode: otpCode,
+    );
+    try {
+      await _instance.signInWithCredential(credential);
+      print('============================!!!');
+      emit(OtpVerifiedSuccess());
+    } on PlatformException catch (e) {
+      print('=XXXXXXXXXXXXXXXXXX===========================!!!');
 
-    await _instance.signInWithCredential(credential);
+      emit(OtpVerifiedFailure(errorMsg: e.message.toString()));
+      print(e.message);
+    }
   }
 
   //! log out

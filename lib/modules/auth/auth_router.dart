@@ -6,21 +6,25 @@ import 'view/page/check_otp_page.dart';
 import 'view/page/phone_auth_page.dart';
 
 class AuthRouter {
+  static late PhoneAuthCubit _authCubit;
   static Route? onGenerate(RouteSettings settings) {
     switch (settings.name) {
       case PhoneAuthPage.routeName:
+        _authCubit = PhoneAuthCubit();
         return PageRouteBuilder(
           transitionsBuilder: _authPagesAnimationBuilder,
           pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
-            create: (context) => PhoneAuthCubit(),
+            create: (context) => _authCubit,
             child: const PhoneAuthPage(),
           ),
         );
       case OtpVerificationPage.routeName:
         return PageRouteBuilder(
           transitionsBuilder: _authPagesAnimationBuilder,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const OtpVerificationPage(),
+          pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
+            create: (context) => _authCubit,
+            child: const OtpVerificationPage(),
+          ),
         );
       default:
         return null;
