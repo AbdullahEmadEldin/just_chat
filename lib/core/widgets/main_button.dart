@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../theme/colors/colors_manager.dart';
 
 class MainButton extends StatelessWidget {
-  final String title;
+  final Widget title;
   final Function()? onPressed;
   const MainButton({
     super.key,
@@ -30,12 +30,7 @@ class MainButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            color: ColorsManager().colorScheme.background,
-            fontWeight: FontWeight.bold),
-      ),
+      child: title
     );
   }
 }

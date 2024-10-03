@@ -29,10 +29,8 @@ class SubmitPhoneListener extends StatelessWidget {
             ),
           );
         } else if (state is SubmitNumberSuccess) {
-          print(
-              '----------------------------------===============================');
           Navigator.pop(context);
-          context.pushNamed(OtpVerificationPage.routeName);
+          context.pushReplacementNamed(OtpVerificationPage.routeName);
         } else if (state is SubmitNumberFailure) {
           Navigator.pop(context);
           WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:just_chat/modules/auth/logic/auth_cubit.dart';
 
+import '../../../../../core/di/dependency_injection.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
 
 class EnterPhoneField extends StatelessWidget {
@@ -15,9 +16,9 @@ class EnterPhoneField extends StatelessWidget {
       key: context.read<PhoneAuthCubit>().formKey,
       child: InternationalPhoneNumberInput(
         onInputChanged: (number) {
-          context.read<PhoneAuthCubit>().phoneNumber =
+          getIt<PhoneAuthInfo>().phoneNumber =
               number.phoneNumber!;
-              print('============>>>> number ${context.read<PhoneAuthCubit>().phoneNumber}');
+              print('============>>>> number ${getIt<PhoneAuthInfo>().phoneNumber}');
         },
         validator: (p0) {
           if (p0!.isEmpty) {

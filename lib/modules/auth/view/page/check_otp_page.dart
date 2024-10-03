@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
+import 'package:just_chat/modules/auth/view/widgets/otp_verification/otp_bloc_builder.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/constants/loties_assets.dart';
+import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../../../../core/widgets/app_logo.dart';
-import '../../../../core/widgets/main_button.dart';
 import '../../logic/auth_cubit.dart';
 import '../widgets/otp_verification/otp_verification_field.dart';
 
@@ -31,7 +32,7 @@ class OtpVerificationPage extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             Text(
-              'We sent a code to phone number: ${context.read<PhoneAuthCubit>().phoneNumber}',
+              'We sent a code to phone number: ${getIt<PhoneAuthInfo>().phoneNumber}',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: ColorsManager().colorScheme.grey60,
                     fontWeight: FontWeight.bold,
@@ -41,12 +42,7 @@ class OtpVerificationPage extends StatelessWidget {
             const OtpVerificationField(),
             Center(child: Lottie.asset(LottiesAssets.shield, width: 400.w)),
             const Spacer(),
-            MainButton(
-              title: 'Verify Code',
-              onPressed: () {
-                Navigator.pushNamed(context, PhoneAuthPage.routeName);
-              },
-            ),
+           OtpBlocBuilder(),
             SizedBox(height: 8.h),
           ],
         ),

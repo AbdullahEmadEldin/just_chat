@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_chat/modules/auth/logic/cubit/otp_verification_cubit.dart';
 
 import 'logic/auth_cubit.dart';
 import 'view/page/check_otp_page.dart';
+import 'view/page/fill_data_page.dart';
 import 'view/page/phone_auth_page.dart';
 
 class AuthRouter {
-  static late PhoneAuthCubit _authCubit;
   static Route? onGenerate(RouteSettings settings) {
     switch (settings.name) {
       case PhoneAuthPage.routeName:
-        _authCubit = PhoneAuthCubit();
         return PageRouteBuilder(
           transitionsBuilder: _authPagesAnimationBuilder,
           pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
-            create: (context) => _authCubit,
+            create: (context) => PhoneAuthCubit(),
             child: const PhoneAuthPage(),
           ),
         );
@@ -22,9 +22,15 @@ class AuthRouter {
         return PageRouteBuilder(
           transitionsBuilder: _authPagesAnimationBuilder,
           pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
-            create: (context) => _authCubit,
+            create: (context) => OtpVerificationCubit(),
             child: const OtpVerificationPage(),
           ),
+        );
+      case FillDataPage.routeName:
+        return PageRouteBuilder(
+          transitionsBuilder: _authPagesAnimationBuilder,
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const FillDataPage(),
         );
       default:
         return null;

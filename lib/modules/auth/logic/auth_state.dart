@@ -17,14 +17,4 @@ final class SubmitNumberFailure extends PhoneAuthState {
   SubmitNumberFailure({required this.errorMsg});
 }
 
-//! OTP verification states
 
-final class OtpVerifiedLoading extends PhoneAuthState {}
-
-final class OtpVerifiedSuccess extends PhoneAuthState {}
-
-final class OtpVerifiedFailure extends PhoneAuthState {
-  final String errorMsg;
-
-  OtpVerifiedFailure({required this.errorMsg});
-}

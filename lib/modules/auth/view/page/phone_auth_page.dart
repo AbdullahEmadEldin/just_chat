@@ -45,7 +45,12 @@ class PhoneAuthPage extends StatelessWidget {
             Center(child: Lottie.asset(LottiesAssets.unlock, width: 250.w)),
             const Spacer(),
             MainButton(
-                title: 'Get Verification Code',
+                title: Text(
+                  'Get Verification Code',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: ColorsManager().colorScheme.background,
+                      fontWeight: FontWeight.bold),
+                ),
                 onPressed: () async {
                   await context.read<PhoneAuthCubit>().validateAndVerify();
                 }),

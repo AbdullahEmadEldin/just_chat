@@ -15,8 +15,6 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   ///
 
   final formKey = GlobalKey<FormState>();
-  String phoneNumber = '';
-  String verificationId = '';
 
   ///! Identify Phone number on firebase and send SMS code
   ///
@@ -30,7 +28,7 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
     emit(SubmitNumberLoading());
     try {
       await getIt<FirebaseAuth>().verifyPhoneNumber(
-        phoneNumber: phoneNumber,
+        phoneNumber: getIt<PhoneAuthInfo>().phoneNumber,
         verificationCompleted: _verificationCompleted,
         verificationFailed: _verificationFailed,
         codeSent: _codeSent,
@@ -39,26 +37,10 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
     } on PlatformException catch (e) {
       emit(SubmitNumberFailure(errorMsg: e.message.toString()));
       print(e.message);
-    }
-  }
-
-  ///! verify OTP code
-  ///
-  Future<void> verifyOtp(String otpCode) async {
-    emit(OtpVerifiedLoading());
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: verificationId, // comes from verify phone number method.
-      smsCode: otpCode,
-    );
-    try {
-      final UserCredential userCredential =
-          await getIt<FirebaseAuth>().signInWithCredential(credential);
-      print('--------------->>>>>>>> ${userCredential.additionalUserInfo!.isNewUser}');
-      userCredential.additionalUserInfo!.isNewUser;
-      emit(OtpVerifiedSuccess());
-    } on PlatformException catch (e) {
-      emit(OtpVerifiedFailure(errorMsg: e.message.toString()));
-      print(e.message);
+    } on FirebaseAuthException catch (e) {
+      emit(SubmitNumberFailure(errorMsg: e.message.toString()));
+    } catch (e) {
+      emit(SubmitNumberFailure(errorMsg: e.toString()));
     }
   }
 
@@ -66,12 +48,6 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   ///
   Future<void> logOut() async {
     await getIt<FirebaseAuth>().signOut();
-  }
-
-  //! get user info.
-  ///
-  User getUserInfo() {
-    return getIt<FirebaseAuth>().currentUser!;
   }
 
   ///-----------------------------------------
@@ -101,8 +77,7 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
 
   _codeSent(String verificationId, int? resendToken) {
     print('code sent ');
-
-    this.verificationId = verificationId;
+    getIt<PhoneAuthInfo>().verificationId = verificationId;
     emit(SubmitNumberSuccess());
   }
 
