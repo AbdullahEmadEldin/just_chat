@@ -4,7 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../core/di/dependency_injection.dart';
 
 part 'auth_state.dart';
 
@@ -15,7 +16,6 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
 
   final formKey = GlobalKey<FormState>();
   String phoneNumber = '';
-  final _instance = FirebaseAuth.instance;
   String verificationId = '';
 
   ///! Identify Phone number on firebase and send SMS code
@@ -29,7 +29,7 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   Future<void> verifyPhoneNumber() async {
     emit(SubmitNumberLoading());
     try {
-      await _instance.verifyPhoneNumber(
+      await getIt<FirebaseAuth>().verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: _verificationCompleted,
         verificationFailed: _verificationFailed,
@@ -51,12 +51,12 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
       smsCode: otpCode,
     );
     try {
-      await _instance.signInWithCredential(credential);
-      print('============================!!!');
+      final UserCredential userCredential =
+          await getIt<FirebaseAuth>().signInWithCredential(credential);
+      print('--------------->>>>>>>> ${userCredential.additionalUserInfo!.isNewUser}');
+      userCredential.additionalUserInfo!.isNewUser;
       emit(OtpVerifiedSuccess());
     } on PlatformException catch (e) {
-      print('=XXXXXXXXXXXXXXXXXX===========================!!!');
-
       emit(OtpVerifiedFailure(errorMsg: e.message.toString()));
       print(e.message);
     }
@@ -65,13 +65,13 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   //! log out
   ///
   Future<void> logOut() async {
-    await _instance.signOut();
+    await getIt<FirebaseAuth>().signOut();
   }
 
   //! get user info.
   ///
   User getUserInfo() {
-    return _instance.currentUser!;
+    return getIt<FirebaseAuth>().currentUser!;
   }
 
   ///-----------------------------------------
@@ -88,7 +88,7 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
     try {
       /// In case of success verification of OTP code the resulted credentials will be signed in.
 
-      await _instance.signInWithCredential(credential);
+      await getIt<FirebaseAuth>().signInWithCredential(credential);
     } catch (e) {
       print('Error on sign in code: ${e.toString()}');
     }

@@ -7,7 +7,7 @@ import 'package:just_chat/modules/auth/logic/auth_cubit.dart';
 import 'package:just_chat/modules/auth/view/page/check_otp_page.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../core/constants/loties_assets.dart';
+import '../../../../../core/constants/loties_assets.dart';
 
 class SubmitPhoneListener extends StatelessWidget {
   const SubmitPhoneListener({super.key});

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:just_chat/modules/auth/logic/auth_cubit.dart';
 
-import '../../../../core/theme/colors/colors_manager.dart';
+import '../../../../../core/theme/colors/colors_manager.dart';
 
 class EnterPhoneField extends StatelessWidget {
   const EnterPhoneField({super.key});

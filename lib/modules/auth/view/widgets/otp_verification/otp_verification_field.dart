@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../../core/theme/colors/colors_manager.dart';
-import '../../logic/auth_cubit.dart';
+import '../../../../../core/theme/colors/colors_manager.dart';
+import '../../../logic/auth_cubit.dart';
 
 class OtpVerificationField extends StatelessWidget {
   const OtpVerificationField({super.key});

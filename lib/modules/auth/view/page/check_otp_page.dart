@@ -9,7 +9,7 @@ import '../../../../core/theme/colors/colors_manager.dart';
 import '../../../../core/widgets/app_logo.dart';
 import '../../../../core/widgets/main_button.dart';
 import '../../logic/auth_cubit.dart';
-import '../widgets/otp_verification_field.dart';
+import '../widgets/otp_verification/otp_verification_field.dart';
 
 class OtpVerificationPage extends StatelessWidget {
   static const String routeName = '${PhoneAuthPage.routeName}/otp_verification';

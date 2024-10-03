@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/widgets/app_logo.dart';
 import 'package:just_chat/core/widgets/main_button.dart';
 import 'package:just_chat/modules/auth/logic/auth_cubit.dart';
-import 'package:just_chat/modules/auth/view/widgets/enter_phone_field.dart';
+import 'package:just_chat/modules/auth/view/widgets/phone_verification/enter_phone_field.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/constants/loties_assets.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
-import '../widgets/policy_text.dart';
-import '../widgets/submit_phone_listener.dart';
+import '../widgets/phone_verification/policy_text.dart';
+import '../widgets/phone_verification/submit_phone_listener.dart';
 
 class PhoneAuthPage extends StatelessWidget {
   static const String routeName = '/phone_auth_page';
