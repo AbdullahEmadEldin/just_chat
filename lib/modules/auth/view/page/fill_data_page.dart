@@ -8,8 +8,10 @@ class FillDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Fill Data Page'),
+      body: Column(
+        children:[
+          
+        ],
       ),
     );
   }

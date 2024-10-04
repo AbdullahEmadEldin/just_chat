@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
-import 'package:just_chat/modules/auth/logic/auth_cubit.dart';
+import 'package:just_chat/modules/auth/logic/verify_phone_number_cubit/auth_cubit.dart';
 import 'package:just_chat/modules/auth/view/page/check_otp_page.dart';
 import 'package:lottie/lottie.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_chat/modules/auth/logic/otp_verify_cubit/otp_verification_cubit.dart';
 
-import 'logic/auth_cubit.dart';
+import 'logic/verify_phone_number_cubit/auth_cubit.dart';
 import 'view/page/check_otp_page.dart';
 import 'view/page/fill_data_page.dart';
 import 'view/page/phone_auth_page.dart';
