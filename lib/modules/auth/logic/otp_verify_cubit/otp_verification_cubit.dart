@@ -2,8 +2,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/di/dependency_injection.dart';
 

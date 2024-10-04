@@ -26,9 +26,6 @@ dependencies:
   flutter_screenutil: 5.9.3
   flutter_secure_storage: ^9.2.2
   flutter_svg: ^2.0.10+1
-  # used to autogenerate bloc states 
-  freezed: 2.5.7
-  freezed_annotation: 2.4.4
   get_it: ^8.0.0
   intl: 0.19.0
   pretty_dio_logger: 1.4.0
@@ -41,6 +38,7 @@ dependencies:
   lottie: ^3.1.2
   intl_phone_number_input: ^0.7.4
   pin_code_fields: ^8.0.1
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
