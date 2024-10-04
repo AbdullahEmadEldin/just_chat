@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:just_chat/modules/auth/auth_router.dart';
+import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
 
+import '../../modules/chat/view/all_chats_page.dart';
 import '../../modules/onboarding/view/page/onboarding_page.dart';
-import '../../modules/onboarding/view/page/onboarding_page_view_item.dart';
 
 //! =================== Naming convention for routes ===================
 //? to handle nested routes with the handler properly naming routes should start with '/' then the route name
@@ -13,12 +15,12 @@ class AppRouter {
     switch (route) {
       case OnboardingPage.routeName:
         return MaterialPageRoute(builder: (context) => const OnboardingPage());
-      // case LoginPage.routeName:
-      //   return AuthRouter.onGenerate(settings);
-      // case HomePage.routeName:
-      //   return HomeRouter.onGenerate(settings);
-      // default:
-      //   return MaterialPageRoute(builder: (context) => const ErrorRouter());
+      case PhoneAuthPage.routeName:
+        return AuthRouter.onGenerate(settings);
+      case AllChatsPage.routeName:
+        return MaterialPageRoute(builder: (context) => const AllChatsPage());
+      default:
+        return null;
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
+import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/constants/app_strings.dart';
@@ -29,7 +30,7 @@ class GetStartedButton extends StatelessWidget {
             ),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             minimumSize: WidgetStateProperty.all(
-              Size(double.infinity, 64.h),
+              Size(double.infinity, 56.h),
             ),
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
@@ -39,7 +40,7 @@ class GetStartedButton extends StatelessWidget {
           ),
           onPressed: () async => await CacheHelper.saveData(
                   key: SharedPrefKeys.firstLaunch, value: false)
-              .then((v) => context.pushReplacementNamed('LoginPage.routeName')),
+              .then((v) => context.pushReplacementNamed(PhoneAuthPage.routeName)),
           child: Text(
             AppStrings.getStarted.tr(),
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(

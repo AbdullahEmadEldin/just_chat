@@ -1,11 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:just_chat/core/constants/image_assets.dart';
 import 'package:just_chat/modules/onboarding/model/onboarding_model.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/theme/colors/colors_manager.dart';
+import '../../../../core/widgets/app_logo.dart';
 
 class OnboardingItem extends StatelessWidget {
   final String lottiePath;
@@ -23,11 +23,7 @@ class OnboardingItem extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 25.h),
-        Image.asset(
-          ImagesAssets.logo,
-          height: 140.h,
-          width: 140.w,
-        ),
+        const AppLogo(),
         Lottie.asset(
           width: 350.w,
           lottiePath,

@@ -29,7 +29,7 @@ dependencies:
   # used to autogenerate bloc states 
   freezed: 2.5.7
   freezed_annotation: 2.4.4
-  get_it: 7.7.0
+  get_it: ^8.0.0
   intl: 0.19.0
   pretty_dio_logger: 1.4.0
   shared_preferences: ^2.3.2
@@ -39,6 +39,8 @@ dependencies:
   skeletonizer: ^1.4.2
   awesome_dialog: ^3.2.1
   lottie: ^3.1.2
+  intl_phone_number_input: ^0.7.4
+  pin_code_fields: ^8.0.1
 
 dev_dependencies:
   flutter_test:
