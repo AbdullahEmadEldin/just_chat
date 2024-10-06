@@ -7,6 +7,7 @@ import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
 import 'package:just_chat/modules/chat/view/all_chats_page.dart';
+import 'package:just_chat/modules/nav_bar/custom_nav_bar.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../core/constants/loties_assets.dart';
@@ -28,7 +29,7 @@ class FillDataBlocListener extends StatelessWidget {
           );
         } else if (state is SetUserDataSuccess) {
           Navigator.pop(context);
-          context.pushReplacementNamed(AllChatsPage.routeName);
+          context.pushReplacementNamed(CustomNavBar.routeName);
         } else if (state is SetUserDataFailure) {
           Navigator.pop(context);
           WidgetsBinding.instance.addPostFrameCallback((_) {

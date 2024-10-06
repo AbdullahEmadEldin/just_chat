@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/app_entry.dart';
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
-import 'package:just_chat/modules/chat/view/all_chats_page.dart';
+import 'package:just_chat/modules/nav_bar/custom_nav_bar.dart';
 import 'package:just_chat/modules/onboarding/view/page/onboarding_page.dart';
 
 import 'core/constants/constants.dart';
@@ -64,7 +64,7 @@ Future<String> handleInitialRoute() async {
   if (firstLaunch) {
     initialRoute = OnboardingPage.routeName;
   } else if (getIt<FirebaseAuth>().currentUser != null) {
-    initialRoute = AllChatsPage.routeName;
+    initialRoute = CustomNavBar.routeName;
   } else {
     initialRoute = PhoneAuthPage.routeName;
   }

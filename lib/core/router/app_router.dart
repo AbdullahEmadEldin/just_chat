@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_chat/modules/auth/auth_router.dart';
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
 
-import '../../modules/chat/view/all_chats_page.dart';
+import '../../modules/nav_bar/custom_nav_bar.dart';
 import '../../modules/onboarding/view/page/onboarding_page.dart';
 
 //! =================== Naming convention for routes ===================
@@ -17,8 +17,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const OnboardingPage());
       case PhoneAuthPage.routeName:
         return AuthRouter.onGenerate(settings);
-      case AllChatsPage.routeName:
-        return MaterialPageRoute(builder: (context) => const AllChatsPage());
+      case CustomNavBar.routeName:
+        return MaterialPageRoute(builder: (context) => const CustomNavBar());
       default:
         return null;
     }
