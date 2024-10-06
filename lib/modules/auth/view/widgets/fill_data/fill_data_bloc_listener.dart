@@ -1,26 +1,24 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
-import 'package:just_chat/modules/auth/logic/verify_phone_number_cubit/auth_cubit.dart';
-import 'package:just_chat/modules/auth/view/page/check_otp_page.dart';
+import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
+import 'package:just_chat/modules/chat/view/all_chats_page.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../core/constants/loties_assets.dart';
 
-class SubmitPhoneListener extends StatelessWidget {
-  const SubmitPhoneListener({super.key});
+class FillDataBlocListener extends StatelessWidget {
+  const FillDataBlocListener({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PhoneAuthCubit, PhoneAuthState>(
-      listenWhen: (previous, current) =>
-          current is SubmitNumberSuccess ||
-          current is SubmitNumberFailure ||
-          current is SubmitNumberLoading,
+    return BlocListener<UserDataCubit, UserDataState>(
       listener: (context, state) {
-        if (state is SubmitNumberLoading) {
+        if (state is SetUserDataLoading) {
           print('**************************');
           showDialog(
             context: context,
@@ -28,17 +26,17 @@ class SubmitPhoneListener extends StatelessWidget {
               child: Lottie.asset(LottiesAssets.loadingChat, width: 250.w),
             ),
           );
-        } else if (state is SubmitNumberSuccess) {
+        } else if (state is SetUserDataSuccess) {
           Navigator.pop(context);
-          context.pushReplacementNamed(OtpVerificationPage.routeName);
-        } else if (state is SubmitNumberFailure) {
+          context.pushReplacementNamed(AllChatsPage.routeName);
+        } else if (state is SetUserDataFailure) {
           Navigator.pop(context);
           WidgetsBinding.instance.addPostFrameCallback((_) {
             AwesomeDialog(
               context: context,
               dialogType: DialogType.error,
               animType: AnimType.rightSlide,
-              title: 'Error Occured',
+              title: AppStrings.errorOccured.tr(),
               desc: state.errorMsg,
               btnOkOnPress: () {},
             ).show();

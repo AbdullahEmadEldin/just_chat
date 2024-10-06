@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
-import 'package:just_chat/modules/auth/logic/cubit/otp_verification_cubit.dart';
+import 'package:just_chat/modules/auth/logic/otp_verify_cubit/otp_verification_cubit.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';

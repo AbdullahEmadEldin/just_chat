@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../core/di/dependency_injection.dart';
+import '../../../../core/di/dependency_injection.dart';
 
 part 'auth_state.dart';
 
@@ -27,6 +27,7 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
   Future<void> verifyPhoneNumber() async {
     emit(SubmitNumberLoading());
     try {
+      
       await getIt<FirebaseAuth>().verifyPhoneNumber(
         phoneNumber: getIt<PhoneAuthInfo>().phoneNumber,
         verificationCompleted: _verificationCompleted,

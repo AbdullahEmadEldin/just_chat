@@ -1,11 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/app_entry.dart';
+import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
+import 'package:just_chat/modules/chat/view/all_chats_page.dart';
 import 'package:just_chat/modules/onboarding/view/page/onboarding_page.dart';
 
+import 'core/constants/constants.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/lang_manager.dart';
 import 'core/services/cache/cache_helper.dart';
@@ -25,7 +29,7 @@ void main() async {
   final String startLocale = await LanguageManager.getAppLang();
   CacheHelper.init();
   // Set initial route
-  //final String initialRoute = await handleInitialRoute();
+  final String initialRoute = await handleInitialRoute();
   // Set the status bar to the app background
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -47,29 +51,23 @@ void main() async {
         ],
         path: 'assets/translations',
         child: JustChatApp(
-          initialRoute: OnboardingPage.routeName,
+          initialRoute: initialRoute,
         )),
   );
 }
 
-// Future<String> handleInitialRoute() async {
-//   String initialRoute;
-//   String? token = await CacheHelper.getSecuredString(SharedPrefKeys.token);
-//   bool firstLaunch =
-//       await CacheHelper.getData(key: SharedPrefKeys.firstLaunch) ?? true;
+Future<String> handleInitialRoute() async {
+  String initialRoute;
+  bool firstLaunch =
+      await CacheHelper.getData(key: SharedPrefKeys.firstLaunch) ?? true;
 
-//   bool stayLoggedIn =
-//       await CacheHelper.getData(key: SharedPrefKeys.stayLoggedIn) ?? false;
-//         print('=StayLoggedIn $stayLoggedIn ======>>> token: $token');
-
-//   if (firstLaunch) {
-//     initialRoute = OnboardingPage.routeName;
-//   } else if (!token.isNullOrEmpty() && stayLoggedIn) {
-//     initialRoute = HomePage.routeName;
-//   } else {
-//     initialRoute = LoginPage.routeName;
-//   }
-//   // if(!token.isNullOrEmpty()){
-//   return initialRoute;
-//   // }
-
+  if (firstLaunch) {
+    initialRoute = OnboardingPage.routeName;
+  } else if (getIt<FirebaseAuth>().currentUser != null) {
+    initialRoute = AllChatsPage.routeName;
+  } else {
+    initialRoute = PhoneAuthPage.routeName;
+  }
+  // if(!token.isNullOrEmpty()){
+  return initialRoute;
+}

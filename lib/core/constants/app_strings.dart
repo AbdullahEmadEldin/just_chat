@@ -14,4 +14,6 @@ class AppStrings {
   static const String policy2 = 'policy2';
   static const String policy3 = 'policy3';
   static const String policy4 = 'policy4';
+
+  static const String errorOccured = 'error_occured';
 }

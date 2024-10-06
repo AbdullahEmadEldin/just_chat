@@ -9,7 +9,7 @@ import '../../../../core/constants/loties_assets.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../../../../core/widgets/app_logo.dart';
-import '../../logic/auth_cubit.dart';
+import '../../logic/verify_phone_number_cubit/auth_cubit.dart';
 import '../widgets/otp_verification/otp_verification_field.dart';
 
 class OtpVerificationPage extends StatelessWidget {
