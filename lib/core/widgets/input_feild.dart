@@ -13,7 +13,9 @@ class InputField extends StatelessWidget {
   final InputBorder? focusedBorder;
   final InputBorder? errorBorder;
   final bool? obscureText;
+  final bool readOnly;
   final TextEditingController? controller;
+  final int? maxLines;
   const InputField({
     super.key,
     required this.hintText,
@@ -25,18 +27,22 @@ class InputField extends StatelessWidget {
     this.focusedBorder,
     this.errorBorder,
     this.obscureText,
+    this.readOnly = false,
     this.controller,
+    this.maxLines,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       controller: controller,
+      readOnly: readOnly,
       validator: validator,
       obscureText: obscureText ?? false,
       style: Theme.of(context)
           .textTheme
-          .bodySmall!
+          .bodyMedium!
           .copyWith(color: ColorsManager().colorScheme.grey80),
       decoration: InputDecoration(
         hintText: hintText,

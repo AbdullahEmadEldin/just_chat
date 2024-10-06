@@ -10,6 +10,7 @@ class UserDataCubit extends Cubit<UserDataState> {
   final UserDataRepo userDataRepo;
   UserDataCubit(this.userDataRepo) : super(UserDataInitial());
 
+
   Future<void> setUserData(UserModel user) async {
     emit(SetUserDataLoading());
     try {

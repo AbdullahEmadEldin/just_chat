@@ -1,23 +1,36 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_chat/core/constants/constants.dart';
+import 'package:just_chat/core/constants/image_assets.dart';
+import 'package:path_provider/path_provider.dart';
 
 class NetworkHelper {
   /// This method convert the selected image to MultipartFile
   /// which the acceptable format to be sent to the server
-  Future<String> uploadImageToFirebase(XFile image) async {
+  static Future<String?> uploadImageToFirebase(XFile? image) async {
     try {
-      // Convert XFile to File
-      File file = File(image.path);
-
-      // Create a reference to Firebase Storage
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('${AppConstants.uploadsPath}/${image.name}');
+      File imageFile;
+      Reference storageRef;
+      if (image == null) {
+        imageFile = await getImageFileFromAssets(ImagesAssets.profileHolder);
+        storageRef = FirebaseStorage.instance
+            .ref()
+            .child('${AppConstants.uploadsPath}/${imageFile.path}');
+      } else {
+        imageFile = File(image.path);
+        if (await imageFile.exists()) {
+          print('File ************************************exists: ${imageFile.path}');
+        }
+        // Create a reference to Firebase Storage
+        storageRef = FirebaseStorage.instance.ref().child(
+            '${AppConstants.uploadsPath}/${DateTime.now().millisecondsSinceEpoch.toString()}_${imageFile.path.split('/').last}');
+      }
 
       // Upload the file to Firebase Storage
-      await storageRef.putFile(file);
+      await storageRef.putFile(imageFile);
 
       // Get the download URL of the uploaded file
       String downloadURL = await storageRef.getDownloadURL();
@@ -25,7 +38,19 @@ class NetworkHelper {
       return downloadURL;
     } catch (e) {
       print('Error uploading image: $e');
-      rethrow;}
+    }
+  }
+
+  static Future<File> getImageFileFromAssets(String imagePath) async {
+    final ByteData byteData = await rootBundle.load(ImagesAssets.profileHolder);
+    final Uint8List imageData = byteData.buffer.asUint8List();
+
+    // Get a temporary directory
+    final tempDir = await getTemporaryDirectory();
+    final file =
+        await File('${tempDir.path}/${ImagesAssets.profileHolder}').create();
+    file.writeAsBytesSync(imageData);
+    return file;
   }
 
   /// This method is used to launch the url in external website or app

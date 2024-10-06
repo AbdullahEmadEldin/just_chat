@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_chat/modules/auth/data/repos/user_data_repo.dart';
 import 'package:just_chat/modules/auth/logic/otp_verify_cubit/otp_verification_cubit.dart';
+import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
 
 import 'logic/verify_phone_number_cubit/auth_cubit.dart';
 import 'view/page/check_otp_page.dart';
@@ -29,8 +31,10 @@ class AuthRouter {
       case FillDataPage.routeName:
         return PageRouteBuilder(
           transitionsBuilder: _authPagesAnimationBuilder,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const FillDataPage(),
+          pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
+            create: (context) => UserDataCubit(UserDataRepo()),
+            child: const FillDataPage(),
+          ),
         );
       default:
         return null;
