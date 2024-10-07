@@ -9,14 +9,18 @@ class HeaderBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 24.r,
-      backgroundColor: ColorsManager().colorScheme.primary20,
-      child: IconButton(
-        onPressed: () => Navigator.pop(context),
-        icon: const Icon(
-          CupertinoIcons.chevron_back,
-          color: Colors.white,
+    return Material(
+      elevation: 6.0,
+      borderRadius: BorderRadius.circular(32.r),
+      child: CircleAvatar(
+        radius: 22.r,
+        backgroundColor: Colors.white,
+        child: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            CupertinoIcons.chevron_back,
+            color: ColorsManager().colorScheme.primary,
+          ),
         ),
       ),
     );

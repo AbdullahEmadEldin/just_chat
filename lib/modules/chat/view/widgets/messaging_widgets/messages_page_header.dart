@@ -19,7 +19,7 @@ class MessagesPageHeader extends StatelessWidget {
         ),
         color: Colors.white,
       ),
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       child: Row(
         children: [
           const HeaderBackButton(),
