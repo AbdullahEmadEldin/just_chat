@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/modules/auth/logic/otp_verify_cubit/otp_verification_cubit.dart';
 import 'package:just_chat/modules/auth/view/page/fill_data_page.dart';
-import 'package:just_chat/modules/chat/view/all_chats_page.dart';
+import 'package:just_chat/modules/nav_bar/custom_nav_bar.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';
 import '../../../../../core/widgets/main_button.dart';
@@ -55,7 +55,7 @@ class OtpBlocBuilder extends StatelessWidget {
     if (isNewUser) {
       context.pushReplacementNamed(FillDataPage.routeName);
     } else {
-      context.pushReplacementNamed(AllChatsPage.routeName);
+      context.pushReplacementNamed(CustomNavBar.routeName);
     }
     });
   }
