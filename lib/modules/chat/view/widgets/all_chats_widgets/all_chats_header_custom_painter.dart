@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/theme/colors/colors_manager.dart';
+import '../../../../../core/theme/colors/colors_manager.dart';
 
 class AllChatsHeaderCustomPainter extends CustomPainter {
   @override
