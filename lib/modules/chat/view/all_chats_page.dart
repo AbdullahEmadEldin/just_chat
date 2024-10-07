@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
-import 'package:just_chat/modules/nav_bar/custom_nav_bar.dart';
+
+import 'chats_page_header.dart';
 
 class AllChatsPage extends StatelessWidget {
   static const routeName = '/all_chats_page';
@@ -12,6 +13,7 @@ class AllChatsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorsManager().colorScheme.primary80,
       body: Container(
+        padding: EdgeInsets.only(top: 48.h),
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
@@ -21,8 +23,12 @@ class AllChatsPage extends StatelessWidget {
             bottomRight: Radius.circular(42.r),
           ),
         ),
-        child: Center(
-          child: Text('This is all Chats'),
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ChatsPageHeader(),
+            
+          ],
         ),
       ),
     );

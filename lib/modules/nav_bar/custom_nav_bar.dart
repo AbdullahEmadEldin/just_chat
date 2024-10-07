@@ -39,7 +39,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
               gradient: LinearGradient(
             colors: [
               ColorsManager().colorScheme.primary80,
-              Color.fromARGB(255, 18, 150, 186),
+            const  Color.fromARGB(255, 18, 150, 186),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
