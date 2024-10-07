@@ -8,9 +8,10 @@ import 'package:just_chat/core/constants/image_assets.dart';
 import 'package:path_provider/path_provider.dart';
 
 class NetworkHelper {
-  /// This method convert the selected image to MultipartFile
-  /// which the acceptable format to be sent to the server
-  static Future<String?> uploadImageToFirebase(XFile? image) async {
+
+
+  /// This method is used to upload image to Firebase Storage
+  static Future<String?> uploadProfileImageToFirebase(XFile? image) async {
     try {
       File imageFile;
       Reference storageRef;
@@ -21,9 +22,7 @@ class NetworkHelper {
             .child('${AppConstants.uploadsPath}/${imageFile.path}');
       } else {
         imageFile = File(image.path);
-        if (await imageFile.exists()) {
-          print('File ************************************exists: ${imageFile.path}');
-        }
+
         // Create a reference to Firebase Storage
         storageRef = FirebaseStorage.instance.ref().child(
             '${AppConstants.uploadsPath}/${DateTime.now().millisecondsSinceEpoch.toString()}_${imageFile.path.split('/').last}');
@@ -38,6 +37,7 @@ class NetworkHelper {
       return downloadURL;
     } catch (e) {
       print('Error uploading image: $e');
+      return null;
     }
   }
 

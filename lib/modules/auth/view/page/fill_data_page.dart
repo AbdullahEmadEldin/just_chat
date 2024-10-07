@@ -133,7 +133,7 @@ class _FillDataPageState extends State<FillDataPage> {
             phoneNumber: getIt<PhoneAuthInfo>().phoneNumber!,
             bio: bioController.text,
             profilePicUrl:
-                await NetworkHelper.uploadImageToFirebase(profilePic),
+                await NetworkHelper.uploadProfileImageToFirebase(profilePic),
           ),
         );
   }

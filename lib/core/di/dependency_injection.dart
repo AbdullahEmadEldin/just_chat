@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:get_it/get_it.dart';
 
@@ -8,6 +9,9 @@ final getIt = GetIt.instance;
 void setUpGetIt() {
   // This global instance for access auth info over the app
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+
+  // This global instance for access storage database over the app
+  getIt.registerLazySingleton<FirebaseStorage>(() => FirebaseStorage.instance);
 
   // This global instance for access firestore storage over the app.
   getIt.registerLazySingleton<FirebaseFirestore>(
