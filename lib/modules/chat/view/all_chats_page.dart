@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
 
-import 'chats_page_header.dart';
+import 'widgets/chats_page_header.dart';
 
 class AllChatsPage extends StatelessWidget {
   static const routeName = '/all_chats_page';
@@ -24,10 +24,9 @@ class AllChatsPage extends StatelessWidget {
           ),
         ),
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ChatsPageHeader(),
-            
+            const ChatsPageHeader(),
+
           ],
         ),
       ),

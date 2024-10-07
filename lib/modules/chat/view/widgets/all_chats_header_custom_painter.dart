@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/theme/colors/colors_manager.dart';
+import '../../../../core/theme/colors/colors_manager.dart';
 
 class AllChatsHeaderCustomPainter extends CustomPainter {
   @override
@@ -14,7 +14,7 @@ class AllChatsHeaderCustomPainter extends CustomPainter {
     );
     final paint = Paint()
       ..color = ColorsManager().colorScheme.primary80
-     
+      ..shader = painterGradient.createShader(Rect.fromLTWH(0, 0, 200, 200))
       ..style = PaintingStyle.fill;
 
     final path = Path()
