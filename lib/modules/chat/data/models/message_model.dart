@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MessageModel {
   final String senderId;
+
   /// either text or media url.
   final String content;
   final String contentType;
-  final DateTime createdAt;
+  final Timestamp sentTime;
   final bool isSeen;
   final bool isReceived;
 
@@ -11,7 +14,7 @@ class MessageModel {
     required this.senderId,
     required this.content,
     required this.contentType,
-    required this.createdAt,
+    required this.sentTime,
     required this.isSeen,
     required this.isReceived,
   });
@@ -21,8 +24,7 @@ class MessageModel {
       'senderId': senderId,
       'content': content,
       'contentType': contentType,
-      'createdAt':
-          '${createdAt.hour.toString()}:${createdAt.minute.toString()}',
+      'sentTime': sentTime.toDate().toString(),
       'isSeen': isSeen,
       'isReceived': isReceived,
     };
@@ -33,7 +35,7 @@ class MessageModel {
       senderId: json['senderId'],
       content: json['content'],
       contentType: json['contentType'],
-      createdAt: DateTime.parse(json['createdAt']),
+      sentTime: json['sentTime'],
       isSeen: json['isSeen'],
       isReceived: json['isReceived'],
     );

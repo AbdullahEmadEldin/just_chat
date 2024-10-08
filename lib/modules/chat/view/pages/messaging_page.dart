@@ -37,7 +37,7 @@ MessageModel m1 = MessageModel(
   content:
       'This test mock message.adn This is test mock message. This is test mock message.adn This is test mock message  ',
   contentType: '',
-  createdAt: DateTime(2024),
+  sentTime: DateTime(2024),
   isSeen: true,
   isReceived: true,
 );
@@ -45,7 +45,7 @@ MessageModel m2 = MessageModel(
   senderId: '2',
   content: 'This is test mock message..',
   contentType: '',
-  createdAt: DateTime(2024),
+  sentTime: DateTime(2024),
   isSeen: true,
   isReceived: true,
 );
