@@ -18,12 +18,6 @@ class MessagingPage extends StatelessWidget {
         body: Column(
           children: [
             const MessagesPageHeader(),
-            TextMessageTile(
-              message: m1,
-            ),
-            TextMessageTile(
-              message: m2,
-            ),
           ],
         ),
         bottomNavigationBar: const MessageChattingComponent(),
@@ -32,20 +26,3 @@ class MessagingPage extends StatelessWidget {
   }
 }
 
-MessageModel m1 = MessageModel(
-  senderId: '1',
-  content:
-      'This test mock message.adn This is test mock message. This is test mock message.adn This is test mock message  ',
-  contentType: '',
-  sentTime: DateTime(2024),
-  isSeen: true,
-  isReceived: true,
-);
-MessageModel m2 = MessageModel(
-  senderId: '2',
-  content: 'This is test mock message..',
-  contentType: '',
-  sentTime: DateTime(2024),
-  isSeen: true,
-  isReceived: true,
-);
