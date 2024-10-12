@@ -3,12 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:get_it/get_it.dart';
-import 'package:just_chat/modules/chat/data/repos/chat_repo.dart';
 import 'package:just_chat/modules/chat/data/repos/firebase_chat_repo.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../modules/chat/data/repos/chat_repo_interface.dart';
 
 final getIt = GetIt.instance;
 
 void setUpGetIt() {
+  getIt.registerLazySingleton<Uuid>(() => const Uuid());
   // This global instance for access auth info over the app
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 

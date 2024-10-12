@@ -22,24 +22,24 @@
             "flutterMode": "release"
         },
         {
-            "name": "intl_phone_number_input-develop",
-            "cwd": "lib\\packages\\intl_phone_number_input-develop",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "intl_phone_number_input-develop (profile mode)",
-            "cwd": "lib\\packages\\intl_phone_number_input-develop",
+            "name": "emulator",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "deviceId": "emulator-5554"
         },
         {
-            "name": "intl_phone_number_input-develop (release mode)",
-            "cwd": "lib\\packages\\intl_phone_number_input-develop",
+            "name": "minote",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "deviceId": "192.168.1.60:5555"
+        },
+    ],
+    "compounds": [
+        {
+            "name": "All devices",
+            "configurations": [
+                "emulator","minote"
+            ]
         }
     ]
 }

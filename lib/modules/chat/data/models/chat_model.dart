@@ -5,13 +5,13 @@ import 'message_model.dart';
 class ChatModel {
   final String chatId;
   final List<String> members;
-  final String lastMessage;
-  final Timestamp lastMessageTimestamp;
-  final String lastMessageSenderId;
+  final String? lastMessage;
+  final Timestamp? lastMessageTimestamp;
+  final String? lastMessageSenderId;
   final String? groupName;
   final String? groupImageUrl;
-  final Timestamp chatCreatedAt;
-  final List<MessageModel> messages;
+  final Timestamp? chatCreatedAt;
+  final List<MessageModel>? messages;
 
   ChatModel(
     this.chatCreatedAt, {
@@ -29,7 +29,7 @@ class ChatModel {
     return {
       'chatId': chatId,
       'members': members,
-      'messages': messages.map((e) => e.toJson()).toList(),
+      'messages': messages?.map((e) => e.toJson()).toList(),
       'lastMessage': lastMessage,
       'lastMessageTimestamp': lastMessageTimestamp,
       'lastMessageSenderId': lastMessageSenderId,
@@ -43,9 +43,11 @@ class ChatModel {
       map['chatCreatedAt'],
       chatId: map['chatId'],
       members: List<String>.from(map['members']),
-      messages: List<MessageModel>.from(
-        map['messages'].map((x) => MessageModel.fromJson(x)),
-      ),
+      messages: map['messages'] != null
+          ? List<MessageModel>.from(
+              map['messages'].map((x) => MessageModel.fromJson(x)),
+            )
+          : null,
       lastMessage: map['lastMessage'],
       lastMessageTimestamp: map['lastMessageTimestamp'],
       lastMessageSenderId: map['lastMessageSenderId'],

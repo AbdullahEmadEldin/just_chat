@@ -16,6 +16,8 @@ class InputField extends StatelessWidget {
   final bool readOnly;
   final TextEditingController? controller;
   final int? maxLines;
+final Function(String)? onChanged;
+  final Function(String?)? onSaved;
   const InputField({
     super.key,
     required this.hintText,
@@ -30,11 +32,15 @@ class InputField extends StatelessWidget {
     this.readOnly = false,
     this.controller,
     this.maxLines,
+    this.onChanged,
+    this.onSaved,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
+      onSaved: onSaved,
       maxLines: maxLines,
       controller: controller,
       readOnly: readOnly,

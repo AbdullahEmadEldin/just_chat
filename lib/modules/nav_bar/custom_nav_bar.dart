@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/modules/add_friends/logic/cubit/add_friends_cubit.dart';
+import 'package:just_chat/modules/chat/logic/all_chats_cubit/all_chats_cubit.dart';
 import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
 import 'package:just_chat/modules/nav_bar/nav_bar_item.dart';
 
 import '../../core/constants/image_assets.dart';
 import '../../core/theme/colors/colors_manager.dart';
+import '../add_friends/view/add_friends_page.dart';
 
 class CustomNavBar extends StatefulWidget {
   static const String routeName = '/custom_nav_bar';
@@ -39,7 +43,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
               gradient: LinearGradient(
             colors: [
               ColorsManager().colorScheme.primary80,
-            const  Color.fromARGB(255, 18, 150, 186),
+              const Color.fromARGB(255, 18, 150, 186),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -71,9 +75,13 @@ class _CustomNavBarState extends State<CustomNavBar> {
   ];
 
   final _pages = [
-    AllChatsPage(),
-    Center(
-      child: Text('This is add friends'),
+    BlocProvider(
+      create: (context) => AllChatsCubit(),
+      child: const AllChatsPage(),
+    ),
+    BlocProvider(
+      create: (context) => AddFriendsCubit(),
+      child: const AddFriendsPage(),
     ),
     Center(
       child: Text('This is Settings'),

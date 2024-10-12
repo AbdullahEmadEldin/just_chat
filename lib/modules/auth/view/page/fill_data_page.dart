@@ -41,85 +41,87 @@ class _FillDataPageState extends State<FillDataPage> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20.h),
-            const AppLogo(),
-            Center(
-              child: ProfilePicAvatar(
-                profileAvatar: profilePic == null
-                    ? const AssetImage(ImagesAssets.profileHolder)
-                    : FileImage(File(profilePic!.path)),
-                onPressed: () async {
-                  final pic = await ImagePicker()
-                      .pickImage(source: ImageSource.gallery);
-                  profilePic = pic;
-                  setState(() {});
-                  // this condition to avoid error if user didn't pick an image after opening the gallery.
-                  if (pic == null) return;
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20.h),
+              const AppLogo(),
+              Center(
+                child: ProfilePicAvatar(
+                  profileAvatar: profilePic == null
+                      ? const AssetImage(ImagesAssets.profileHolder)
+                      : FileImage(File(profilePic!.path)),
+                  onPressed: () async {
+                    final pic = await ImagePicker()
+                        .pickImage(source: ImageSource.gallery);
+                    profilePic = pic;
+                    setState(() {});
+                    // this condition to avoid error if user didn't pick an image after opening the gallery.
+                    if (pic == null) return;
+                  },
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                'Name',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: ColorsManager().colorScheme.grey60,
+                    ),
+              ),
+              SizedBox(height: 8.h),
+              InputField(
+                hintText: 'Enter your name',
+                controller: nameController,
+                validator: (p0) {
+                  if (p0.isNullOrEmpty()) {
+                    return 'required field';
+                  }
+                  return null;
                 },
               ),
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              'Name',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: ColorsManager().colorScheme.grey60,
-                  ),
-            ),
-            SizedBox(height: 8.h),
-            InputField(
-              hintText: 'Enter your name',
-              controller: nameController,
-              validator: (p0) {
-                if (p0.isNullOrEmpty()) {
-                  return 'required field';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 12.h),
-            Text(
-              'Phone',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: ColorsManager().colorScheme.grey60,
-                  ),
-            ),
-            SizedBox(height: 8.h),
-            InputField(
-              hintText: getIt<PhoneAuthInfo>().phoneNumber!,
-              readOnly: true,
-            ),
-            SizedBox(height: 12.h),
-            Text(
-              'Bio',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: ColorsManager().colorScheme.grey60,
-                  ),
-            ),
-            SizedBox(height: 8.h),
-            InputField(
-              controller: bioController,
-              hintText: 'Enter your bio...',
-              maxLines: 4,
-            ),
-            SizedBox(height: 42.h),
-            //! Upload Data to firebase button
-            MainButton(
-              title: Text(
-                'Continue',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Colors.white),
+              SizedBox(height: 12.h),
+              Text(
+                'Phone',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: ColorsManager().colorScheme.grey60,
+                    ),
               ),
-              onPressed: () async {
-                await _uploadUserData(context);
-              },
-            ),
-            const FillDataBlocListener()
-          ],
+              SizedBox(height: 8.h),
+              InputField(
+                hintText: getIt<PhoneAuthInfo>().phoneNumber!,
+                readOnly: true,
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'Bio',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: ColorsManager().colorScheme.grey60,
+                    ),
+              ),
+              SizedBox(height: 8.h),
+              InputField(
+                controller: bioController,
+                hintText: 'Enter your bio...',
+                maxLines: 4,
+              ),
+              SizedBox(height: 42.h),
+              //! Upload Data to firebase button
+              MainButton(
+                title: Text(
+                  'Continue',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: Colors.white),
+                ),
+                onPressed: () async {
+                  await _uploadUserData(context);
+                },
+              ),
+              const FillDataBlocListener()
+            ],
+          ),
         ),
       ),
     );
