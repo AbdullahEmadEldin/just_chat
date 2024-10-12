@@ -1,13 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:just_chat/core/constants/image_assets.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';
+import '../../../data/models/chat_model.dart';
 import '../../pages/messaging_page.dart';
 
 class ChatTile extends StatelessWidget {
-  const ChatTile({super.key});
+  final ChatModel chat;
+  const ChatTile({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +28,15 @@ class ChatTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 28.r,
-              backgroundImage: const AssetImage(ImagesAssets.profileHolder),
+            Container(
+              height: 28.h,
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: CachedNetworkImage(
+                imageUrl: "http://via.placeholder.com/350x150",
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
             SizedBox(width: 12.w),
             Column(

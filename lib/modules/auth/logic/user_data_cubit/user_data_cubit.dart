@@ -23,4 +23,13 @@ class UserDataCubit extends Cubit<UserDataState> {
       emit(SetUserDataFailure(errorMsg: e.toString()));
     }
   }
+
+  Future<void> getUserData() async {
+    try {
+      //
+      //
+    } catch (e) {
+      print('=======>>> Get user data error ${e.toString()}');
+    }
+  }
 }

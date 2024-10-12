@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
-import 'package:just_chat/modules/chat/view/widgets/all_chats_widgets/chat_tile.dart';
 
+import '../widgets/all_chats_widgets/all_chats_body.dart';
 import '../widgets/all_chats_widgets/chats_page_header.dart';
 
 class AllChatsPage extends StatelessWidget {
@@ -24,33 +24,27 @@ class AllChatsPage extends StatelessWidget {
             bottomRight: Radius.circular(42.r),
           ),
         ),
-        child: Column(
+        child: const Column(
           children: [
-            const ChatsPageHeader(),
-            SizedBox(height: 24.h),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _chatList().length,
-                itemBuilder: (context, index) => _chatList()[index],
-              ),
-            )
+            ChatsPageHeader(),
+            AllChatsBody(),
           ],
         ),
       ),
     );
   }
 
-  _chatList() => [
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-      ];
+  // _chatList() => [
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //       ChatTile(),
+  //     ];
 }
