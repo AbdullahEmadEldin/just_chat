@@ -3,6 +3,27 @@ import 'package:flutter/material.dart';
 import '../theme/theme_manager.dart';
 
 class UiHelper {
+  static Widget handleSnapshotConnectionStates(
+    BuildContext context,
+    AsyncSnapshot snapshot, {
+    Widget? loadingChild,
+    Widget? errorChild,
+    Widget? emptyChild,
+    required Widget successChild,
+  }) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return loadingChild ?? const Center(child: CircularProgressIndicator());
+    } else if (snapshot.hasError) {
+      return errorChild ?? Center(child: Text('Error: ${snapshot.error}'));
+    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+      return emptyChild ?? const Center(child: Text('No Chats found.'));
+    } else if (snapshot.hasData) {
+      return successChild;
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
   /// This method to handle the string length to a limited length
   /// you can determine the max length for the string.
   static String limitStringLength(

@@ -16,28 +16,32 @@ class AllChatsCubit extends Cubit<AllChatsState> {
   UserModel? opponentUser;
   Stream<List<ChatModel>?> getAllChats() {
     print('====== Getting chats Cubit');
-    emit(AllChatsLoading());
     try {
-      emit(AllChatsLoaded());
       return getIt<ChatRepoInterface>().getAllChats();
     } catch (e) {
-      emit(AllChatsFailure(message: e.toString()));
-
       return const Stream.empty();
     }
   }
 
-  Future<void> getOpponentUserInfoForChatTile(
-      {required List<String> chatMembers}) async {
+  Future<void> getOpponentUserInfoForChatTile({
+    required List<String> chatMembers,
+  }) async {
     print('------ Getting opponent user info CUBIT--------');
-    String opponentId = '';
-    for (int i = 0; i < chatMembers.length; i++) {
-      if (chatMembers[i] != getIt<FirebaseAuth>().currentUser!.uid) {
-        opponentId = chatMembers[i];
-        return;
+    emit(GettingOppUserInfoLoading());
+    try {
+      String opponentId = '';
+      for (int i = 0; i < chatMembers.length; i++) {
+        if (chatMembers[i] != getIt<FirebaseAuth>().currentUser!.uid) {
+          opponentId = chatMembers[i];
+          break;
+        }
       }
+      opponentUser = await FirebaseGeneralServices.getUserById(opponentId);
+      print(
+          '------ Getting opponent user info CUBIT LAST-------${opponentUser!.profilePicUrl}');
+      emit(GettingOppUserInfoSuccess());
+    } catch (e) {
+      emit(GettingOppUserInfoFailure());
     }
-    opponentUser = await FirebaseGeneralServices.getUserById(opponentId);
-    print('------ Getting opponent user info CUBIT LAST--------');
   }
 }

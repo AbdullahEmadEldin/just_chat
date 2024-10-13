@@ -1,21 +1,31 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
+import 'package:just_chat/core/widgets/circle_cached_image.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';
+import '../../../../auth/data/models/user_model.dart';
 import '../../../data/models/chat_model.dart';
 import '../../pages/messaging_page.dart';
 
 class ChatTile extends StatelessWidget {
   final ChatModel chat;
-  const ChatTile({super.key, required this.chat});
+  final UserModel opponentUser;
+  const ChatTile({
+    super.key,
+    required this.chat,
+    required this.opponentUser,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.pushNamed(MessagingPage.routeName);
+        context.pushNamed(MessagingPage.routeName,
+            arguments: MessagingPageArgs(
+              chat: chat,
+              opponentUser: opponentUser,
+            ));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -28,16 +38,7 @@ class ChatTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              height: 28.h,
-              decoration: const BoxDecoration(shape: BoxShape.circle),
-              child: CachedNetworkImage(
-                imageUrl: "http://via.placeholder.com/350x150",
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            ),
+            CircleCachedImage(imageUrl: opponentUser.profilePicUrl!),
             SizedBox(width: 12.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +84,7 @@ class ChatTile extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Text(
-          'John Doe',
+          opponentUser.name,
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: ColorsManager().colorScheme.primary,
                 fontWeight: FontWeight.bold,

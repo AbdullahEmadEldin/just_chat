@@ -8,6 +8,7 @@ class FirebaseGeneralServices {
       final userRef =
           getIt<FirebaseFirestore>().collection('users').doc(userId);
       final userSnapshot = await userRef.get();
+      print('10000 A7A');
       return UserModel.fromMap(userSnapshot.data()!);
     } catch (e) {
       print('error getting user model ------>>>>>> ${e.toString()}');
