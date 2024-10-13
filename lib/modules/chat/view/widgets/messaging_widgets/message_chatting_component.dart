@@ -3,15 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/modules/chat/view/widgets/messaging_widgets/send_record_button.dart';
 import 'messaging_text_field.dart';
 
-class MessageChattingComponent extends StatefulWidget {
-  const MessageChattingComponent({super.key});
+class MessageChattingComponent extends StatelessWidget {
+  final String chatId;
+  const MessageChattingComponent({
+    super.key,
+    required this.chatId,
+  });
 
-  @override
-  State<MessageChattingComponent> createState() =>
-      _MessageChattingComponentState();
-}
-
-class _MessageChattingComponentState extends State<MessageChattingComponent> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +24,9 @@ class _MessageChattingComponentState extends State<MessageChattingComponent> {
         children: [
           const MessagingTextField(),
           SizedBox(width: 16.w),
-          const SendRecordButton(),
+          SendRecordButton(
+            chatId: chatId,
+          ),
         ],
       ),
     );

@@ -23,10 +23,11 @@ class AppRouter {
       case CustomNavBar.routeName:
         return MaterialPageRoute(builder: (context) => const CustomNavBar());
       case MessagingPage.routeName:
+        final args = settings.arguments as MessagingPageArgs;
         return MaterialPageRoute(
             builder: (context) => BlocProvider(
                   create: (context) => MessagingCubit(),
-                  child: const MessagingPage(),
+                  child: MessagingPage(args: args),
                 ));
       default:
         return null;

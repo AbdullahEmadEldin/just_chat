@@ -5,13 +5,8 @@ sealed class AllChatsState {}
 
 final class AllChatsInitial extends AllChatsState {}
 
-final class AllChatsLoading extends AllChatsState {}
+final class GettingOppUserInfoLoading extends AllChatsState {}
 
-/// This state will be used to cancel loading state in case of success get chats stream which will be returned from method.
-final class AllChatsLoaded extends AllChatsState {}
+final class GettingOppUserInfoSuccess extends AllChatsState {}
 
-final class AllChatsFailure extends AllChatsState {
-  final String message;
-
-  AllChatsFailure({required this.message});
-}
+final class GettingOppUserInfoFailure extends AllChatsState {}

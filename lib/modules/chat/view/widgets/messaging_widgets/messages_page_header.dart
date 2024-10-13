@@ -1,13 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/widgets/circle_cached_image.dart';
 import 'package:just_chat/core/widgets/header_back_button.dart';
 
 import '../../../../../core/constants/image_assets.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
+import '../../../../auth/data/models/user_model.dart';
 
 class MessagesPageHeader extends StatelessWidget {
-  const MessagesPageHeader({super.key});
+  final UserModel user;
+  const MessagesPageHeader({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +26,20 @@ class MessagesPageHeader extends StatelessWidget {
         children: [
           const HeaderBackButton(),
           SizedBox(width: 8.w),
-          CircleAvatar(
-            radius: 26.r,
-            backgroundImage: const AssetImage(ImagesAssets.profileHolder),
+          CircleCachedImage(
+            imageUrl: user.profilePicUrl!,
           ),
           SizedBox(width: 8.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Sarah Smith',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                user.name,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: ColorsManager().colorScheme.primary,
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              SizedBox(height: 4.h),
               Text(
                 'Active 1m ago',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(

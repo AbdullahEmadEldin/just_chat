@@ -24,7 +24,7 @@ class MessageModel {
       'senderId': senderId,
       'content': content,
       'contentType': contentType,
-      'sentTime': sentTime.toDate().toString(),
+      'sentTime': sentTime.toDate(),
       'isSeen': isSeen,
       'isReceived': isReceived,
     };
