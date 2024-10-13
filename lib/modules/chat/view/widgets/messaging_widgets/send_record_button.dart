@@ -1,13 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/di/dependency_injection.dart';
+import 'package:just_chat/modules/chat/data/models/message_model.dart';
 import 'package:just_chat/modules/chat/logic/messaging_cubit/messaging_cubit.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';
 
 class SendRecordButton extends StatefulWidget {
-  const SendRecordButton({super.key});
+  final String chatId;
+  const SendRecordButton({
+    super.key,
+    required this.chatId,
+  });
 
   @override
   State<SendRecordButton> createState() => _SendRecordButtonState();
@@ -16,8 +25,23 @@ class SendRecordButton extends StatefulWidget {
 class _SendRecordButtonState extends State<SendRecordButton> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
+    return GestureDetector(
+      onTap: () {
+        if (context.read<MessagingCubit>().textingController.text.isNotEmpty) {
+          context.read<MessagingCubit>().sendMessage(
+                chatId: widget.chatId,
+                message: MessageModel(
+                  senderId: getIt<FirebaseAuth>().currentUser!.uid,
+                  content:
+                      context.read<MessagingCubit>().textingController.text,
+                  contentType: 'text',
+                  sentTime: Timestamp.fromDate(DateTime.now()),
+                  isSeen: true,
+                  isReceived: true,
+                ),
+              );
+        }
+      },
       child: Container(
         padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
@@ -28,7 +52,6 @@ class _SendRecordButtonState extends State<SendRecordButton> {
           builder: (context, state) {
             IconData buttonIcon = CupertinoIcons.mic;
             if (state is SwitchSendButtonIcon) {
-              print('==================================');
               buttonIcon = state.newIcon;
             }
             return Icon(
@@ -41,19 +64,3 @@ class _SendRecordButtonState extends State<SendRecordButton> {
     );
   }
 }
-/**
- * 
- BlocBuilder<MessagingCubit, MessagingState>(
-          builder: (context, state) {
-            IconData buttonIcon = CupertinoIcons.mic;
-            if (state is SwitchSendButtonIcon) {
-              print('==================================');
-              buttonIcon = state.newIcon;
-            }
-            return Icon(
-              buttonIcon,
-              color: Colors.white,
-            );
-          },
-        ),
- */

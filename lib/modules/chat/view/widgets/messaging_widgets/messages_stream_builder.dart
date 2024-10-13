@@ -37,6 +37,7 @@ class MessagesStreamBuilder extends StatelessWidget {
           child: ListView.builder(
             itemCount: messages.length,
             itemBuilder: (context, index) {
+              print('========>>> MEssageL : ${messages[index].content}');
               return TextMessageTile(
                 message: messages[index],
               );
@@ -58,15 +59,19 @@ class MessagesStreamBuilder extends StatelessWidget {
       children: [
         SizedBox(height: 120.h),
         Lottie.asset(LottiesAssets.emptyChat, width: 200.w),
-        Text('Start a new chat...',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: ColorsManager().colorScheme.background,
-                )),
+        Text(
+          'Start a new chat...',
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: ColorsManager().colorScheme.background,
+              ),
+        ),
       ],
     ));
   }
 
   Widget _handleErrorSnapshot(String error) {
-    return Center(child: Text('Error: $error'));
+    return Center(
+        child:
+            Text('Error: $error', style: const TextStyle(color: Colors.red)));
   }
 }

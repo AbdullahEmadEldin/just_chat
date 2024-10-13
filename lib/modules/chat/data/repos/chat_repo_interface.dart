@@ -7,4 +7,5 @@ import '../models/message_model.dart';
 abstract class ChatRepoInterface {
   Stream<List<ChatModel>?> getAllChats();
   Stream<List<MessageModel>?> getChatMessages(String chatId);
+  void sendMessage({required String chatId, required MessageModel message});
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/modules/auth/data/models/user_model.dart';
 import 'package:just_chat/modules/chat/data/models/chat_model.dart';
 import 'package:just_chat/modules/chat/view/widgets/messaging_widgets/messages_page_header.dart';
@@ -31,12 +32,13 @@ class MessagingPage extends StatelessWidget {
         body: Column(
           children: [
             MessagesPageHeader(user: args.opponentUser),
+            SizedBox(height: 12.h),
             MessagesStreamBuilder(
               chatId: args.chat.chatId,
             )
           ],
         ),
-        bottomNavigationBar: const MessageChattingComponent(),
+        bottomNavigationBar: MessageChattingComponent(chatId: args.chat.chatId),
       ),
     );
   }

@@ -43,12 +43,33 @@ class FirebaseChatRepo implements ChatRepoInterface {
           .collection('chats')
           .doc(chatId)
           .collection('messages')
-          .orderBy('sentTime', descending: true)
+          .orderBy('sentTime', descending: false)
           .snapshots()
           .map((snapShot) {
         return snapShot.docs
             .map((message) => MessageModel.fromJson(message.data()))
             .toList();
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  void sendMessage(
+      {required String chatId, required MessageModel message}) async {
+    try {
+      final msgId = await getIt<FirebaseFirestore>()
+          .collection('chats')
+          .doc(chatId)
+          .collection('messages')
+          .add(message.toJson());
+
+      /// update last message and timestamp
+      getIt<FirebaseFirestore>().collection('chats').doc(chatId).update({
+        'lastMessage': message.content,
+        'lastMessageTimestamp': DateTime.now(),
+        'lastMessageSenderId': getIt<FirebaseAuth>().currentUser!.uid,
       });
     } catch (e) {
       rethrow;

@@ -21,6 +21,16 @@ class MessagingCubit extends Cubit<MessagingState> {
     }
   }
 
+  void sendMessage({required String chatId, required MessageModel message}) {
+    try {
+      print('Sending...CUBIT');
+      getIt<ChatRepoInterface>().sendMessage(chatId: chatId, message: message);
+      textingController.clear();
+    } on Exception catch (e) {
+      print('Erorr sending messges cubiiiiiiiiiiiiiit :: $e');
+    }
+  }
+
   //! ================= Handling UI Logic ==================
 
   final TextEditingController textingController = TextEditingController();

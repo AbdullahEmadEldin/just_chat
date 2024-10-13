@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
+import 'package:just_chat/core/helpers/ui_helpers.dart';
 import 'package:just_chat/modules/chat/data/models/message_model.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';
@@ -13,36 +14,55 @@ class TextMessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: message.senderId == getIt<FirebaseAuth>().currentUser!.uid
-          ? Alignment.centerRight
-          : Alignment.centerLeft,
+      alignment: _myAlignment() ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        width: MediaQuery.sizeOf(context).width * 0.75,
-        margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-        padding: EdgeInsets.all(16.r),
+        //  width: MediaQuery.sizeOf(context).width * 0.75,
+        margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: message.senderId == getIt<FirebaseAuth>().currentUser!.uid
+          color: _myAlignment()
               ? ColorsManager().colorScheme.primary
               : ColorsManager().colorScheme.primary60.withOpacity(0.8),
           borderRadius: BorderRadius.only(
-            topRight: message.senderId == getIt<FirebaseAuth>().currentUser!.uid
-                ? Radius.zero
-                : Radius.circular(32.r),
+            topRight: _myAlignment() ? Radius.zero : Radius.circular(16.r),
             topLeft: message.senderId != getIt<FirebaseAuth>().currentUser!.uid
                 ? Radius.zero
-                : Radius.circular(32.r),
-            bottomRight: Radius.circular(32.r),
-            bottomLeft: Radius.circular(32.r),
+                : Radius.circular(16.r),
+            bottomRight: Radius.circular(16.r),
+            bottomLeft: Radius.circular(16.r),
           ),
         ),
-        child: Text(
-          message.content,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+        child: Column(
+          //mainAxisSize: MainAxisSize.min,
+          
+          crossAxisAlignment: _myAlignment()
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
+
+          children: [
+            Text(
+              message.content,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(width: 12.w),
+            Text(
+              UiHelper.formatTimestampToDate(timestamp: message.sentTime),
+              textAlign: TextAlign.right,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Colors.white60),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  bool _myAlignment() {
+    return message.senderId == getIt<FirebaseAuth>().currentUser!.uid;
   }
 }
