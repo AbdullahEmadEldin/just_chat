@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
+import 'package:just_chat/core/helpers/ui_helpers.dart';
 import 'package:just_chat/core/widgets/circle_cached_image.dart';
 
+import '../../../../../core/di/dependency_injection.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
 import '../../../../auth/data/models/user_model.dart';
 import '../../../data/models/chat_model.dart';
@@ -54,29 +57,34 @@ class ChatTile extends StatelessWidget {
     );
   }
 
-  Row _messageRow(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          'Hi, how are you?',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: ColorsManager().colorScheme.primary,
-                fontWeight: FontWeight.bold,
+  Widget _messageRow(BuildContext context) {
+    return chat.lastMessage != null
+        ? Row(
+            children: [
+              Text(
+                UiHelper.limitStringLength(
+                    str: chat.lastMessage!, maxLength: 30),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: ColorsManager().colorScheme.grey60,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-        ),
-        SizedBox(width: 4.w),
-        Badge(
-          label: Text(
-            '1',
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: Colors.white),
-          ),
-          backgroundColor: ColorsManager().colorScheme.fillGreen,
-        ),
-      ],
-    );
+              SizedBox(width: 4.w),
+              _countOfUnreadMessages()
+                  ? Badge(
+                      label: Text(
+                        '1',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: Colors.white),
+                      ),
+                      backgroundColor: ColorsManager().colorScheme.fillGreen,
+                    )
+                  : const SizedBox.shrink(),
+            ],
+          )
+        : const SizedBox.shrink();
   }
 
   Row _nameTimeRow(BuildContext context) {
@@ -92,7 +100,7 @@ class ChatTile extends StatelessWidget {
         ),
         SizedBox(width: 90.w),
         Text(
-          '10:30 AM',
+          UiHelper.formatTimestampToDate(timestamp: chat.lastMessageTimestamp!),
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: ColorsManager().colorScheme.grey60,
                 fontWeight: FontWeight.bold,
@@ -100,5 +108,12 @@ class ChatTile extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  bool _countOfUnreadMessages() {
+    if (chat.lastMessageSenderId != getIt<FirebaseAuth>().currentUser!.uid) {
+      return true;
+    }
+    return false;
   }
 }
