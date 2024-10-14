@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/modules/chat/data/models/chat_model.dart';
-import 'package:just_chat/modules/chat/data/models/message_model.dart';
 
 import 'chat_repo_interface.dart';
 
@@ -36,43 +35,4 @@ class FirebaseChatRepo implements ChatRepoInterface {
     }
   }
 
-  @override
-  Stream<List<MessageModel>?> getChatMessages(String chatId) {
-    try {
-      return getIt<FirebaseFirestore>()
-          .collection('chats')
-          .doc(chatId)
-          .collection('messages')
-          .orderBy('sentTime', descending: false)
-          .snapshots()
-          .map((snapShot) {
-        return snapShot.docs
-            .map((message) => MessageModel.fromJson(message.data()))
-            .toList();
-      });
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  void sendMessage(
-      {required String chatId, required MessageModel message}) async {
-    try {
-      final msgId = await getIt<FirebaseFirestore>()
-          .collection('chats')
-          .doc(chatId)
-          .collection('messages')
-          .add(message.toJson());
-
-      /// update last message and timestamp
-      getIt<FirebaseFirestore>().collection('chats').doc(chatId).update({
-        'lastMessage': message.content,
-        'lastMessageTimestamp': DateTime.now(),
-        'lastMessageSenderId': getIt<FirebaseAuth>().currentUser!.uid,
-      });
-    } catch (e) {
-      rethrow;
-    }
-  }
 }

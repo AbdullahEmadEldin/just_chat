@@ -3,9 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/widgets/circle_cached_image.dart';
 import 'package:just_chat/core/widgets/header_back_button.dart';
 
-import '../../../../../core/constants/image_assets.dart';
-import '../../../../../core/theme/colors/colors_manager.dart';
-import '../../../../auth/data/models/user_model.dart';
+import '../../../../core/theme/colors/colors_manager.dart';
+import '../../../auth/data/models/user_model.dart';
 
 class MessagesPageHeader extends StatelessWidget {
   final UserModel user;

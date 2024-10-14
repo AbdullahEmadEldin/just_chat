@@ -5,11 +5,11 @@ import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/core/helpers/ui_helpers.dart';
 import 'package:just_chat/core/widgets/circle_cached_image.dart';
 
-import '../../../../../core/di/dependency_injection.dart';
-import '../../../../../core/theme/colors/colors_manager.dart';
-import '../../../../auth/data/models/user_model.dart';
-import '../../../data/models/chat_model.dart';
-import '../../pages/messaging_page.dart';
+import '../../../../core/di/dependency_injection.dart';
+import '../../../../core/theme/colors/colors_manager.dart';
+import '../../../auth/data/models/user_model.dart';
+import '../../data/models/chat_model.dart';
+import '../../../messages/view/pages/messaging_page.dart';
 
 class ChatTile extends StatelessWidget {
   final ChatModel chat;

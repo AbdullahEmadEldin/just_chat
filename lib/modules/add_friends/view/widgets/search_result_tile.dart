@@ -8,7 +8,7 @@ import 'package:just_chat/modules/add_friends/logic/cubit/add_friends_cubit.dart
 import '../../../../core/constants/image_assets.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../../../auth/data/models/user_model.dart';
-import '../../../chat/view/pages/messaging_page.dart';
+import '../../../messages/view/pages/messaging_page.dart';
 
 class SearchResultTile extends StatelessWidget {
   final UserModel user;

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
 
-import '../widgets/all_chats_widgets/all_chats_body.dart';
-import '../widgets/all_chats_widgets/chats_page_header.dart';
+import '../widgets/all_chats_body.dart';
+import '../widgets/chats_page_header.dart';
 
 class AllChatsPage extends StatelessWidget {
   static const routeName = '/all_chats_page';

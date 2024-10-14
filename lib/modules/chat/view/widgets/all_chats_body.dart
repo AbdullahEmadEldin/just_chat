@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_chat/modules/chat/data/models/chat_model.dart';
 import 'package:just_chat/modules/chat/logic/all_chats_cubit/all_chats_cubit.dart';
-import 'package:just_chat/modules/chat/view/widgets/all_chats_widgets/chat_tile.dart';
+import 'package:just_chat/modules/chat/view/widgets/chat_tile.dart';
 
 //! Close the stream...............................................
 class AllChatsBody extends StatelessWidget {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_chat/modules/auth/auth_router.dart';
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
-import 'package:just_chat/modules/chat/logic/messaging_cubit/messaging_cubit.dart';
-import 'package:just_chat/modules/chat/view/pages/messaging_page.dart';
+import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
+import 'package:just_chat/modules/messages/view/pages/messaging_page.dart';
 
 import '../../modules/nav_bar/custom_nav_bar.dart';
 import '../../modules/onboarding/view/page/onboarding_page.dart';
