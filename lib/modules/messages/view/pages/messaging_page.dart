@@ -27,7 +27,7 @@ class MessagingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: ColorsManager().colorScheme.primary20.withOpacity(0.9),
         body: Column(
           children: [
@@ -38,7 +38,14 @@ class MessagingPage extends StatelessWidget {
             )
           ],
         ),
-        bottomNavigationBar: MessageChattingComponent(chatId: args.chat.chatId),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context)
+                .viewInsets
+                .bottom, // This adjusts for the keyboard
+          ),
+          child: MessageChattingComponent(chatId: args.chat.chatId),
+        ),
       ),
     );
   }
