@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MessageModel {
+  final String msgId;
+  final String? chatId;
   final String senderId;
 
   /// either text or media url.
@@ -11,6 +13,8 @@ class MessageModel {
   final bool isReceived;
 
   MessageModel({
+    this.chatId,
+    required this.msgId,
     required this.senderId,
     required this.content,
     required this.contentType,
@@ -21,6 +25,8 @@ class MessageModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'chatId': chatId,
+      'msgId': msgId,
       'senderId': senderId,
       'content': content,
       'contentType': contentType,
@@ -32,12 +38,36 @@ class MessageModel {
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
+      chatId: json['chatId'],
+      msgId: json['msgId'],
       senderId: json['senderId'],
       content: json['content'],
       contentType: json['contentType'],
       sentTime: json['sentTime'],
       isSeen: json['isSeen'],
       isReceived: json['isReceived'],
+    );
+  }
+
+  MessageModel copyWith({
+    String? chatId,
+    String? msgId,
+    String? senderId,
+    String? content,
+    String? contentType,
+    Timestamp? sentTime,
+    bool? isSeen,
+    bool? isReceived,
+  }) {
+    return MessageModel(
+      chatId: chatId ?? this.chatId,
+      msgId: msgId ?? this.msgId,
+      senderId: senderId ?? this.senderId,
+      content: content ?? this.content,
+      contentType: contentType ?? this.contentType,
+      sentTime: sentTime ?? this.sentTime,
+      isSeen: isSeen ?? this.isSeen,
+      isReceived: isReceived ?? this.isReceived,
     );
   }
 }

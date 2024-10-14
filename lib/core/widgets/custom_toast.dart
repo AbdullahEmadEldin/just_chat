@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../theme/colors/colors_manager.dart';
 
@@ -17,8 +18,7 @@ void showCustomToast(BuildContext context, String message,
               : ColorsManager().colorScheme.fillGreen,
           shape: const StadiumBorder(),
           child: Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            padding: EdgeInsets.symmetric(horizontal: 18.0.w, vertical: 8.0.h),
             child: Text(
               message,
               textAlign: TextAlign.center,
@@ -36,7 +36,7 @@ void showCustomToast(BuildContext context, String message,
     overlay.insert(overlayEntry);
 
     // Remove the overlay entry after a delay
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       overlayEntry.remove();
     });
   });

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'message_model.dart';
+import '../../../messages/data/models/message_model.dart';
 
 class ChatModel {
   final String chatId;

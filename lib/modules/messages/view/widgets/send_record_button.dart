@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
-import 'package:just_chat/modules/chat/data/models/message_model.dart';
-import 'package:just_chat/modules/chat/logic/messaging_cubit/messaging_cubit.dart';
+import 'package:just_chat/modules/messages/data/models/message_model.dart';
+import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
+import 'package:uuid/uuid.dart';
 
-import '../../../../../core/theme/colors/colors_manager.dart';
+import '../../../../core/theme/colors/colors_manager.dart';
 
 class SendRecordButton extends StatefulWidget {
   final String chatId;
@@ -31,6 +32,7 @@ class _SendRecordButtonState extends State<SendRecordButton> {
           context.read<MessagingCubit>().sendMessage(
                 chatId: widget.chatId,
                 message: MessageModel(
+                  msgId: const Uuid().v1(),
                   senderId: getIt<FirebaseAuth>().currentUser!.uid,
                   content:
                       context.read<MessagingCubit>().textingController.text,
@@ -40,10 +42,11 @@ class _SendRecordButtonState extends State<SendRecordButton> {
                   isReceived: true,
                 ),
               );
+          context.read<MessagingCubit>().switchSendButtonIcon();
         }
       },
       child: Container(
-        padding: EdgeInsets.all(16.r),
+        padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(64.r),
           color: ColorsManager().colorScheme.primary,

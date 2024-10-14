@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../../core/constants/loties_assets.dart';
-import '../../../../../core/theme/colors/colors_manager.dart';
-import '../../../logic/messaging_cubit/messaging_cubit.dart';
-import 'text_message_tile.dart';
+import '../../../../core/constants/loties_assets.dart';
+import '../../../../core/theme/colors/colors_manager.dart';
+import '../../logic/messaging_cubit/messaging_cubit.dart';
+import 'text_msg_widgets/text_message_tile.dart';
 
 class MessagesStreamBuilder extends StatelessWidget {
   final String chatId;
@@ -32,12 +32,13 @@ class MessagesStreamBuilder extends StatelessWidget {
         }
 
         var messages = snapshot.data!;
-
+        print('MESSAGES :: ${messages.length}');
+        context.read<MessagingCubit>().scrollToLastMessage();
         return Expanded(
           child: ListView.builder(
+            controller: context.read<MessagingCubit>().scrollController,
             itemCount: messages.length,
             itemBuilder: (context, index) {
-              print('========>>> MEssageL : ${messages[index].content}');
               return TextMessageTile(
                 message: messages[index],
               );

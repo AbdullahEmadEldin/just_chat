@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/modules/auth/data/models/user_model.dart';
 import 'package:just_chat/modules/chat/data/models/chat_model.dart';
-import 'package:just_chat/modules/chat/view/widgets/messaging_widgets/messages_page_header.dart';
-import 'package:just_chat/modules/chat/view/widgets/messaging_widgets/messages_stream_builder.dart';
+import 'package:just_chat/modules/messages/view/widgets/messages_page_header.dart';
+import 'package:just_chat/modules/messages/view/widgets/messages_stream_builder.dart';
 
 import '../../../../core/theme/colors/colors_manager.dart';
-import '../widgets/messaging_widgets/message_chatting_component.dart';
+import '../widgets/message_chatting_component.dart';
 
 class MessagingPageArgs {
   final ChatModel chat;
@@ -27,7 +27,7 @@ class MessagingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: ColorsManager().colorScheme.primary20.withOpacity(0.9),
         body: Column(
           children: [
@@ -38,7 +38,14 @@ class MessagingPage extends StatelessWidget {
             )
           ],
         ),
-        bottomNavigationBar: MessageChattingComponent(chatId: args.chat.chatId),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context)
+                .viewInsets
+                .bottom, // This adjusts for the keyboard
+          ),
+          child: MessageChattingComponent(chatId: args.chat.chatId),
+        ),
       ),
     );
   }

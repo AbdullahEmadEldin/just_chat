@@ -4,6 +4,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:just_chat/modules/chat/data/repos/firebase_chat_repo.dart';
+import 'package:just_chat/modules/messages/data/repos/messages_repo.dart';
+import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../modules/chat/data/repos/chat_repo_interface.dart';
@@ -20,6 +22,7 @@ void setUpGetIt() {
 
   // This global instance of firebase chat repo
   getIt.registerLazySingleton<ChatRepoInterface>(() => FirebaseChatRepo());
+  getIt.registerLazySingleton<MsgsRepoInterface>(() => FirebaseMsgRepo());
 
   // This global instance for access firestore storage over the app.
   getIt.registerLazySingleton<FirebaseFirestore>(

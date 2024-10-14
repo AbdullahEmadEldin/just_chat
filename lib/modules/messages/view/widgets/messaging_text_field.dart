@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../logic/messaging_cubit/messaging_cubit.dart';
+import '../../logic/messaging_cubit/messaging_cubit.dart';
 
 class MessagingTextField extends StatelessWidget {
   const MessagingTextField({super.key});

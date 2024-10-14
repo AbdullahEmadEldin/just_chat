@@ -3,9 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/widgets/circle_cached_image.dart';
 import 'package:just_chat/core/widgets/header_back_button.dart';
 
-import '../../../../../core/constants/image_assets.dart';
-import '../../../../../core/theme/colors/colors_manager.dart';
-import '../../../../auth/data/models/user_model.dart';
+import '../../../../core/theme/colors/colors_manager.dart';
+import '../../../auth/data/models/user_model.dart';
 
 class MessagesPageHeader extends StatelessWidget {
   final UserModel user;
@@ -16,12 +15,12 @@ class MessagesPageHeader extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(36.r),
-          bottomRight: Radius.circular(36.r),
+          bottomLeft: Radius.circular(28.r),
+          bottomRight: Radius.circular(28.r),
         ),
         color: Colors.white,
       ),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       child: Row(
         children: [
           const HeaderBackButton(),
