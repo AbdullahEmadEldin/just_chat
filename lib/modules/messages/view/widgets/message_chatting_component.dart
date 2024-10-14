@@ -14,8 +14,8 @@ class MessageChattingComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.sizeOf(context).width,
-      margin: EdgeInsets.all(16.r),
-      padding: EdgeInsets.all(8.r),
+      margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      padding: EdgeInsets.all(4.r),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(64.r),
         color: Colors.white,

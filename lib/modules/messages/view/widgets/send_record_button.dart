@@ -42,13 +42,11 @@ class _SendRecordButtonState extends State<SendRecordButton> {
                   isReceived: true,
                 ),
               );
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.read<MessagingCubit>().scrollToLastMessage();
-          });
+          context.read<MessagingCubit>().switchSendButtonIcon();
         }
       },
       child: Container(
-        padding: EdgeInsets.all(16.r),
+        padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(64.r),
           color: ColorsManager().colorScheme.primary,
