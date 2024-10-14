@@ -23,11 +23,8 @@ class MessagesStreamBuilder extends StatefulWidget {
 class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        context.read<MessagingCubit>().scrollToLastMessage();
-      });
-    });
+    context.read<MessagingCubit>().scrollToLastMessage();
+
     super.initState();
   }
 
@@ -47,6 +44,7 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         }
 
         var messages = snapshot.data!;
+        print('MESSAGES :: ${messages.length}');
 
         return Expanded(
           child: ListView.builder(

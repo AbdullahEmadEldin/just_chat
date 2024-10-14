@@ -31,9 +31,10 @@ class MessagingCubit extends Cubit<MessagingState> {
     }
   }
 
-  void deleteMsg({ required MessageModel message}) {
+  void deleteMsg({required MessageModel message}) {
     try {
-      getIt<MsgsRepoInterface>().deleteMsg(chatId: message.chatId!, message: message);
+      getIt<MsgsRepoInterface>()
+          .deleteMsg(chatId: message.chatId!, message: message);
     } on Exception catch (e) {
       print('Erorr deleting messges cubiiiiiiiiiiiiiit :: $e');
     }
@@ -61,13 +62,24 @@ class MessagingCubit extends Cubit<MessagingState> {
   }
 
   void scrollToLastMessage() {
-    if (scrollController.hasClients) {
-      print('222222222222');
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOutCirc,
-      );
-    }
+  // calling scroll down within addPostFrameCallback to ensure that it is called after build the new messages in the list.
+  // and the Future.delay to ensure that the new widget frame is build and ready to view.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (scrollController.hasClients) {
+          scrollController.animateTo(
+            scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOutCirc,
+          );
+        }
+      });
+    });
+  }
+
+  @override
+  Future<void> close() {
+    scrollController.dispose();
+    return super.close();
   }
 }

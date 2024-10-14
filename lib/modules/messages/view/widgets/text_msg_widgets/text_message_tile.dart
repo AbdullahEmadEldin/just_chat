@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +25,9 @@ class TextMessageTile extends StatelessWidget {
               _myAlignment() ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             Container(
-              // width: MediaQuery.sizeOf(context).width * 0.75,
+              width: message.content.length > 35
+                  ? MediaQuery.sizeOf(context).width * 0.75
+                  : null,
               margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               decoration: BoxDecoration(

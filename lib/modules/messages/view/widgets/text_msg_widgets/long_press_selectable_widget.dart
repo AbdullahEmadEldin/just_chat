@@ -26,8 +26,6 @@ class LongPressSelectableWidget extends StatefulWidget {
 
 class _LongPressSelectableWidgetState extends State<LongPressSelectableWidget>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
 
   /// this will used to draw the option overlay over the message.
   OverlayEntry? _overlayEntry;
@@ -35,16 +33,7 @@ class _LongPressSelectableWidgetState extends State<LongPressSelectableWidget>
 
   bool isSelected = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300), // Animation duration
-    );
-    _fadeAnimation =
-        Tween<double>(begin: 1.0, end: 0.0).animate(_animationController);
-  }
+
 
   @override
   void dispose() {
@@ -74,10 +63,7 @@ class _LongPressSelectableWidgetState extends State<LongPressSelectableWidget>
           color: isSelected ? ColorsManager().colorScheme.primary20 : null,
         ),
         child: IntrinsicWidth(
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: widget.child,
-          ),
+          child: widget.child,
         ),
       ),
     );
@@ -130,7 +116,6 @@ class _LongPressSelectableWidgetState extends State<LongPressSelectableWidget>
                       onPressed: () {
                         setState(() {
                           isSelected = false;
-                          _animationController.forward();
                           Future.delayed(const Duration(milliseconds: 300), () {
                             context
                                 .read<MessagingCubit>()
