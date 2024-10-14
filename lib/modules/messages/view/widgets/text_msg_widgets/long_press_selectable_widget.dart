@@ -1,8 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
+import 'package:just_chat/core/widgets/custom_toast.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
 
@@ -145,6 +147,16 @@ class _LongPressSelectableWidgetState extends State<LongPressSelectableWidget>
               IconButton(
                   onPressed: () {
                     setState(() {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: widget.message.content,
+                        ),
+                      ).then((_) {
+                        showCustomToast(
+                          context,
+                          'Copied message',
+                        );
+                      });
                       isSelected = false;
                       _removeOverlay();
                     });
