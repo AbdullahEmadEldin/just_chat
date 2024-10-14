@@ -32,7 +32,7 @@ class MessagingCubit extends Cubit<MessagingState> {
   }
 
   //! ================= Handling UI Logic ==================
-
+  final ScrollController scrollController = ScrollController();
   final TextEditingController textingController = TextEditingController();
 
   void switchSendButtonIcon() {
@@ -40,6 +40,17 @@ class MessagingCubit extends Cubit<MessagingState> {
       emit(SwitchSendButtonIcon(newIcon: CupertinoIcons.mic));
     } else {
       emit(SwitchSendButtonIcon(newIcon: Icons.send));
+    }
+  }
+
+  void scrollToLastMessage() {
+    if (scrollController.hasClients) {
+      print('222222222222');
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOutCirc,
+      );
     }
   }
 }

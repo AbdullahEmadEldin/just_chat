@@ -40,6 +40,9 @@ class _SendRecordButtonState extends State<SendRecordButton> {
                   isReceived: true,
                 ),
               );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.read<MessagingCubit>().scrollToLastMessage();
+          });
         }
       },
       child: Container(

@@ -9,7 +9,7 @@ import '../../../../../core/theme/colors/colors_manager.dart';
 import '../../../logic/messaging_cubit/messaging_cubit.dart';
 import 'text_message_tile.dart';
 
-class MessagesStreamBuilder extends StatelessWidget {
+class MessagesStreamBuilder extends StatefulWidget {
   final String chatId;
   const MessagesStreamBuilder({
     super.key,
@@ -17,9 +17,24 @@ class MessagesStreamBuilder extends StatelessWidget {
   });
 
   @override
+  State<MessagesStreamBuilder> createState() => _MessagesStreamBuilderState();
+}
+
+class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        context.read<MessagingCubit>().scrollToLastMessage();
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: context.read<MessagingCubit>().getChatMessages(chatId),
+      stream: context.read<MessagingCubit>().getChatMessages(widget.chatId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return _handleWaitingSnapshot();
@@ -35,9 +50,9 @@ class MessagesStreamBuilder extends StatelessWidget {
 
         return Expanded(
           child: ListView.builder(
+            controller: context.read<MessagingCubit>().scrollController,
             itemCount: messages.length,
             itemBuilder: (context, index) {
-              print('========>>> MEssageL : ${messages[index].content}');
               return TextMessageTile(
                 message: messages[index],
               );

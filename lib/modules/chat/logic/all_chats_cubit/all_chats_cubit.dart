@@ -26,7 +26,6 @@ class AllChatsCubit extends Cubit<AllChatsState> {
   Future<void> getOpponentUserInfoForChatTile({
     required List<String> chatMembers,
   }) async {
-    print('------ Getting opponent user info CUBIT--------');
     emit(GettingOppUserInfoLoading());
     try {
       String opponentId = '';

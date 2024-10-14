@@ -4,7 +4,6 @@ import 'package:just_chat/modules/chat/data/models/chat_model.dart';
 import 'package:just_chat/modules/chat/logic/all_chats_cubit/all_chats_cubit.dart';
 import 'package:just_chat/modules/chat/view/widgets/all_chats_widgets/chat_tile.dart';
 
-
 //! Close the stream...............................................
 class AllChatsBody extends StatelessWidget {
   const AllChatsBody({super.key});
@@ -18,6 +17,7 @@ class AllChatsBody extends StatelessWidget {
       builder: (context, snapshot) {
         //TODO Handle loading, empty and error states with lotties.
         if (snapshot.connectionState == ConnectionState.waiting) {
+          print('Stream still opened----------******---------');
           return _handleWaitingSnapshot();
         }
         if (snapshot.hasError) {
@@ -26,18 +26,23 @@ class AllChatsBody extends StatelessWidget {
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
           _handleEmptySnapshot();
         }
-
-        var chats = snapshot.data!;
-        return Expanded(
-          child: ListView.builder(
-            itemCount: chats.length,
-            itemBuilder: (context, index) {
-              _getOpponentUserInfoForChatTile(context,
-                  chatMembers: chats[index].members);
-              return _chatTileBlocBuilder(chats, index);
-            },
-          ),
-        );
+        if (snapshot.hasData) {
+          var chats = snapshot.data!;
+          print('Stream still opened-------------------');
+          return Expanded(
+            child: ListView.builder(
+              itemCount: chats.length,
+              itemBuilder: (context, index) {
+                _getOpponentUserInfoForChatTile(context,
+                    chatMembers: chats[index].members);
+                return _chatTileBlocBuilder(chats, index);
+              },
+            ),
+          );
+        } else {
+          print('Stream still opened------------00000-------');
+          return const SizedBox.shrink();
+        }
       },
     );
   }
