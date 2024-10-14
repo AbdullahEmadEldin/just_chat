@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/theme/colors/colors_manager.dart';
 
@@ -31,6 +32,7 @@ class _SendRecordButtonState extends State<SendRecordButton> {
           context.read<MessagingCubit>().sendMessage(
                 chatId: widget.chatId,
                 message: MessageModel(
+                  msgId: const Uuid().v1(),
                   senderId: getIt<FirebaseAuth>().currentUser!.uid,
                   content:
                       context.read<MessagingCubit>().textingController.text,

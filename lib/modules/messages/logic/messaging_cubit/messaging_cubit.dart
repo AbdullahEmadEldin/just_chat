@@ -31,10 +31,27 @@ class MessagingCubit extends Cubit<MessagingState> {
     }
   }
 
-  //! ================= Handling UI Logic ==================
+  void deleteMsg({ required MessageModel message}) {
+    try {
+      getIt<MsgsRepoInterface>().deleteMsg(chatId: message.chatId!, message: message);
+    } on Exception catch (e) {
+      print('Erorr deleting messges cubiiiiiiiiiiiiiit :: $e');
+    }
+  }
+
+  //! ============================================================
+  //! ================= Handling UI Logic ========================
+  //! ============================================================
+
+  /// used to scroll down to the last msg when open the chat or send new msg.
   final ScrollController scrollController = ScrollController();
+
+  /// used to handle the text msg input and icons of send button
   final TextEditingController textingController = TextEditingController();
 
+  /// used to get the message position and control it.
+  final GlobalKey messageKey = GlobalKey();
+  //
   void switchSendButtonIcon() {
     if (textingController.text.isEmpty) {
       emit(SwitchSendButtonIcon(newIcon: CupertinoIcons.mic));

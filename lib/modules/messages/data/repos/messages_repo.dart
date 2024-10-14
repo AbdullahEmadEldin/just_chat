@@ -5,7 +5,7 @@ import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
 
 import '../../../../core/di/dependency_injection.dart';
 
-class FirebaseMsgRepo implements MsgsRepoInterface{
+class FirebaseMsgRepo implements MsgsRepoInterface {
   @override
   Stream<List<MessageModel>?> getChatMessages(String chatId) {
     try {
@@ -25,21 +25,40 @@ class FirebaseMsgRepo implements MsgsRepoInterface{
     }
   }
 
+  @override
   void sendMessage(
       {required String chatId, required MessageModel message}) async {
     try {
-      final msgId = await getIt<FirebaseFirestore>()
+      await getIt<FirebaseFirestore>()
           .collection('chats')
           .doc(chatId)
           .collection('messages')
-          .add(message.toJson());
+          .doc(message.msgId)
+          .set(message.copyWith(chatId: chatId).toJson());
 
-      /// update last message and timestamp
+      /// update last message and timestamp in chat document
       getIt<FirebaseFirestore>().collection('chats').doc(chatId).update({
         'lastMessage': message.content,
         'lastMessageTimestamp': DateTime.now(),
         'lastMessageSenderId': getIt<FirebaseAuth>().currentUser!.uid,
       });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  void deleteMsg({
+    required String chatId,
+    required MessageModel message,
+  }) {
+    try {
+      getIt<FirebaseFirestore>()
+          .collection('chats')
+          .doc(chatId)
+          .collection('messages')
+          .doc(message.msgId)
+          .delete();
     } catch (e) {
       rethrow;
     }
