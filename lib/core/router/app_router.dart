@@ -26,7 +26,7 @@ class AppRouter {
         final args = settings.arguments as MessagingPageArgs;
         return MaterialPageRoute(
             builder: (context) => BlocProvider(
-                  create: (context) => MessagingCubit(),
+                  create: (context) => MessagingCubit()..opponentUser = args.opponentUser,
                   child: MessagingPage(args: args),
                 ));
       default:

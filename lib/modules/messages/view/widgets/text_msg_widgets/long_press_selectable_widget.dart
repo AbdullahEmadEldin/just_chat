@@ -8,11 +8,11 @@ import 'package:just_chat/core/widgets/custom_toast.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
 
-class LongPressSelectableWidget extends StatefulWidget {
+class SelectableDismissibleWidget extends StatefulWidget {
   final bool myAlignment;
   final MessageModel message;
   final Widget child;
-  const LongPressSelectableWidget({
+  const SelectableDismissibleWidget({
     super.key,
     required this.myAlignment,
     required this.message,
@@ -20,21 +20,18 @@ class LongPressSelectableWidget extends StatefulWidget {
   });
 
   @override
-  State<LongPressSelectableWidget> createState() =>
-      _LongPressSelectableWidgetState();
+  State<SelectableDismissibleWidget> createState() =>
+      _SelectableDismissibleWidgetState();
 }
 
-class _LongPressSelectableWidgetState extends State<LongPressSelectableWidget>
+class _SelectableDismissibleWidgetState
+    extends State<SelectableDismissibleWidget>
     with SingleTickerProviderStateMixin {
-
   /// this will used to draw the option overlay over the message.
   OverlayEntry? _overlayEntry;
   final GlobalKey messageKey = GlobalKey();
 
   bool isSelected = false;
-
-
-
   @override
   void dispose() {
     _removeOverlay();
@@ -43,27 +40,58 @@ class _LongPressSelectableWidgetState extends State<LongPressSelectableWidget>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      key: messageKey,
-      onLongPress: () {
-        setState(() {
-          isSelected = true;
-          _showActionOverlay(context);
-        });
+    return Dismissible(
+      key: UniqueKey(),
+      direction: DismissDirection.endToStart,
+      background: const Icon(
+        Icons.reply,
+        color: Colors.white,
+      ),
+      movementDuration: const Duration(milliseconds: 500),
+      onUpdate: (direction) {
+        if (direction.progress > 0.3) {
+          context
+              .read<MessagingCubit>()
+              .replyToMsgBoxTrigger(replyToMessage: widget.message);
+          print('Reply');
+        }
       },
-      onLongPressCancel: () {
-        setState(() {
-          isSelected = false;
-          _removeOverlay();
-        });
+      secondaryBackground: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Icon(
+            Icons.reply,
+            color: ColorsManager().colorScheme.primary,
+            size: 36,
+          ),
+          SizedBox(width: 16.w),
+        ],
+      ),
+      confirmDismiss: (direction) async {
+        return false; // Prevent dismissal
       },
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: isSelected ? ColorsManager().colorScheme.primary20 : null,
-        ),
-        child: IntrinsicWidth(
-          child: widget.child,
+      child: GestureDetector(
+        key: messageKey,
+        onLongPress: () {
+          setState(() {
+            isSelected = true;
+            _showActionOverlay(context);
+          });
+        },
+        onLongPressCancel: () {
+          setState(() {
+            isSelected = false;
+            _removeOverlay();
+          });
+        },
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: isSelected ? ColorsManager().colorScheme.primary20 : null,
+          ),
+          child: IntrinsicWidth(
+            child: widget.child,
+          ),
         ),
       ),
     );
@@ -152,6 +180,10 @@ class _LongPressSelectableWidgetState extends State<LongPressSelectableWidget>
                   )),
               IconButton(
                   onPressed: () {
+                    context
+                        .read<MessagingCubit>()
+                        .replyToMsgBoxTrigger(replyToMessage: widget.message);
+
                     setState(() {
                       isSelected = false;
                       _removeOverlay();

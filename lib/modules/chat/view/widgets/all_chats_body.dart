@@ -28,7 +28,7 @@ class AllChatsBody extends StatelessWidget {
         }
         if (snapshot.hasData) {
           var chats = snapshot.data!;
-          print('Stream still opened-------------------');
+          print('All Chats Stream still opened-------------------');
           return Expanded(
             child: ListView.builder(
               itemCount: chats.length,
