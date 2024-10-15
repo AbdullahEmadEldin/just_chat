@@ -17,6 +17,7 @@ class AllChatsCubit extends Cubit<AllChatsState> {
   Stream<List<ChatModel>?> getAllChats() {
     print('====== Getting chats Cubit');
     try {
+      getIt<ChatRepoInterface>().getAllChats().listen((event) {});
       return getIt<ChatRepoInterface>().getAllChats();
     } catch (e) {
       return const Stream.empty();
@@ -36,8 +37,8 @@ class AllChatsCubit extends Cubit<AllChatsState> {
         }
       }
       opponentUser = await FirebaseGeneralServices.getUserById(opponentId);
-      print(
-          '------ Getting opponent user info CUBIT LAST-------${opponentUser!.profilePicUrl}');
+      // print(
+      //     '------ Getting opponent user info CUBIT LAST-------${opponentUser!.profilePicUrl}');
       emit(GettingOppUserInfoSuccess());
     } catch (e) {
       emit(GettingOppUserInfoFailure());

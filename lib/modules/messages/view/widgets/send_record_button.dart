@@ -30,10 +30,12 @@ class _SendRecordButtonState extends State<SendRecordButton> {
       onTap: () {
         if (context.read<MessagingCubit>().textingController.text.isNotEmpty) {
           context.read<MessagingCubit>().sendMessage(
-                chatId: widget.chatId,
                 message: MessageModel(
+                  chatId: widget.chatId,
                   msgId: const Uuid().v1(),
                   senderId: getIt<FirebaseAuth>().currentUser!.uid,
+                  replyMsgId:
+                      context.read<MessagingCubit>().replyToMessage?.msgId,
                   content:
                       context.read<MessagingCubit>().textingController.text,
                   contentType: 'text',

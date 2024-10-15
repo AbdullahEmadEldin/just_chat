@@ -4,6 +4,7 @@ class MessageModel {
   final String msgId;
   final String? chatId;
   final String senderId;
+  final String? replyMsgId;
 
   /// either text or media url.
   final String content;
@@ -16,6 +17,7 @@ class MessageModel {
     this.chatId,
     required this.msgId,
     required this.senderId,
+    this.replyMsgId,
     required this.content,
     required this.contentType,
     required this.sentTime,
@@ -27,6 +29,7 @@ class MessageModel {
     return {
       'chatId': chatId,
       'msgId': msgId,
+      'replyMsgId': replyMsgId,
       'senderId': senderId,
       'content': content,
       'contentType': contentType,
@@ -41,6 +44,7 @@ class MessageModel {
       chatId: json['chatId'],
       msgId: json['msgId'],
       senderId: json['senderId'],
+      replyMsgId: json['replyMsgId'] ,
       content: json['content'],
       contentType: json['contentType'],
       sentTime: json['sentTime'],
@@ -53,6 +57,7 @@ class MessageModel {
     String? chatId,
     String? msgId,
     String? senderId,
+    String? replyMsgId,
     String? content,
     String? contentType,
     Timestamp? sentTime,
@@ -68,6 +73,7 @@ class MessageModel {
       sentTime: sentTime ?? this.sentTime,
       isSeen: isSeen ?? this.isSeen,
       isReceived: isReceived ?? this.isReceived,
+      replyMsgId: replyMsgId ?? this.replyMsgId,
     );
   }
 }

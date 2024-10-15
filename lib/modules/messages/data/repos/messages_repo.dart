@@ -26,18 +26,20 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
   }
 
   @override
-  void sendMessage(
-      {required String chatId, required MessageModel message}) async {
+  void sendMessage({required MessageModel message}) async {
     try {
       await getIt<FirebaseFirestore>()
           .collection('chats')
-          .doc(chatId)
+          .doc(message.chatId)
           .collection('messages')
           .doc(message.msgId)
-          .set(message.copyWith(chatId: chatId).toJson());
+          .set(message.copyWith(chatId: message.chatId).toJson());
 
       /// update last message and timestamp in chat document
-      getIt<FirebaseFirestore>().collection('chats').doc(chatId).update({
+      getIt<FirebaseFirestore>()
+          .collection('chats')
+          .doc(message.chatId)
+          .update({
         'lastMessage': message.content,
         'lastMessageTimestamp': DateTime.now(),
         'lastMessageSenderId': getIt<FirebaseAuth>().currentUser!.uid,

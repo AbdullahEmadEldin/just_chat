@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../core/constants/loties_assets.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
+import '../../data/models/message_model.dart';
 import '../../logic/messaging_cubit/messaging_cubit.dart';
 import 'text_msg_widgets/text_message_tile.dart';
 
@@ -32,15 +33,24 @@ class MessagesStreamBuilder extends StatelessWidget {
         }
 
         var messages = snapshot.data!;
-        print('MESSAGES :: ${messages.length}');
         context.read<MessagingCubit>().scrollToLastMessage();
+
         return Expanded(
           child: ListView.builder(
             controller: context.read<MessagingCubit>().scrollController,
             itemCount: messages.length,
             itemBuilder: (context, index) {
+              /// get the replyToMsg if it exists to view it in the message tile.
+              MessageModel? replyToMsg;
+              for (int i = 0; i < messages.length; i++) {
+                if (messages[i].msgId == messages[index].replyMsgId) {
+                  replyToMsg = messages[i];
+                  break;
+                }
+              }
               return TextMessageTile(
                 message: messages[index],
+                replyToMessage: replyToMsg,
               );
             },
           ),
