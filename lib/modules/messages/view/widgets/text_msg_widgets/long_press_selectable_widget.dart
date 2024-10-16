@@ -32,6 +32,13 @@ class _SelectableDismissibleWidgetState
   final GlobalKey messageKey = GlobalKey();
 
   bool isSelected = false;
+
+  @override
+  void initState() {
+    context.read<MessagingCubit>().markMsgAsSeen(chiId: widget.message.chatId!);
+    super.initState();
+  }
+
   @override
   void dispose() {
     _removeOverlay();

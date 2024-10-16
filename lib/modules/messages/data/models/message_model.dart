@@ -11,7 +11,6 @@ class MessageModel {
   final String contentType;
   final Timestamp sentTime;
   final bool isSeen;
-  final bool isReceived;
 
   MessageModel({
     this.chatId,
@@ -22,7 +21,6 @@ class MessageModel {
     required this.contentType,
     required this.sentTime,
     required this.isSeen,
-    required this.isReceived,
   });
 
   Map<String, dynamic> toJson() {
@@ -35,7 +33,6 @@ class MessageModel {
       'contentType': contentType,
       'sentTime': sentTime.toDate(),
       'isSeen': isSeen,
-      'isReceived': isReceived,
     };
   }
 
@@ -49,7 +46,6 @@ class MessageModel {
       contentType: json['contentType'],
       sentTime: json['sentTime'],
       isSeen: json['isSeen'],
-      isReceived: json['isReceived'],
     );
   }
 
@@ -62,7 +58,6 @@ class MessageModel {
     String? contentType,
     Timestamp? sentTime,
     bool? isSeen,
-    bool? isReceived,
   }) {
     return MessageModel(
       chatId: chatId ?? this.chatId,
@@ -72,7 +67,6 @@ class MessageModel {
       contentType: contentType ?? this.contentType,
       sentTime: sentTime ?? this.sentTime,
       isSeen: isSeen ?? this.isSeen,
-      isReceived: isReceived ?? this.isReceived,
       replyMsgId: replyMsgId ?? this.replyMsgId,
     );
   }

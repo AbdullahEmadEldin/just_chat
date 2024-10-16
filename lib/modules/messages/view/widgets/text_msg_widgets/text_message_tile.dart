@@ -5,6 +5,7 @@ import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/core/helpers/ui_helpers.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/reply_msg_box.dart';
+import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/seen_widget.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';
 import 'long_press_selectable_widget.dart';
@@ -85,14 +86,22 @@ class TextMessageTile extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                           ),
                           SizedBox(width: 12.w),
-                          Text(
-                            UiHelper.formatTimestampToDate(
-                                timestamp: message.sentTime),
-                            textAlign: TextAlign.right,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: Colors.white60),
+                          Row(
+                            children: [
+                              Text(
+                                UiHelper.formatTimestampToDate(
+                                    timestamp: message.sentTime),
+                                textAlign: TextAlign.right,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: Colors.white60),
+                              ),
+                              SizedBox(width: 4.w),
+                              _myAlignment()
+                                  ? SeenWidget(isSeen: message.isSeen)
+                                  : const SizedBox.shrink(),
+                            ],
                           ),
                         ],
                       ),

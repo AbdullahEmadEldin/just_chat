@@ -40,8 +40,7 @@ class _SendRecordButtonState extends State<SendRecordButton> {
                       context.read<MessagingCubit>().textingController.text,
                   contentType: 'text',
                   sentTime: Timestamp.fromDate(DateTime.now()),
-                  isSeen: true,
-                  isReceived: true,
+                  isSeen: false,
                 ),
               );
           context.read<MessagingCubit>().switchSendButtonIcon();
