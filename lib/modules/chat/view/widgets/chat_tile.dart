@@ -14,10 +14,12 @@ import '../../../messages/view/pages/messaging_page.dart';
 class ChatTile extends StatelessWidget {
   final ChatModel chat;
   final UserModel opponentUser;
+  final int unreadMsgsCount;
   const ChatTile({
     super.key,
     required this.chat,
     required this.opponentUser,
+    required this.unreadMsgsCount,
   });
 
   @override
@@ -73,7 +75,7 @@ class ChatTile extends StatelessWidget {
               _countOfUnreadMessages()
                   ? Badge(
                       label: Text(
-                        '1',
+                        unreadMsgsCount.toString(),
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
@@ -111,7 +113,8 @@ class ChatTile extends StatelessWidget {
   }
 
   bool _countOfUnreadMessages() {
-    if (chat.lastMessageSenderId != getIt<FirebaseAuth>().currentUser!.uid) {
+    if (chat.lastMessageSenderId != getIt<FirebaseAuth>().currentUser!.uid &&
+        unreadMsgsCount > 0) {
       return true;
     }
     return false;

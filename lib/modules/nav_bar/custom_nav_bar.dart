@@ -76,7 +76,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   final _pages = [
     BlocProvider(
-      create: (context) => AllChatsCubit(),
+      create: (context) => AllChatsCubit()..getAllChats(),
       child: const AllChatsPage(),
     ),
     BlocProvider(

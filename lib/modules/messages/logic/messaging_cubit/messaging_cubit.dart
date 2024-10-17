@@ -43,6 +43,14 @@ class MessagingCubit extends Cubit<MessagingState> {
     }
   }
 
+  void markMsgAsSeen({required String chiId}) async {
+    try {
+      await getIt<MsgsRepoInterface>().markMsgAsSeen(chatId: chiId);
+    } catch (e) {
+      print('Error mark msg as seen cubit :: $e');
+    }
+  }
+
   //***************************** Delete Message *************************  */
   void deleteMsg({required MessageModel message}) {
     try {

@@ -95,5 +95,12 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
     /// The commit method sends all the updates in the batch to Firestore as a single atomic operation.
     /// This means that all messages are updated at once.
     await batch.commit();
+
+    /// Update the 'isSeen' field in the 'chats' collection
+    //? This field wouldn't be used at any part of the application.
+    //? but it's use to just trigger the stream listener to update the UI with 0 unread msgs when the chat is opened.
+    getIt<FirebaseFirestore>().collection('chats').doc(chatId).update({
+      'isSeen': true,
+    });
   }
 }

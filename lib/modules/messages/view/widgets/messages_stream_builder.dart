@@ -10,7 +10,7 @@ import '../../data/models/message_model.dart';
 import '../../logic/messaging_cubit/messaging_cubit.dart';
 import 'text_msg_widgets/text_message_tile.dart';
 
-class MessagesStreamBuilder extends StatelessWidget {
+class MessagesStreamBuilder extends StatefulWidget {
   final String chatId;
   const MessagesStreamBuilder({
     super.key,
@@ -18,11 +18,21 @@ class MessagesStreamBuilder extends StatelessWidget {
   });
 
   @override
+  State<MessagesStreamBuilder> createState() => _MessagesStreamBuilderState();
+}
+
+class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
+  bool _loadingMsgsFirstTimeOnly = false;
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: context.read<MessagingCubit>().getChatMessages(chatId),
+      stream: context.read<MessagingCubit>().getChatMessages(widget.chatId),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            !_loadingMsgsFirstTimeOnly) {
+          print('A7aaaaaaaaaaaaaaaaaaaaaaaaaaa');
+          _loadingMsgsFirstTimeOnly = true;
           return _handleWaitingSnapshot();
         }
         if (snapshot.hasError) {
