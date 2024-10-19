@@ -87,6 +87,7 @@ class TextMessageTile extends StatelessWidget {
                           ),
                           SizedBox(width: 12.w),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
                                 UiHelper.formatTimestampToDate(

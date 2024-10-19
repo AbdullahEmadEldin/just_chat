@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_chat/modules/auth/auth_router.dart';
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
+import 'package:just_chat/modules/messages/logic/recorder_cubit/recorder_cubit.dart';
 import 'package:just_chat/modules/messages/view/pages/messaging_page.dart';
 
 import '../../modules/nav_bar/custom_nav_bar.dart';
@@ -25,8 +26,16 @@ class AppRouter {
       case MessagingPage.routeName:
         final args = settings.arguments as MessagingPageArgs;
         return MaterialPageRoute(
-            builder: (context) => BlocProvider(
-                  create: (context) => MessagingCubit()..opponentUser = args.opponentUser,
+            builder: (context) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) =>
+                          MessagingCubit()..opponentUser = args.opponentUser,
+                    ),
+                    BlocProvider(
+                      create: (context) => RecorderCubit(),
+                    ),
+                  ],
                   child: MessagingPage(args: args),
                 ));
       default:

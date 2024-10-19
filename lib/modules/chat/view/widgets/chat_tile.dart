@@ -34,10 +34,10 @@ class ChatTile extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        padding: EdgeInsets.all(12.r),
+        padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
-            48.r,
+            36.r,
           ),
           color: ColorsManager().colorScheme.grey20,
         ),
@@ -100,7 +100,7 @@ class ChatTile extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
         ),
-        SizedBox(width: 90.w),
+        SizedBox(width: 120.w),
         Text(
           UiHelper.formatTimestampToDate(timestamp: chat.lastMessageTimestamp!),
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
