@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:meta/meta.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -28,11 +29,15 @@ class RecorderCubit extends Cubit<RecorderState> {
       if (!permissionStatus.isGranted) {
         await Permission.microphone.request();
       }
-      print('====> Permission granted');
-    voiceMsgRecorder = await FlutterSoundRecorder().openRecorder();
+      voiceMsgRecorder = await FlutterSoundRecorder().openRecorder();
 
       await voiceMsgRecorder!.startRecorder(
         toFile: recordId,
+        // codec: Codec.pcm16WAV,
+        bitRate: 192000,
+        sampleRate: 48000,
+        numChannels: 2,
+        enableVoiceProcessing: true,
       );
       await voiceMsgRecorder!
           .setSubscriptionDuration(const Duration(milliseconds: 300));

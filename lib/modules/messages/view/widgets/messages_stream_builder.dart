@@ -31,7 +31,6 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting &&
             !_loadingMsgsFirstTimeOnly) {
-          print('A7aaaaaaaaaaaaaaaaaaaaaaaaaaa');
           _loadingMsgsFirstTimeOnly = true;
           return _handleWaitingSnapshot();
         }
@@ -43,13 +42,18 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         }
 
         var messages = snapshot.data!;
-        context.read<MessagingCubit>().scrollToLastMessage();
+        // context.read<MessagingCubit>().scrollToLastMessage();
 
         return Expanded(
           child: ListView.builder(
             controller: context.read<MessagingCubit>().scrollController,
             itemCount: messages.length,
             itemBuilder: (context, index) {
+              /// This condition to reduce the num of calling this function.
+              if (index % 10 == 0) {
+                context.read<MessagingCubit>().scrollToLastMessage();
+              }
+
               /// get the replyToMsg if it exists to view it in the message tile.
               MessageModel? replyToMsg;
               for (int i = 0; i < messages.length; i++) {

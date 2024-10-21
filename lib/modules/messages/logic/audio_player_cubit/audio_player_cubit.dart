@@ -6,16 +6,16 @@ part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   AudioPlayerCubit() : super(AudioPlayerInitial());
-  FlutterSoundPlayer? audioPlayer = FlutterSoundPlayer();
-  void playAudio(String url) async {
-    await audioPlayer!.openPlayer();
+  FlutterSoundPlayer audioPlayer = FlutterSoundPlayer();
 
-    audioPlayer!
+  void playAudio(String url) async {
+    /// Open the audio player must be called before using any other method
+    await audioPlayer.openPlayer();
+
+    audioPlayer
         .startPlayer(
             fromURI: url,
             whenFinished: () {
-              print(
-                  'This audio has finished playing! and closing player instance');
               // audioPlayer!.closePlayer();
               emit(AudioPlayerStop());
             })
@@ -23,13 +23,20 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
       print(
           'Playing audio- -----------------------------------------------------+++++');
 
-      emit(AudioPlayerStart(duration: duration!));
+      emit(AudioPlayerStart());
     });
+
+    /// This is to make the onProgress callback stream update it self every 300 ms
+    audioPlayer.setSubscriptionDuration(const Duration(milliseconds: 300));
   }
 
   void stopAudio() async {
-    audioPlayer!.stopPlayer();
+    audioPlayer.stopPlayer();
 
     emit(AudioPlayerStop());
+  }
+
+  void getDurationProgress() async {
+    audioPlayer.onProgress!.listen((duration) {});
   }
 }

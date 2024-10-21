@@ -33,6 +33,7 @@ class ChatTile extends StatelessWidget {
             ));
       },
       child: Container(
+        width: MediaQuery.sizeOf(context).width,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
@@ -89,26 +90,30 @@ class ChatTile extends StatelessWidget {
         : const SizedBox.shrink();
   }
 
-  Row _nameTimeRow(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text(
-          opponentUser.name,
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: ColorsManager().colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        SizedBox(width: 120.w),
-        Text(
-          UiHelper.formatTimestampToDate(timestamp: chat.lastMessageTimestamp!),
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: ColorsManager().colorScheme.grey60,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-      ],
+  Widget _nameTimeRow(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.65,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            opponentUser.name,
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  color: ColorsManager().colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          // SizedBox(width: 120.w),
+          Text(
+            UiHelper.formatTimestampToDate(
+                timestamp: chat.lastMessageTimestamp!),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: ColorsManager().colorScheme.grey60,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ],
+      ),
     );
   }
 
