@@ -9,6 +9,7 @@ import '../../data/models/message_model.dart';
 
 part 'messaging_state.dart';
 
+//TODO make chatId global over all messaging page components through this cubit.
 class MessagingCubit extends Cubit<MessagingState> {
   MessagingCubit() : super(MessagingInitial());
 
