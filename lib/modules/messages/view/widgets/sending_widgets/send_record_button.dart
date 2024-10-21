@@ -26,7 +26,6 @@ class SendRecordButton extends StatefulWidget {
 }
 
 class _SendRecordButtonState extends State<SendRecordButton> {
-  bool startRecordingAnimation = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -35,7 +34,6 @@ class _SendRecordButtonState extends State<SendRecordButton> {
           _sendTextMsg(context);
         } else {
           context.read<RecorderCubit>().startRecording();
-
         }
       },
       child: Container(
@@ -72,6 +70,4 @@ class _SendRecordButtonState extends State<SendRecordButton> {
         );
     context.read<MessagingCubit>().switchSendButtonIcon();
   }
-
-
 }

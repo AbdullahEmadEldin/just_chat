@@ -13,26 +13,37 @@ class RecorderCubit extends Cubit<RecorderState> {
   //! ================= Recording Logic ========================
   //! ============================================================
   FlutterSoundRecorder? voiceMsgRecorder;
+  bool isRecording = false;
+  initRecording() async {
+    voiceMsgRecorder = await FlutterSoundRecorder().openRecorder();
+  }
 
   Future<void> startRecording() async {
-    String recordId = const Uuid().v1();
+    if (!isRecording) {
+      isRecording = true;
+      String recordId = const Uuid().v1();
 
-    // getting mic request.
-    var permissionStatus = await Permission.microphone.status;
-    if (!permissionStatus.isGranted) {
-      await Permission.microphone.request();
-    }
-    print('====> Permission granted');
+      // getting mic request.
+      var permissionStatus = await Permission.microphone.status;
+      if (!permissionStatus.isGranted) {
+        await Permission.microphone.request();
+      }
+      print('====> Permission granted');
     voiceMsgRecorder = await FlutterSoundRecorder().openRecorder();
 
-    await voiceMsgRecorder!.startRecorder(
-      toFile: recordId,
-    );
-    voiceMsgRecorder!
-        .setSubscriptionDuration(const Duration(milliseconds: 300));
+      await voiceMsgRecorder!.startRecorder(
+        toFile: recordId,
+      );
+      await voiceMsgRecorder!
+          .setSubscriptionDuration(const Duration(milliseconds: 300));
 
-    /// Build the UI that depends on the voiceMsgRecorder after it has been initialized
-    _triggerRecordingView();
+      _triggerRecordingView();
+
+      /// Build the UI that depends on the voiceMsgRecorder after it has been initialized
+    } else {
+      print(
+          'Already recording000000000000000000000000000000000000000000000000');
+    }
   }
 
   Future<String> stopRecording() async {
@@ -43,6 +54,7 @@ class RecorderCubit extends Cubit<RecorderState> {
   }
 
   void cancelRecording() async {
+    isRecording = false;
     closeRecordingView();
     final path = await voiceMsgRecorder!.stopRecorder();
     voiceMsgRecorder!.deleteRecord(fileName: path!);
@@ -52,6 +64,7 @@ class RecorderCubit extends Cubit<RecorderState> {
   //! ================= Handling UI Logic ========================
   //! ============================================================
   void uploadRecordUiTrigger() {
+    isRecording = false;
     emit(UploadRecordUiTrigger());
   }
 
@@ -65,6 +78,7 @@ class RecorderCubit extends Cubit<RecorderState> {
   }
 
   void closeRecordingView() {
+    isRecording = false;
     startRecordingAnimation = false;
 
     emit(RecorderViewClose());
