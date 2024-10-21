@@ -23,11 +23,20 @@ class AudioRecordingField extends StatefulWidget {
 
 class _AudioRecordingFieldState extends State<AudioRecordingField> {
   late MessagingCubit _messagingCubit;
+  late RecorderCubit _recorderCubit;
   late String recordUrl;
   @override
   void initState() {
     _messagingCubit = context.read<MessagingCubit>();
+    _recorderCubit = context.read<RecorderCubit>();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    print('=====>>> Dispose recorder instance ====================');
+    _recorderCubit.voiceMsgRecorder!.closeRecorder();
+    super.dispose();
   }
 
   @override
@@ -36,7 +45,7 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         StreamBuilder(
-          stream: context.read<RecorderCubit>().recordTimeStream(),
+          stream: _recorderCubit.recordTimeStream(),
           builder: (context, snapshot) {
             final duration =
                 snapshot.hasData ? snapshot.data!.duration : Duration.zero;
@@ -73,7 +82,7 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
                   onPressed: state is UploadRecordUiTrigger
                       ? null
                       : () {
-                          context.read<RecorderCubit>().cancelRecording();
+                          _recorderCubit.cancelRecording();
                         },
                   icon: Icon(
                     Icons.delete_outline_rounded,
@@ -109,12 +118,12 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
   }
 
   _stopAndSend() async {
-    await context.read<RecorderCubit>().stopRecording().then(
+    await _recorderCubit.stopRecording().then(
       (recordPath) async {
-        context.read<RecorderCubit>().uploadRecordUiTrigger();
+        _recorderCubit.uploadRecordUiTrigger();
 
         recordUrl = await NetworkHelper.uploadFileToFirebase(recordPath);
-        context.read<RecorderCubit>().closeRecordingView();
+        _recorderCubit.closeRecordingView();
 
         _messagingCubit.sendMessage(
           message: MessageModel(
