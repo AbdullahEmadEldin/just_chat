@@ -7,7 +7,9 @@ import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/reply_msg_box.dart';
 import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/seen_widget.dart';
 
+import '../../../../../core/constants/enums.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
+import '../audio_recording_widgets/audio_msg_tile.dart';
 import 'long_press_selectable_widget.dart';
 
 class TextMessageTile extends StatelessWidget {
@@ -76,15 +78,7 @@ class TextMessageTile extends StatelessWidget {
                             ? CrossAxisAlignment.end
                             : CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            message.content,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                          ),
+                          _handleMsgType(context),
                           SizedBox(width: 12.w),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -114,6 +108,19 @@ class TextMessageTile extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _handleMsgType(BuildContext context) {
+    if (message.contentType == MsgType.audio.name) {
+      return AudioMsgTile(audioUrl: message.content, recordDuration: message.recordDuration!,);
+    }
+    return Text(
+      message.content,
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium!
+          .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
     );
   }
 

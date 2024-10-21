@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/modules/messages/logic/recorder_cubit/recorder_cubit.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';
 
@@ -56,37 +57,66 @@ class _RecordingWaveWidgetState extends State<CustomRecordingWaveWidget> {
           current is RecorderViewTrigger ||
           current is RecorderViewClose,
       builder: (context, state) {
-        if (state is UploadRecordUiTrigger) {
-          return const CircularProgressIndicator(
-            color: Colors.white,
-          );
-        }
+        double height =
+            state is RecorderViewTrigger || state is UploadRecordUiTrigger
+                ? 47.h
+                : 20.h;
+        double width =
+            state is RecorderViewTrigger || state is UploadRecordUiTrigger
+                ? 47.w
+                : 20.w;
+
         return AnimatedContainer(
-          height: state is RecorderViewTrigger ? 47.h : 20.h,
-          width: state is RecorderViewTrigger ? 47.w : 20.w,
+          height: height,
+          width: width,
           duration: const Duration(milliseconds: 100),
-          child: context.read<RecorderCubit>().startRecordingAnimation
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: _heights.map((height) {
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 150),
-                      width: 8,
-                      height: 100.h * height,
-                      // padding: const EdgeInsets.only(left: 12),
-                      decoration: BoxDecoration(
-                        color: ColorsManager().colorScheme.primary20,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    );
-                  }).toList(),
-                )
-              : Icon(
-                  widget.defaultIcon,
-                  color: Colors.white,
-                ),
+          child: state is UploadRecordUiTrigger
+              ? _handleUploadRecordUI()
+              : context.read<RecorderCubit>().startRecordingAnimation
+                  ? _mockRecordingWaves()
+                  : Icon(
+                      widget.defaultIcon,
+                      color: Colors.white,
+                    ),
         );
       },
+    );
+  }
+
+  Row _mockRecordingWaves() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: _heights.map((height) {
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          width: 8,
+          height: 100.h * height,
+          decoration: BoxDecoration(
+            color: ColorsManager().colorScheme.primary20,
+            borderRadius: BorderRadius.circular(50),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _handleUploadRecordUI() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+
+      // height: 47.h,
+      // width: 47.w,
+      child: Shimmer(
+        duration: const Duration(milliseconds: 900),
+        child: Container(
+          height: 25.h,
+          width: 25.w,
+          decoration: BoxDecoration(
+            color: ColorsManager().colorScheme.primary20,
+            borderRadius: BorderRadius.circular(32.r),
+          ),
+        ),
+      ),
     );
   }
 }

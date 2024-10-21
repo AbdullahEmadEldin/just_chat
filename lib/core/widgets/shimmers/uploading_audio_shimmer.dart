@@ -16,7 +16,7 @@ class UploadingAudioShimmer extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8),
           child: Shimmer(
             duration: const Duration(milliseconds: 900),
-            color: ColorsManager().colorScheme.primary20,
+            color: ColorsManager().colorScheme.fillRed,
             direction: const ShimmerDirection.fromLeftToRight(),
             child: Container(
               width: 18.w,

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/helpers/network_helper.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/constants/enums.dart';
@@ -24,7 +25,8 @@ class AudioRecordingField extends StatefulWidget {
 class _AudioRecordingFieldState extends State<AudioRecordingField> {
   late MessagingCubit _messagingCubit;
   late RecorderCubit _recorderCubit;
-  late String recordUrl;
+  Duration recordDuration = Duration.zero;
+
   @override
   void initState() {
     _messagingCubit = context.read<MessagingCubit>();
@@ -34,7 +36,6 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
 
   @override
   void dispose() {
-    print('=====>>> Dispose recorder instance ====================');
     _recorderCubit.voiceMsgRecorder!.closeRecorder();
     super.dispose();
   }
@@ -47,10 +48,10 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
         StreamBuilder(
           stream: _recorderCubit.recordTimeStream(),
           builder: (context, snapshot) {
-            final duration =
+            recordDuration =
                 snapshot.hasData ? snapshot.data!.duration : Duration.zero;
             final String recordTime =
-                '${duration.inMinutes.toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}';
+                '${recordDuration.inMinutes.toString().padLeft(2, '0')}:${recordDuration.inSeconds.remainder(60).toString().padLeft(2, '0')}';
 
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -101,7 +102,13 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
                   child: Transform.rotate(
                     angle: -45,
                     child: state is UploadRecordUiTrigger
-                        ? const CircularProgressIndicator()
+                        ? Shimmer(
+                            duration: const Duration(milliseconds: 900),
+                            child: Icon(
+                              Icons.send,
+                              color: ColorsManager().colorScheme.grey60,
+                              size: 24.r,
+                            ))
                         : Icon(
                             Icons.send,
                             color: ColorsManager().colorScheme.fillPrimary,
@@ -122,7 +129,7 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
       (recordPath) async {
         _recorderCubit.uploadRecordUiTrigger();
 
-        recordUrl = await NetworkHelper.uploadFileToFirebase(recordPath);
+        final recordUrl = await NetworkHelper.uploadFileToFirebase(recordPath);
         _recorderCubit.closeRecordingView();
 
         _messagingCubit.sendMessage(
@@ -130,11 +137,12 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
             chatId: widget.chatId,
             msgId: const Uuid().v1(),
             senderId: getIt<FirebaseAuth>().currentUser!.uid,
-            replyMsgId: context.read<MessagingCubit>().replyToMessage?.msgId,
+            replyMsgId: _messagingCubit.replyToMessage?.msgId,
             content: recordUrl,
             contentType: MsgType.audio.name,
             sentTime: Timestamp.fromDate(DateTime.now()),
             isSeen: false,
+            recordDuration: recordDuration.inSeconds.toString(),
           ),
         );
       },
