@@ -14,10 +14,10 @@ import '../../../logic/audio_player_cubit/audio_player_cubit.dart';
 import '../audio_recording_widgets/audio_msg_tile.dart';
 import 'long_press_selectable_widget.dart';
 
-class TextMessageTile extends StatelessWidget {
+class MessageTile extends StatelessWidget {
   final MessageModel message;
   final MessageModel? replyToMessage;
-  const TextMessageTile({
+  const MessageTile({
     super.key,
     required this.message,
     this.replyToMessage,

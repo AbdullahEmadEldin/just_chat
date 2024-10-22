@@ -35,7 +35,6 @@ class _SelectableDismissibleWidgetState
 
   @override
   void initState() {
-    context.read<MessagingCubit>().markMsgAsSeen(chiId: widget.message.chatId!);
     super.initState();
   }
 

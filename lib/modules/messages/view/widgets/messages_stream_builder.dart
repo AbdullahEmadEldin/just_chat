@@ -8,7 +8,7 @@ import '../../../../core/constants/loties_assets.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../../data/models/message_model.dart';
 import '../../logic/messaging_cubit/messaging_cubit.dart';
-import 'text_msg_widgets/text_message_tile.dart';
+import 'text_msg_widgets/message_tile.dart';
 
 class MessagesStreamBuilder extends StatefulWidget {
   final String chatId;
@@ -40,8 +40,8 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         if (!snapshot.hasData || snapshot.data.isNullOrEmpty()) {
           return _handleEmptySnapshot(context);
         }
-
         var messages = snapshot.data!;
+        context.read<MessagingCubit>().markMsgAsSeen(chiId: widget.chatId);
 
         return Expanded(
           child: ListView.builder(
@@ -57,7 +57,7 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
                   break;
                 }
               }
-              return TextMessageTile(
+              return MessageTile(
                 message: messages[index],
                 replyToMessage: replyToMsg,
               );

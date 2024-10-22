@@ -65,8 +65,7 @@ class ChatTile extends StatelessWidget {
         ? Row(
             children: [
               Text(
-                UiHelper.limitStringLength(
-                    str: chat.lastMessage!, maxLength: 30),
+                _handleLastMsgAppearance(),
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: ColorsManager().colorScheme.grey60,
                       fontWeight: FontWeight.bold,
@@ -123,5 +122,15 @@ class ChatTile extends StatelessWidget {
       return true;
     }
     return false;
+  }
+
+  String _handleLastMsgAppearance() {
+    if (chat.lastMessage!.startsWith('http')) {
+      return chat.lastMessageSenderId != getIt<FirebaseAuth>().currentUser!.uid
+          ? 'File sent...'
+          : 'You Sent File...';
+    } else {
+      return UiHelper.limitStringLength(str: chat.lastMessage!, maxLength: 30);
+    }
   }
 }
