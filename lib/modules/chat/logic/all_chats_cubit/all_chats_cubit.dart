@@ -83,5 +83,10 @@ class AllChatsCubit extends Cubit<AllChatsState> {
     }
   }
 
-
+  @override
+  Future<void> close() {
+    print(
+        '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Close all Chats Cubit');
+    return super.close();
+  }
 }

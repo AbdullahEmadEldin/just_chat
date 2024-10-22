@@ -31,7 +31,6 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting &&
             !_loadingMsgsFirstTimeOnly) {
-          print('A7aaaaaaaaaaaaaaaaaaaaaaaaaaa');
           _loadingMsgsFirstTimeOnly = true;
           return _handleWaitingSnapshot();
         }
@@ -43,10 +42,10 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         }
 
         var messages = snapshot.data!;
-        context.read<MessagingCubit>().scrollToLastMessage();
 
         return Expanded(
           child: ListView.builder(
+            reverse: true,
             controller: context.read<MessagingCubit>().scrollController,
             itemCount: messages.length,
             itemBuilder: (context, index) {

@@ -13,7 +13,7 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
           .collection('chats')
           .doc(chatId)
           .collection('messages')
-          .orderBy('sentTime', descending: false)
+          .orderBy('sentTime', descending: true)
           .snapshots()
           .map((snapShot) {
         return snapShot.docs
@@ -67,7 +67,7 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
   }
 
   @override
-  Future<void> markMsgAsSeen({
+  Future<void> markMsgsAsSeen({
     required String chatId,
   }) async {
     /// final messagesQuery: This creates a query that will later be executed

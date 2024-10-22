@@ -13,11 +13,33 @@ class SeenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      isSeen ? ImagesAssets.seenSvg : ImagesAssets.checkMrkSvg,
-      color: isSeen
-          ? ColorsManager().colorScheme.fillGreen
-          : ColorsManager().colorScheme.grey40,
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: Offset(1, 0), // Slide from the right
+            end: Offset(0, 0),
+          ).animate(animation),
+          child: FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+        );
+      },
+      child: isSeen
+          ? SvgPicture.asset(
+              key: const ValueKey('seen'),
+              ImagesAssets.seenSvg,
+              color: ColorsManager().colorScheme.fillGreen,
+            )
+          : SvgPicture.asset(
+              key: const ValueKey('notSeen'),
+              ImagesAssets.checkMrkSvg,
+              color: isSeen
+                  ? ColorsManager().colorScheme.fillGreen
+                  : ColorsManager().colorScheme.grey40,
+            ),
     );
   }
 }

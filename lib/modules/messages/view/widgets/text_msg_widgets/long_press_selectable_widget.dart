@@ -56,7 +56,7 @@ class _SelectableDismissibleWidgetState
       ),
       movementDuration: const Duration(milliseconds: 500),
       onUpdate: (direction) {
-        if (direction.progress > 0.3) {
+        if (direction.progress > 0.1) {
           context
               .read<MessagingCubit>()
               .replyToMsgBoxTrigger(replyToMessage: widget.message);
@@ -64,7 +64,9 @@ class _SelectableDismissibleWidgetState
         }
       },
       secondaryBackground: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: widget.myAlignment
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         children: [
           Icon(
             Icons.reply,
