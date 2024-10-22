@@ -55,7 +55,7 @@ class ReplyMsgBox extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    UiHelper.limitStringLength(str: msg.content, maxLength: 42),
+                    UiHelper.limitStringLength(str: msg.content, maxLength: 35),
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: cancelAction
                               ? Colors.white60

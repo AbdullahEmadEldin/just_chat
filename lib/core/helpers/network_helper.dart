@@ -8,8 +8,6 @@ import 'package:just_chat/core/constants/image_assets.dart';
 import 'package:path_provider/path_provider.dart';
 
 class NetworkHelper {
-
-
   /// This method is used to upload image to Firebase Storage
   static Future<String?> uploadProfileImageToFirebase(XFile? image) async {
     try {
@@ -38,6 +36,25 @@ class NetworkHelper {
     } catch (e) {
       print('Error uploading image: $e');
       return null;
+    }
+  }
+
+  static Future<String> uploadFileToFirebase(String filePath) async {
+    try {
+      File file = File(filePath);
+
+      FirebaseStorage storage = FirebaseStorage.instance;
+      var storageRef = storage.ref(
+          '${AppConstants.uploadsPath}/${DateTime.now().millisecondsSinceEpoch.toString()}_${filePath.split('/').last}');
+      //
+      await storageRef.putFile(file);
+      //
+      String downloadURL = await storageRef.getDownloadURL();
+
+      return downloadURL;
+    } catch (e) {
+      print('Error uploading record: $e');
+      rethrow;
     }
   }
 

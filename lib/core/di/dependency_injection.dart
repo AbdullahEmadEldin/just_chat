@@ -29,6 +29,7 @@ void setUpGetIt() {
       () => FirebaseFirestore.instance);
 
   getIt.registerLazySingleton<PhoneAuthInfo>(() => PhoneAuthInfo());
+
 }
 
 class PhoneAuthInfo {

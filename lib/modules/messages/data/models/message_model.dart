@@ -11,18 +11,18 @@ class MessageModel {
   final String contentType;
   final Timestamp sentTime;
   final bool isSeen;
-  final bool isReceived;
+  final String? recordDuration;
 
   MessageModel({
     this.chatId,
     required this.msgId,
     required this.senderId,
-    this.replyMsgId,
     required this.content,
     required this.contentType,
     required this.sentTime,
     required this.isSeen,
-    required this.isReceived,
+    this.replyMsgId,
+    this.recordDuration,
   });
 
   Map<String, dynamic> toJson() {
@@ -35,7 +35,7 @@ class MessageModel {
       'contentType': contentType,
       'sentTime': sentTime.toDate(),
       'isSeen': isSeen,
-      'isReceived': isReceived,
+      'recordDuration': recordDuration
     };
   }
 
@@ -44,12 +44,12 @@ class MessageModel {
       chatId: json['chatId'],
       msgId: json['msgId'],
       senderId: json['senderId'],
-      replyMsgId: json['replyMsgId'] ,
+      replyMsgId: json['replyMsgId'],
       content: json['content'],
       contentType: json['contentType'],
       sentTime: json['sentTime'],
       isSeen: json['isSeen'],
-      isReceived: json['isReceived'],
+      recordDuration: json['recordDuration'],
     );
   }
 
@@ -62,7 +62,7 @@ class MessageModel {
     String? contentType,
     Timestamp? sentTime,
     bool? isSeen,
-    bool? isReceived,
+    String? recordDuration,
   }) {
     return MessageModel(
       chatId: chatId ?? this.chatId,
@@ -72,8 +72,8 @@ class MessageModel {
       contentType: contentType ?? this.contentType,
       sentTime: sentTime ?? this.sentTime,
       isSeen: isSeen ?? this.isSeen,
-      isReceived: isReceived ?? this.isReceived,
       replyMsgId: replyMsgId ?? this.replyMsgId,
+      recordDuration: recordDuration ?? this.recordDuration,
     );
   }
 }

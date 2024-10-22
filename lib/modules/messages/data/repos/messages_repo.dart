@@ -13,7 +13,7 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
           .collection('chats')
           .doc(chatId)
           .collection('messages')
-          .orderBy('sentTime', descending: false)
+          .orderBy('sentTime', descending: true)
           .snapshots()
           .map((snapShot) {
         return snapShot.docs
@@ -64,5 +64,43 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<void> markMsgsAsSeen({
+    required String chatId,
+  }) async {
+    /// final messagesQuery: This creates a query that will later be executed
+    /// to fetch `His` messages that haven't been seen.
+    final msgQuery = getIt<FirebaseFirestore>()
+        .collection('chats')
+        .doc(chatId)
+        .collection('messages')
+        .where('senderId', isNotEqualTo: getIt<FirebaseAuth>().currentUser!.uid)
+        .where('isSeen', isEqualTo: false);
+
+    ///Executes the previously built query
+    final msgQuerySnapshot = await msgQuery.get();
+
+    /// Creates a WriteBatch object, which allows multiple write operations (like updates or deletes)
+    /// to be performed in a single batch. Using a batch ensures that all updates happen together,
+    /// which is more efficient and reduces the number of write operations sent to Firestore.
+    WriteBatch batch = getIt<FirebaseFirestore>().batch();
+
+    /// For each document in the query snapshot, update the 'isSeen' field
+    for (var doc in msgQuerySnapshot.docs) {
+      batch.update(doc.reference, {'isSeen': true});
+    }
+
+    /// The commit method sends all the updates in the batch to Firestore as a single atomic operation.
+    /// This means that all messages are updated at once.
+    await batch.commit();
+
+    /// Update the 'isSeen' field in the 'chats' collection
+    //? This field wouldn't be used at any part of the application.
+    //? but it's use to just trigger the stream listener to update the UI with 0 unread msgs when the chat is opened.
+    getIt<FirebaseFirestore>().collection('chats').doc(chatId).update({
+      'isSeen': true,
+    });
   }
 }

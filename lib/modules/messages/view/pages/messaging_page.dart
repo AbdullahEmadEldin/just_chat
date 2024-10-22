@@ -6,7 +6,7 @@ import 'package:just_chat/modules/messages/view/widgets/messages_page_header.dar
 import 'package:just_chat/modules/messages/view/widgets/messages_stream_builder.dart';
 
 import '../../../../core/theme/colors/colors_manager.dart';
-import '../widgets/message_chatting_component.dart';
+import '../widgets/sending_widgets/message_chatting_component.dart';
 
 class MessagingPageArgs {
   final ChatModel chat;

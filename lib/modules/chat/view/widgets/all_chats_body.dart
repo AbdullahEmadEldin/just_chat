@@ -1,89 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_chat/modules/chat/data/models/chat_model.dart';
+import 'package:just_chat/core/constants/loties_assets.dart';
 import 'package:just_chat/modules/chat/logic/all_chats_cubit/all_chats_cubit.dart';
 import 'package:just_chat/modules/chat/view/widgets/chat_tile.dart';
+import 'package:lottie/lottie.dart';
 
-//! Close the stream...............................................
-class AllChatsBody extends StatelessWidget {
+class AllChatsBody extends StatefulWidget {
   const AllChatsBody({super.key});
 
   @override
+  State<AllChatsBody> createState() => _AllChatsBodyState();
+}
+
+class _AllChatsBodyState extends State<AllChatsBody> {
+  @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      //? Why not using BlocBuilder instead of StreamBuilder?
-      // Using blocBuilder will be more expensive as it will load all chats each time a new chat is added.
-      stream: context.read<AllChatsCubit>().getAllChats(),
-      builder: (context, snapshot) {
-        //TODO Handle loading, empty and error states with lotties.
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          print('Stream still opened----------******---------');
-          return _handleWaitingSnapshot();
-        }
-        if (snapshot.hasError) {
-          _handleErrorSnapshot(snapshot.error.toString());
-        }
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          _handleEmptySnapshot();
-        }
-        if (snapshot.hasData) {
-          var chats = snapshot.data!;
-          print('All Chats Stream still opened-------------------');
+    return BlocBuilder<AllChatsCubit, AllChatsState>(
+      builder: (context, state) {
+        if (state is GetChatsLoading) {
+          return _handleLoadingChats();
+        } else if (state is GetChatsSuccess) {
           return Expanded(
             child: ListView.builder(
-              itemCount: chats.length,
+              itemCount: state.chats.length,
               itemBuilder: (context, index) {
-                _getOpponentUserInfoForChatTile(context,
-                    chatMembers: chats[index].members);
-                return _chatTileBlocBuilder(chats, index);
+                print('index ::: ${index}');
+                return ChatTile(
+                  chat: state.chats[index],
+                  opponentUser: state.opponentUsers[index],
+                  unreadMsgsCount: state.unreadMsgsCount[index],
+                );
               },
             ),
           );
-        } else {
-          print('Stream still opened------------00000-------');
-          return const SizedBox.shrink();
+        } else if (state is GetChatsFailure) {
+          return _handleErrorSnapshot(state.error);
         }
+        return Text('WHAT THE FUCK');
       },
     );
   }
 
-  BlocBuilder<AllChatsCubit, AllChatsState> _chatTileBlocBuilder(
-    List<ChatModel> chats,
-    int index,
-  ) {
-    return BlocBuilder<AllChatsCubit, AllChatsState>(
-      builder: (context, state) {
-        if (state is GettingOppUserInfoLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is GettingOppUserInfoSuccess) {
-          return ChatTile(
-            chat: chats[index],
-            opponentUser: context.read<AllChatsCubit>().opponentUser!,
-          );
-        } else if (state is GettingOppUserInfoFailure) {
-          return Center(child: Text(state.toString()));
-        } else {
-          return Center(child: Text(state.toString()));
-        }
-      },
-    );
-  }
-
-  _getOpponentUserInfoForChatTile(
-    BuildContext context, {
-    required List<String> chatMembers,
-  }) {
-    context
-        .read<AllChatsCubit>()
-        .getOpponentUserInfoForChatTile(chatMembers: chatMembers);
-  }
-
-  Widget _handleWaitingSnapshot() {
+  Widget _handleLoadingChats() {
+    //TODO make it shimmer.
     return const Center(child: CircularProgressIndicator());
   }
 
   Widget _handleEmptySnapshot() {
-    return const Center(child: Text('No Chats found.'));
+    return Center(child: Lottie.asset(LottiesAssets.chatBubble));
   }
 
   Widget _handleErrorSnapshot(String error) {

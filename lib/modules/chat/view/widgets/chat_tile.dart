@@ -14,10 +14,12 @@ import '../../../messages/view/pages/messaging_page.dart';
 class ChatTile extends StatelessWidget {
   final ChatModel chat;
   final UserModel opponentUser;
+  final int unreadMsgsCount;
   const ChatTile({
     super.key,
     required this.chat,
     required this.opponentUser,
+    required this.unreadMsgsCount,
   });
 
   @override
@@ -31,11 +33,12 @@ class ChatTile extends StatelessWidget {
             ));
       },
       child: Container(
+        width: MediaQuery.sizeOf(context).width,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        padding: EdgeInsets.all(12.r),
+        padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
-            48.r,
+            36.r,
           ),
           color: ColorsManager().colorScheme.grey20,
         ),
@@ -73,7 +76,7 @@ class ChatTile extends StatelessWidget {
               _countOfUnreadMessages()
                   ? Badge(
                       label: Text(
-                        '1',
+                        unreadMsgsCount.toString(),
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
@@ -87,31 +90,36 @@ class ChatTile extends StatelessWidget {
         : const SizedBox.shrink();
   }
 
-  Row _nameTimeRow(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text(
-          opponentUser.name,
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: ColorsManager().colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        SizedBox(width: 90.w),
-        Text(
-          UiHelper.formatTimestampToDate(timestamp: chat.lastMessageTimestamp!),
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: ColorsManager().colorScheme.grey60,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-      ],
+  Widget _nameTimeRow(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.65,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            opponentUser.name,
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  color: ColorsManager().colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          // SizedBox(width: 120.w),
+          Text(
+            UiHelper.formatTimestampToDate(
+                timestamp: chat.lastMessageTimestamp!),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: ColorsManager().colorScheme.grey60,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ],
+      ),
     );
   }
 
   bool _countOfUnreadMessages() {
-    if (chat.lastMessageSenderId != getIt<FirebaseAuth>().currentUser!.uid) {
+    if (chat.lastMessageSenderId != getIt<FirebaseAuth>().currentUser!.uid &&
+        unreadMsgsCount > 0) {
       return true;
     }
     return false;

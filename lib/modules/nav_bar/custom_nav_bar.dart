@@ -5,6 +5,7 @@ import 'package:just_chat/modules/add_friends/logic/cubit/add_friends_cubit.dart
 import 'package:just_chat/modules/chat/logic/all_chats_cubit/all_chats_cubit.dart';
 import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
 import 'package:just_chat/modules/nav_bar/nav_bar_item.dart';
+import 'package:just_chat/modules/profile/view/profile_page.dart';
 
 import '../../core/constants/image_assets.dart';
 import '../../core/theme/colors/colors_manager.dart';
@@ -76,7 +77,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   final _pages = [
     BlocProvider(
-      create: (context) => AllChatsCubit(),
+      create: (context) => AllChatsCubit()..getAllChats(),
       child: const AllChatsPage(),
     ),
     BlocProvider(
@@ -86,8 +87,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
     Center(
       child: Text('This is Settings'),
     ),
-    Center(
-      child: Text('This is Profile'),
-    ),
+    const ProfilePage(),
   ];
 }

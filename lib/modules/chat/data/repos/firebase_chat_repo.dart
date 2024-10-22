@@ -35,4 +35,18 @@ class FirebaseChatRepo implements ChatRepoInterface {
     }
   }
 
+  @override
+  Future<int> getUnreadChatsCount({required String chatId}) async {
+    print('Update count called');
+    final msgQuery = getIt<FirebaseFirestore>()
+        .collection('chats')
+        .doc(chatId)
+        .collection('messages')
+        .where('senderId', isNotEqualTo: getIt<FirebaseAuth>().currentUser!.uid)
+        .where('isSeen', isEqualTo: false);
+
+    final msgQuerySnapshot = await msgQuery.get();
+    int count = msgQuerySnapshot.docs.length;
+    return count;
+  }
 }
