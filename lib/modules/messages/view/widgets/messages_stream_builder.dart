@@ -41,7 +41,7 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
           return _handleEmptySnapshot(context);
         }
         var messages = snapshot.data!;
-    context.read<MessagingCubit>().markMsgAsSeen(chiId: widget.chatId);
+        context.read<MessagingCubit>().markMsgAsSeen(chiId: widget.chatId);
 
         return Expanded(
           child: ListView.builder(
