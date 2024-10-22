@@ -6,6 +6,7 @@ import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
 
+import '../../../../../core/constants/enums.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
 
 class ReplyMsgBox extends StatelessWidget {
@@ -53,20 +54,7 @@ class ReplyMsgBox extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                     ),
-                    SizedBox(
-                      width: msg.content.length > 30
-                          ? MediaQuery.of(context).size.width * 0.65
-                          : null,
-                      child: Text(
-                        msg.content,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: cancelAction
-                                  ? Colors.white60
-                                  : ColorsManager().colorScheme.grey80,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ),
+                    _handleMsgType(context),
                   ],
                 ),
               ],
@@ -82,6 +70,43 @@ class ReplyMsgBox extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _handleMsgType(BuildContext context) {
+    if (msg.contentType == MsgType.audio.name) {
+      return Row(children: [
+        Icon(
+          Icons.headphones_rounded,
+          color: ColorsManager().colorScheme.fillPrimary,
+        ),
+        SizedBox(width: 4.w),
+        Padding(
+          padding: EdgeInsets.only(bottom: 4.h),
+          child: Text(
+            'Voice Message (${msg.recordDuration!.toString()}s)',
+            style: TextStyle(color: ColorsManager().colorScheme.fillPrimary),
+          ),
+        ),
+      ]);
+    }
+    return _textMsgBox(context);
+  }
+
+  SizedBox _textMsgBox(BuildContext context) {
+    return SizedBox(
+      width: msg.content.length > 30
+          ? MediaQuery.of(context).size.width * 0.65
+          : null,
+      child: Text(
+        msg.content,
+        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: cancelAction
+                  ? Colors.white60
+                  : ColorsManager().colorScheme.grey80,
+              fontWeight: FontWeight.bold,
+            ),
       ),
     );
   }
