@@ -40,8 +40,8 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         if (!snapshot.hasData || snapshot.data.isNullOrEmpty()) {
           return _handleEmptySnapshot(context);
         }
-
         var messages = snapshot.data!;
+    context.read<MessagingCubit>().markMsgAsSeen(chiId: widget.chatId);
 
         return Expanded(
           child: ListView.builder(
