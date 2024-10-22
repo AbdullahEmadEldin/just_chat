@@ -42,18 +42,13 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         }
 
         var messages = snapshot.data!;
-        // context.read<MessagingCubit>().scrollToLastMessage();
 
         return Expanded(
           child: ListView.builder(
+            reverse: true,
             controller: context.read<MessagingCubit>().scrollController,
             itemCount: messages.length,
             itemBuilder: (context, index) {
-              /// This condition to reduce the num of calling this function.
-              if (index % 10 == 0) {
-                context.read<MessagingCubit>().scrollToLastMessage();
-              }
-
               /// get the replyToMsg if it exists to view it in the message tile.
               MessageModel? replyToMsg;
               for (int i = 0; i < messages.length; i++) {

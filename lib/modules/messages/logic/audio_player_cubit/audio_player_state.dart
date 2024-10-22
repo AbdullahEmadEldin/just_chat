@@ -5,7 +5,8 @@ sealed class AudioPlayerState {}
 
 final class AudioPlayerInitial extends AudioPlayerState {}
 
-final class AudioPlayerStart extends AudioPlayerState {
-  
-}
-final class AudioPlayerStop extends AudioPlayerState {}
+final class AudioPlayerStart extends AudioPlayerState {}
+
+final class AudioPlayerCompleted extends AudioPlayerState {}
+
+final class AudioPlayerPaused extends AudioPlayerState {}

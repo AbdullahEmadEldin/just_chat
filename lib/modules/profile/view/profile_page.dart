@@ -19,58 +19,9 @@ class ProfilePage extends StatelessWidget {
         children: [
           Center(child: UploadingAudioShimmer()),
           //IconSwitcherButton(),
-          PlayPauseButtons(audioPlay: false, audioUrl: ''),
         ],
       ),
     );
   }
 }
 
-class PlayPauseButtons extends StatefulWidget {
-  final bool audioPlay;
-  final String audioUrl;
-  const PlayPauseButtons({
-    super.key,
-    required this.audioPlay,
-    required this.audioUrl,
-  });
-
-  @override
-  State<PlayPauseButtons> createState() => _PlayPauseButtonsState();
-}
-
-class _PlayPauseButtonsState extends State<PlayPauseButtons> {
-  bool switchToPause = false;
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          switchToPause = !switchToPause;
-        });
-      },
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          return ScaleTransition(
-            scale: animation,
-            child: child,
-          );
-        },
-        child: switchToPause
-            ? Icon(
-                key: const ValueKey('pause'),
-                Icons.pause,
-                color: ColorsManager().colorScheme.fillPrimary,
-                size: 24.r,
-              )
-            : Icon(
-                key: const ValueKey('playIcon'),
-                Icons.play_arrow,
-                color: ColorsManager().colorScheme.fillPrimary,
-                size: 24.r,
-              ),
-      ),
-    );
-  }
-}

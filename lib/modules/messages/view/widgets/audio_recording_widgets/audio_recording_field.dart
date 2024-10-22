@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/helpers/network_helper.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
+import 'package:just_chat/modules/messages/view/widgets/audio_recording_widgets/record_timer.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -36,7 +37,7 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
 
   @override
   void dispose() {
-    _recorderCubit.voiceMsgRecorder!.closeRecorder();
+    // _recorderCubit.voiceMsgRecorder!.closeRecorder();
     super.dispose();
   }
 
@@ -45,37 +46,19 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        StreamBuilder(
-          stream: _recorderCubit.recordTimeStream(),
-          builder: (context, snapshot) {
+        BlocBuilder<RecorderCubit, RecorderState>(
+          buildWhen: (previous, current) => current is RecordTimerUpdate,
+          builder: (context, state) {
             recordDuration =
-                snapshot.hasData ? snapshot.data!.duration : Duration.zero;
+                state is RecordTimerUpdate ? state.timer : Duration.zero;
             final String recordTime =
                 '${recordDuration.inMinutes.toString().padLeft(2, '0')}:${recordDuration.inSeconds.remainder(60).toString().padLeft(2, '0')}';
 
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text.rich(TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Recording... ',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: ColorsManager().colorScheme.grey80,
-                        ),
-                  ),
-                  TextSpan(
-                    text: recordTime,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: ColorsManager().colorScheme.fillPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
-              )),
-            );
+            return RecordTimer(recordTime: recordTime);
           },
         ),
         BlocBuilder<RecorderCubit, RecorderState>(
+          buildWhen: (previous, current) => current is UploadRecordUiTrigger,
           builder: (context, state) {
             return Row(
               children: [
@@ -145,6 +128,7 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
             recordDuration: recordDuration.inSeconds.toString(),
           ),
         );
+        recordDuration = Duration.zero;
       },
     );
   }

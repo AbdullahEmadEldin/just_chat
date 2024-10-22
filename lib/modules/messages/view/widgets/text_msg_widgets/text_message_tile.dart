@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/core/helpers/ui_helpers.dart';
@@ -9,6 +10,7 @@ import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/seen_wi
 
 import '../../../../../core/constants/enums.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
+import '../../../logic/audio_player_cubit/audio_player_cubit.dart';
 import '../audio_recording_widgets/audio_msg_tile.dart';
 import 'long_press_selectable_widget.dart';
 
@@ -40,7 +42,7 @@ class TextMessageTile extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               decoration: BoxDecoration(
                 color: _myAlignment()
-                    ? ColorsManager().colorScheme.primary
+                    ? ColorsManager().colorScheme.primary80
                     : ColorsManager().colorScheme.primary60.withOpacity(0.8),
                 borderRadius: BorderRadius.only(
                   topRight:
@@ -113,7 +115,14 @@ class TextMessageTile extends StatelessWidget {
 
   Widget _handleMsgType(BuildContext context) {
     if (message.contentType == MsgType.audio.name) {
-      return AudioMsgTile(audioUrl: message.content, recordDuration: message.recordDuration!,);
+      return BlocProvider(
+        //? Why here? ==> Because each record should have it's own player.
+        create: (context) => AudioPlayerCubit(),
+        child: AudioMsgTile(
+          audioUrl: message.content,
+          recordDuration: message.recordDuration!,
+        ),
+      );
     }
     return Text(
       message.content,

@@ -1,42 +1,47 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:meta/meta.dart';
 
 part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   AudioPlayerCubit() : super(AudioPlayerInitial());
-  FlutterSoundPlayer audioPlayer = FlutterSoundPlayer();
+  final audioPlayer = AudioPlayer();
 
   void playAudio(String url) async {
-    /// Open the audio player must be called before using any other method
-    await audioPlayer.openPlayer();
+    audioPlayer.play(UrlSource(url), volume: 10.0);
+    //
+    emit(AudioPlayerStart());
+    //
+  }
 
-    audioPlayer
-        .startPlayer(
-            fromURI: url,
-            whenFinished: () {
-              // audioPlayer!.closePlayer();
-              emit(AudioPlayerStop());
-            })
-        .then((duration) {
-      print(
-          'Playing audio- -----------------------------------------------------+++++');
+  void pauseAudio() async {
+    audioPlayer.pause();
 
-      emit(AudioPlayerStart());
+    emit(AudioPlayerCompleted());
+  }
+
+  void listenToPlayerState() async {
+    audioPlayer.onPlayerStateChanged.listen((event) {
+      if (event == PlayerState.paused) {
+        debugPrint('=================>>>>> record paused');
+        // it seems that the package handle pause and resume automatically 
+        // so this state is useless but I will keep it.
+         emit(AudioPlayerPaused());
+      }
+
+      if (event == PlayerState.completed) {
+        debugPrint('=================>>>>> record completed');
+        emit(AudioPlayerCompleted());
+      }
     });
-
-    /// This is to make the onProgress callback stream update it self every 300 ms
-    audioPlayer.setSubscriptionDuration(const Duration(milliseconds: 300));
   }
 
-  void stopAudio() async {
-    audioPlayer.stopPlayer();
-
-    emit(AudioPlayerStop());
-  }
-
-  void getDurationProgress() async {
-    audioPlayer.onProgress!.listen((duration) {});
+  @override
+  Future<void> close() {
+    /// dispose the player for a specific record.
+    audioPlayer.dispose();
+    return super.close();
   }
 }

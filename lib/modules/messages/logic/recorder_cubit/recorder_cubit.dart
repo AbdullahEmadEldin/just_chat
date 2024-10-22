@@ -1,9 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'package:flutter_sound/public/flutter_sound_recorder.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:uuid/uuid.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 
 part 'recorder_state.dart';
 
@@ -13,56 +15,81 @@ class RecorderCubit extends Cubit<RecorderState> {
   //! ============================================================
   //! ================= Recording Logic ========================
   //! ============================================================
-  FlutterSoundRecorder? voiceMsgRecorder;
+  final AudioRecorder record = AudioRecorder();
+
+  /// both these vars for visualizing recording timer..
+  late final Stopwatch stopwatch = Stopwatch();
+  Timer? _timer;
+
+  /// This bool to prevent double activate startRecording method at the same time
   bool isRecording = false;
-  initRecording() async {
-    voiceMsgRecorder = await FlutterSoundRecorder().openRecorder();
-  }
 
   Future<void> startRecording() async {
     if (!isRecording) {
-      isRecording = true;
-      String recordId = const Uuid().v1();
+      //
+      if (await record.hasPermission()) {
+        isRecording = true;
 
-      // getting mic request.
-      var permissionStatus = await Permission.microphone.status;
-      if (!permissionStatus.isGranted) {
-        await Permission.microphone.request();
+        // Start recording to file
+        await record
+            .start(
+              const RecordConfig(
+                encoder: AudioEncoder
+                    .aacLc, // this encoder make volume louder but not the best.
+                bitRate:
+                    256000, // this bitRate make volume louder but not the best.
+              ),
+              path:
+                  await _getFilePath(), // create a unique file path for the record.
+            )
+            .then((_) =>
+                updateTimer()); // mimic the timer of record as this package hasn't support it.
+
+        _triggerRecordingView(); // this method will trigger the view of timer and send record.
       }
-      voiceMsgRecorder = await FlutterSoundRecorder().openRecorder();
-
-      await voiceMsgRecorder!.startRecorder(
-        toFile: recordId,
-        // codec: Codec.pcm16WAV,
-        bitRate: 192000,
-        sampleRate: 48000,
-        numChannels: 2,
-        enableVoiceProcessing: true,
-      );
-      await voiceMsgRecorder!
-          .setSubscriptionDuration(const Duration(milliseconds: 300));
-
-      _triggerRecordingView();
-
-      /// Build the UI that depends on the voiceMsgRecorder after it has been initialized
     } else {
-      print(
-          'Already recording000000000000000000000000000000000000000000000000');
+      debugPrint('Already recording...');
     }
   }
 
-  Future<String> stopRecording() async {
-    final path = await voiceMsgRecorder!.stopRecorder();
+  updateTimer() {
+    stopwatch.start(); // start the timer
+    // update the timer every second
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      emit(RecordTimerUpdate(timer: stopwatch.elapsed));
+    });
+  }
 
-    print('==============>>> Recorded file path: $path');
+  /// cancel and reset all values of a specific record.
+  _stopTimer() {
+    stopwatch.reset();
+    stopwatch.stop();
+
+    _timer?.cancel();
+  }
+
+  /// stop record to send it to firebase.
+  Future<String> stopRecording() async {
+    final path = await record.stop();
+    _stopTimer();
     return path!;
   }
 
+  /// cancel without send.
   void cancelRecording() async {
     isRecording = false;
     closeRecordingView();
-    final path = await voiceMsgRecorder!.stopRecorder();
-    voiceMsgRecorder!.deleteRecord(fileName: path!);
+    await record.stop();
+    _stopTimer();
+  }
+
+  /// Create a record path...
+  Future<String> _getFilePath() async {
+    // Get the directory to store the recorded audio
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path =
+        '${directory.path}/audio_${DateTime.now().millisecondsSinceEpoch}.m4a';
+    return path;
   }
 
   //! ============================================================
@@ -77,6 +104,7 @@ class RecorderCubit extends Cubit<RecorderState> {
   void _triggerRecordingView() {
     emit(RecorderViewTrigger());
 
+    /// this delay tp give the container the chance to get enlarged..
     Future.delayed(const Duration(milliseconds: 80), () {
       startRecordingAnimation = true;
     });
@@ -87,9 +115,5 @@ class RecorderCubit extends Cubit<RecorderState> {
     startRecordingAnimation = false;
 
     emit(RecorderViewClose());
-  }
-
-  Stream<RecordingDisposition>? recordTimeStream() {
-    return voiceMsgRecorder!.onProgress!;
   }
 }

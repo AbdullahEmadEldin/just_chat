@@ -1,14 +1,13 @@
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/modules/messages/view/widgets/audio_recording_widgets/audio_slider.dart';
 import 'package:just_chat/modules/messages/view/widgets/audio_recording_widgets/play_pause_button.dart';
 
-import '../../../../../core/theme/colors/colors_manager.dart';
 import '../../../logic/audio_player_cubit/audio_player_cubit.dart';
 
-class AudioMsgTile extends StatelessWidget {
+class AudioMsgTile extends StatefulWidget {
   final String audioUrl;
   final String recordDuration;
   const AudioMsgTile({
@@ -18,51 +17,33 @@ class AudioMsgTile extends StatelessWidget {
   });
 
   @override
+  State<AudioMsgTile> createState() => _AudioMsgTileState();
+}
+
+class _AudioMsgTileState extends State<AudioMsgTile> {
+  @override
+  void initState() {
+    context.read<AudioPlayerCubit>().listenToPlayerState();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      //? Why here? ==> Because each record should have it's own player.
-      create: (context) => AudioPlayerCubit(),
-      child: BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
-        builder: (context, state) {
-          return Row(
-            children: [
-              PlayPauseButton(
-                  audioPlay: state is AudioPlayerStart, audioUrl: audioUrl),
-              SizedBox(width: 12.w),
-              StreamBuilder(
-                  stream:
-                      context.read<AudioPlayerCubit>().audioPlayer.onProgress,
-                  builder: (context, snapshot) {
-                    Duration? progress = snapshot.hasData
-                        ? snapshot.data!.position
-                        : Duration.zero;
-                    return Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 12.h),
-                        child: ProgressBar(
-                          total: Duration(
-                            seconds: int.parse(recordDuration),
-                          ),
-                          progress: progress,
-                          baseBarColor: ColorsManager().colorScheme.primary20,
-                          progressBarColor:
-                              ColorsManager().colorScheme.fillPrimary,
-                          thumbColor: ColorsManager().colorScheme.fillPrimary,
-                          thumbRadius: 7.r,
-                          thumbCanPaintOutsideBar: false,
-                          timeLabelType: TimeLabelType.totalTime,
-                          timeLabelTextStyle:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: Colors.white60,
-                                  ),
-                        ),
-                      ),
-                    );
-                  })
-            ],
-          );
-        },
-      ),
+    return BlocBuilder<AudioPlayerCubit, AudioPlayerState>(
+      builder: (context, state) {
+        return Row(
+          children: [
+            PlayPauseButton(
+                audioPlay: state is AudioPlayerStart,
+                audioUrl: widget.audioUrl),
+            SizedBox(width: 12.w),
+            AudioSlider(
+              recordDuration: widget.recordDuration,
+              audioCompleted: state is AudioPlayerCompleted,
+            ),
+          ],
+        );
+      },
     );
   }
 }

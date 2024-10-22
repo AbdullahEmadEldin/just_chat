@@ -20,7 +20,7 @@ class PlayPauseButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (audioPlay) {
-          context.read<AudioPlayerCubit>().stopAudio();
+          context.read<AudioPlayerCubit>().pauseAudio();
         } else {
           context.read<AudioPlayerCubit>().playAudio(audioUrl);
         }
@@ -33,7 +33,7 @@ class PlayPauseButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(32.r),
           ),
           child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 400),
             transitionBuilder: (Widget child, Animation<double> animation) {
               return ScaleTransition(
                 scale: animation,

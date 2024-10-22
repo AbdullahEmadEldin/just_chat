@@ -1,4 +1,3 @@
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,7 @@ class MessagingCubit extends Cubit<MessagingState> {
 
   void markMsgAsSeen({required String chiId}) async {
     try {
-      await getIt<MsgsRepoInterface>().markMsgAsSeen(chatId: chiId);
+      await getIt<MsgsRepoInterface>().markMsgsAsSeen(chatId: chiId);
     } catch (e) {
       print('Error mark msg as seen cubit :: $e');
     }
@@ -94,22 +93,6 @@ class MessagingCubit extends Cubit<MessagingState> {
     } else {
       emit(SwitchSendButtonIcon(newIcon: Icons.send));
     }
-  }
-
-  void scrollToLastMessage() {
-    // calling scroll down within addPostFrameCallback to ensure that it is called after build the new messages in the list.
-    // and the Future.delay to ensure that the new widget frame is build and ready to view.
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 200), () {
-        if (scrollController.hasClients) {
-          scrollController.animateTo(
-            scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOutCirc,
-          );
-        }
-      });
-    });
   }
 
   @override
