@@ -126,7 +126,9 @@ class ChatTile extends StatelessWidget {
 
   String _handleLastMsgAppearance() {
     if (chat.lastMessage!.startsWith('http')) {
-      return 'File sent...';
+      return chat.lastMessageSenderId != getIt<FirebaseAuth>().currentUser!.uid
+          ? 'File sent...'
+          : 'You Sent File...';
     } else {
       return UiHelper.limitStringLength(str: chat.lastMessage!, maxLength: 30);
     }
