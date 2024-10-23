@@ -130,7 +130,7 @@ class ChatTile extends StatelessWidget {
           ? 'File sent...'
           : 'You Sent File...';
     } else {
-      return UiHelper.limitStringLength(str: chat.lastMessage!, maxLength: 30);
+      return UiHelper.limitStringLength(str: chat.lastMessage!, maxLength: 21);
     }
   }
 }

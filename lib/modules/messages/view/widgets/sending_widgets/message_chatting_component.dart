@@ -51,7 +51,6 @@ class _MessageChattingComponentState extends State<MessageChattingComponent> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   MessagingField(chatId: widget.chatId),
-                  SizedBox(width: 16.w),
                   SendRecordButton(chatId: widget.chatId),
                 ],
               ),

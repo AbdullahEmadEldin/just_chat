@@ -5,14 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/core/helpers/ui_helpers.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
+import 'package:just_chat/modules/messages/view/widgets/image_widgets/image_msg_tile.dart';
 import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/reply_msg_box.dart';
 import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/seen_widget.dart';
 
-import '../../../../../core/constants/enums.dart';
-import '../../../../../core/theme/colors/colors_manager.dart';
-import '../../../logic/audio_player_cubit/audio_player_cubit.dart';
-import '../audio_recording_widgets/audio_msg_tile.dart';
-import 'long_press_selectable_widget.dart';
+import '../../../../core/constants/enums.dart';
+import '../../../../core/theme/colors/colors_manager.dart';
+import '../../logic/audio_player_cubit/audio_player_cubit.dart';
+import 'audio_recording_widgets/audio_msg_tile.dart';
+import 'text_msg_widgets/long_press_selectable_widget.dart';
 
 class MessageTile extends StatelessWidget {
   final MessageModel message;
@@ -47,10 +48,7 @@ class MessageTile extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                   topRight:
                       _myAlignment() ? Radius.zero : Radius.circular(16.r),
-                  topLeft:
-                      message.senderId != getIt<FirebaseAuth>().currentUser!.uid
-                          ? Radius.zero
-                          : Radius.circular(16.r),
+                  topLeft: _myAlignment() ? Radius.circular(16.r) : Radius.zero,
                   bottomRight: Radius.circular(16.r),
                   bottomLeft: Radius.circular(16.r),
                 ),
@@ -83,7 +81,7 @@ class MessageTile extends StatelessWidget {
                           _handleMsgType(context),
                           SizedBox(width: 12.w),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 UiHelper.formatTimestampToDate(
@@ -122,6 +120,10 @@ class MessageTile extends StatelessWidget {
           audioUrl: message.content,
           recordDuration: message.recordDuration!,
         ),
+      );
+    } else if (message.contentType == MsgType.image.name) {
+      return ImageMsgTile(
+        imageUrl: message.content,
       );
     }
     return Text(
