@@ -19,3 +19,7 @@ final class ReplyToMessageState extends MessagingState {
   ReplyToMessageState({required this.replyToMessage});
 }
 final class CancelReplyToMessageState extends MessagingState {}
+
+//! This state to update the border radius of messaging field when the msg exceed one line.
+final class SetBorderRadiusToSquare extends MessagingState {}
+final class SetBorderRadiusToCircle extends MessagingState {}

@@ -5,13 +5,15 @@ import 'package:just_chat/modules/auth/data/models/user_model.dart';
 import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
 
 import '../../../../core/di/dependency_injection.dart';
+import '../../../chat/data/models/chat_model.dart';
 import '../../data/models/message_model.dart';
 
 part 'messaging_state.dart';
 
 //TODO make chatId global over all messaging page components through this cubit.
 class MessagingCubit extends Cubit<MessagingState> {
-  MessagingCubit() : super(MessagingInitial());
+  ChatModel chatModel;
+  MessagingCubit({required this.chatModel}) : super(MessagingInitial());
 
   UserModel? opponentUser;
   MessageModel? replyToMessage;
@@ -27,9 +29,9 @@ class MessagingCubit extends Cubit<MessagingState> {
   }
 
   //***************************** Send Message *************************  */
-  void sendMessage({
+  Future<void> sendMessage({
     required MessageModel message,
-  }) {
+  }) async {
     try {
       if (replyToMessage != null) {
         getIt<MsgsRepoInterface>().sendMessage(
@@ -92,6 +94,15 @@ class MessagingCubit extends Cubit<MessagingState> {
       emit(SwitchSendButtonIcon(newIcon: CupertinoIcons.mic));
     } else {
       emit(SwitchSendButtonIcon(newIcon: Icons.send));
+    }
+  }
+
+  void setSquareBorderRadius() {
+    if (textingController.text.length == 20) {
+      emit(SetBorderRadiusToSquare());
+    }
+    if (textingController.text.length < 20) {
+      emit(SetBorderRadiusToCircle());
     }
   }
 

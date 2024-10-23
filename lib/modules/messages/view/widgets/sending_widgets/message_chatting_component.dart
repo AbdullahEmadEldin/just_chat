@@ -24,7 +24,9 @@ class _MessageChattingComponentState extends State<MessageChattingComponent> {
     return BlocBuilder<MessagingCubit, MessagingState>(
       buildWhen: (previous, current) =>
           current is ReplyToMessageState ||
-          current is CancelReplyToMessageState,
+          current is CancelReplyToMessageState ||
+          current is SetBorderRadiusToSquare ||
+          current is SetBorderRadiusToCircle,
       builder: (context, state) {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
@@ -32,9 +34,10 @@ class _MessageChattingComponentState extends State<MessageChattingComponent> {
           margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           padding: EdgeInsets.all(4.r),
           decoration: BoxDecoration(
-            borderRadius: state is ReplyToMessageState
-                ? BorderRadius.circular(12.r)
-                : BorderRadius.circular(64.r),
+            borderRadius:
+                state is ReplyToMessageState || state is SetBorderRadiusToSquare
+                    ? BorderRadius.circular(12.r)
+                    : BorderRadius.circular(64.r),
             color: Colors.white,
           ),
           child: Column(
@@ -48,7 +51,6 @@ class _MessageChattingComponentState extends State<MessageChattingComponent> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   MessagingField(chatId: widget.chatId),
-                  SizedBox(width: 16.w),
                   SendRecordButton(chatId: widget.chatId),
                 ],
               ),
