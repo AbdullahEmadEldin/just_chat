@@ -95,6 +95,17 @@ class MessagingCubit extends Cubit<MessagingState> {
     }
   }
 
+  void setSquareBorderRadius() {
+    if (textingController.text.length == 20) {
+      print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      emit(SetBorderRadiusToSquare());
+    } if (textingController.text.length < 20) {
+      print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      emit(SetBorderRadiusToCircle());
+    }
+
+  }
+
   @override
   Future<void> close() {
     scrollController.dispose();
