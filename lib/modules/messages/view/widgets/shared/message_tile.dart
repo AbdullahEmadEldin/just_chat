@@ -13,6 +13,7 @@ import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/seen_wi
 import '../../../../../core/constants/enums.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
 import '../../../logic/audio_player_cubit/audio_player_cubit.dart';
+import '../../../logic/video_player_cubit/video_player_cubit.dart';
 import '../audio_recording_widgets/audio_msg_tile.dart';
 import '../text_msg_widgets/long_press_selectable_widget.dart';
 
@@ -110,8 +111,11 @@ class MessageTile extends StatelessWidget {
       return ImageMsgTile(
         imageUrl: message.content,
       );
-    } else if(message.contentType == MsgType.video.name) {
-      return VideoMsgTile(videoUrl: message.content);
+    } else if (message.contentType == MsgType.video.name) {
+      return BlocProvider(
+        create: (context) => VideoPlayerCubit(),
+        child: VideoMsgTile(videoUrl: message.content),
+      );
     }
     return Text(
       message.content,
