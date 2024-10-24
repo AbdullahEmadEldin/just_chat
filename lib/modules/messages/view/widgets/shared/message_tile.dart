@@ -100,11 +100,13 @@ class MessageTile extends StatelessWidget {
   Widget _handleMsgType(BuildContext context) {
     if (message.contentType == MsgType.audio.name) {
       return BlocProvider(
+        key: ValueKey(message.content),
+
         //? Why here? ==> Because each record should have it's own player.
         create: (context) => AudioPlayerCubit(),
         child: AudioMsgTile(
           audioUrl: message.content,
-          recordDuration: message.recordDuration!,
+          recordDuration: message.recordDuration ?? '0',
         ),
       );
     } else if (message.contentType == MsgType.image.name) {

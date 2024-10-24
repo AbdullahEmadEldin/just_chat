@@ -24,8 +24,7 @@ class VideoMsgTile extends StatefulWidget {
 
 class _VideoMsgTileState extends State<VideoMsgTile> {
   late VideoPlayerCubit _videoPlayerCubit;
-  // late VideoPlayerController _controller;
-  //late Duration _videoDuration;
+  
   @override
   void initState() {
     super.initState();

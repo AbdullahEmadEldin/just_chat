@@ -25,7 +25,6 @@ class _SendingMediaWidgetState extends State<SendingMediaWidget> {
         if (overlayOn) {
           _removeOverlay();
         } else {
-
           _overlay(context);
         }
       },
@@ -107,7 +106,7 @@ class _SendingMediaWidgetState extends State<SendingMediaWidget> {
       if (value != null) {
         context.pushNamed(PreviewFileScreen.routeName,
             arguments: PreviewFileArgs(
-              imagePath: value.files.first.path!,
+              filePath: value.files.first.path!,
               fileType: fileType,
               sendCubitContext: context,
             ));
