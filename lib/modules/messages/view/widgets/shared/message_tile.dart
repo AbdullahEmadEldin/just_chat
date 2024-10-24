@@ -5,15 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/core/helpers/ui_helpers.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
-import 'package:just_chat/modules/messages/view/widgets/image_widgets/image_msg_tile.dart';
+import 'package:just_chat/modules/messages/view/widgets/media_msgs_widgets/image_msg_tile.dart';
+import 'package:just_chat/modules/messages/view/widgets/media_msgs_widgets/video_msg_tile.dart';
 import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/reply_msg_box.dart';
 import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/seen_widget.dart';
 
-import '../../../../core/constants/enums.dart';
-import '../../../../core/theme/colors/colors_manager.dart';
-import '../../logic/audio_player_cubit/audio_player_cubit.dart';
-import 'audio_recording_widgets/audio_msg_tile.dart';
-import 'text_msg_widgets/long_press_selectable_widget.dart';
+import '../../../../../core/constants/enums.dart';
+import '../../../../../core/theme/colors/colors_manager.dart';
+import '../../../logic/audio_player_cubit/audio_player_cubit.dart';
+import '../audio_recording_widgets/audio_msg_tile.dart';
+import '../text_msg_widgets/long_press_selectable_widget.dart';
 
 class MessageTile extends StatelessWidget {
   final MessageModel message;
@@ -80,24 +81,7 @@ class MessageTile extends StatelessWidget {
                         children: [
                           _handleMsgType(context),
                           SizedBox(width: 12.w),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                UiHelper.formatTimestampToDate(
-                                    timestamp: message.sentTime),
-                                textAlign: TextAlign.right,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: Colors.white60),
-                              ),
-                              SizedBox(width: 4.w),
-                              _myAlignment()
-                                  ? SeenWidget(isSeen: message.isSeen)
-                                  : const SizedBox.shrink(),
-                            ],
-                          ),
+                          _seenTimeRow(context),
                         ],
                       ),
                     ),
@@ -111,6 +95,7 @@ class MessageTile extends StatelessWidget {
     );
   }
 
+  ///
   Widget _handleMsgType(BuildContext context) {
     if (message.contentType == MsgType.audio.name) {
       return BlocProvider(
@@ -125,6 +110,8 @@ class MessageTile extends StatelessWidget {
       return ImageMsgTile(
         imageUrl: message.content,
       );
+    } else if(message.contentType == MsgType.video.name) {
+      return VideoMsgTile(videoUrl: message.content);
     }
     return Text(
       message.content,
@@ -132,6 +119,29 @@ class MessageTile extends StatelessWidget {
           .textTheme
           .bodyMedium!
           .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+    );
+  }
+
+  ///
+  Row _seenTimeRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: _myAlignment()
+          ? MainAxisAlignment.spaceBetween
+          : MainAxisAlignment.end,
+      children: [
+        Text(
+          UiHelper.formatTimestampToDate(timestamp: message.sentTime),
+          textAlign: TextAlign.right,
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: Colors.white60),
+        ),
+        SizedBox(width: 4.w),
+        _myAlignment()
+            ? SeenWidget(isSeen: message.isSeen)
+            : const SizedBox.shrink(),
+      ],
     );
   }
 

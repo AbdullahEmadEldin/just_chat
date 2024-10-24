@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +31,7 @@ class ReplyMsgBox extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -64,7 +66,7 @@ class ReplyMsgBox extends StatelessWidget {
                 onPressed: () =>
                     context.read<MessagingCubit>().cancelReplyToMsgBox(),
                 icon: const Icon(
-                  Icons.cancel_outlined,
+                  Icons.close,
                   color: Colors.redAccent,
                 ),
               ),
@@ -90,8 +92,12 @@ class ReplyMsgBox extends StatelessWidget {
           ),
         ),
       ]);
+    } else if (msg.contentType == MsgType.image.name) {
+      return CachedNetworkImage(
+          height: 70.h, width: 70.w, imageUrl: msg.content);
+    } else {
+      return _textMsgBox(context);
     }
-    return _textMsgBox(context);
   }
 
   SizedBox _textMsgBox(BuildContext context) {

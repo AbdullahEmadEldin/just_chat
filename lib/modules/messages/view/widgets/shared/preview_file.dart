@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,49 +13,59 @@ import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit
 import 'package:just_chat/modules/messages/view/pages/messaging_page.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../core/constants/enums.dart';
 import '../../../../../core/di/dependency_injection.dart';
 import '../../../data/models/message_model.dart';
 
-class ImagePreviewArgs {
+class PreviewFileArgs {
   final String imagePath;
   final BuildContext sendCubitContext;
+  final FileType fileType;
 
-  ImagePreviewArgs({required this.imagePath, required this.sendCubitContext});
+  PreviewFileArgs({
+    required this.imagePath,
+    required this.sendCubitContext,
+    required this.fileType,
+  });
 }
 
-class PreviewImageScreen extends StatefulWidget {
+class PreviewFileScreen extends StatefulWidget {
   static const String routeName =
       '${MessagingPage.routeName}/previewImageScreen';
   //
-  final ImagePreviewArgs args;
-  const PreviewImageScreen({
+  final PreviewFileArgs args;
+  const PreviewFileScreen({
     super.key,
     required this.args,
   });
 
   @override
-  State<PreviewImageScreen> createState() => _PreviewImageScreenState();
+  State<PreviewFileScreen> createState() => _PreviewFileScreenState();
 }
 
-class _PreviewImageScreenState extends State<PreviewImageScreen> {
+class _PreviewFileScreenState extends State<PreviewFileScreen> {
   bool uploading = false;
-late MessagingCubit messagingCubit;
+  late MessagingCubit messagingCubit;
 
-@override
+  @override
   void initState() {
     messagingCubit = widget.args.sendCubitContext.read<MessagingCubit>();
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: Image.file(
-          File(widget.args.imagePath),
-        ),
+        child: widget.args.fileType == FileType.image
+            ? Image.file(
+                File(widget.args.imagePath),
+              )
+            : widget.args.fileType == FileType.video
+                ? Text('==> Video <==',
+                    style: TextStyle(color: Colors.white, fontSize: 32.sp))
+                : Text('Something stupid',
+                    style: TextStyle(color: Colors.white, fontSize: 32.sp)),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 42.0),
@@ -96,21 +107,19 @@ late MessagingCubit messagingCubit;
     setState(() {
       uploading = true;
     });
-   messagingCubit
+    messagingCubit
         .sendMessage(
-          message: MessageModel(
-            chatId: messagingCubit
-                .chatModel
-                .chatId,
-            msgId: const Uuid().v1(),
-            senderId: getIt<FirebaseAuth>().currentUser!.uid,
-            content:
-                await NetworkHelper.uploadFileToFirebase(widget.args.imagePath),
-            contentType: MsgType.image.name,
-            sentTime: Timestamp.fromDate(DateTime.now()),
-            isSeen: false,
-          ),
-        )
+      message: MessageModel(
+        chatId: messagingCubit.chatModel.chatId,
+        msgId: const Uuid().v1(),
+        senderId: getIt<FirebaseAuth>().currentUser!.uid,
+        content:
+            await NetworkHelper.uploadFileToFirebase(widget.args.imagePath),
+        contentType: widget.args.fileType.name,
+        sentTime: Timestamp.fromDate(DateTime.now()),
+        isSeen: false,
+      ),
+    )
         .then((_) {
       setState(() {
         uploading = false;
