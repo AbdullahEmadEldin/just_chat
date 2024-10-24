@@ -24,8 +24,8 @@ class _SendingMediaWidgetState extends State<SendingMediaWidget> {
       onPressed: () async {
         if (overlayOn) {
           _removeOverlay();
-          overlayOn = false;
         } else {
+
           _overlay(context);
         }
       },
@@ -49,6 +49,7 @@ class _SendingMediaWidgetState extends State<SendingMediaWidget> {
   }
 
   void _removeOverlay() {
+    overlayOn = false;
     overlayEntry?.remove();
     overlayEntry = null;
   }

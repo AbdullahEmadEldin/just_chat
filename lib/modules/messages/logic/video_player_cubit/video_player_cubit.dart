@@ -15,7 +15,7 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   Duration? videoDuration;
 
   /// This method will be used in Preview Video before send...
-  void initVideoPlayerFromAsset({required String videoPath}) {
+  void initVideoPlayerFromLocal({required String videoPath}) {
     videoController = VideoPlayerController.file(File(videoPath))
       ..initialize().then(
         (_) {
@@ -35,6 +35,7 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
             VideoInitialized(),
           );
           videoDuration = videoController.value.duration;
+          print('===============>>>>> XXXX init video: $videoDuration');
         },
       );
   }
@@ -42,6 +43,8 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   void durationListener() {
     videoController.addListener(() {
       videoDuration = videoController.value.position;
+      print('===============>>>>> XXXX init video: $videoDuration');
+
       emit(VideoDurationProgress());
 
       if (videoController.value.isCompleted) {
@@ -58,5 +61,11 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
       videoController.play();
       emit(VideoStateChanged(newIcon: CupertinoIcons.pause));
     }
+  }
+
+  @override
+  Future<void> close() {
+    videoController.dispose();
+    return super.close();
   }
 }

@@ -10,7 +10,9 @@ import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/core/helpers/network_helper.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
+import 'package:just_chat/modules/messages/logic/video_player_cubit/video_player_cubit.dart';
 import 'package:just_chat/modules/messages/view/pages/messaging_page.dart';
+import 'package:just_chat/modules/messages/view/widgets/media_msgs_widgets/video_msg_tile.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/di/dependency_injection.dart';
@@ -62,8 +64,13 @@ class _PreviewFileScreenState extends State<PreviewFileScreen> {
                 File(widget.args.imagePath),
               )
             : widget.args.fileType == FileType.video
-                ? Text('==> Video <==',
-                    style: TextStyle(color: Colors.white, fontSize: 32.sp))
+                ? BlocProvider(
+                    create: (context) => VideoPlayerCubit(),
+                    child: VideoMsgTile(
+                      videoUrl: widget.args.imagePath,
+                      playFromLocal: true,
+                    ),
+                  )
                 : Text('Something stupid',
                     style: TextStyle(color: Colors.white, fontSize: 32.sp)),
       ),
@@ -76,7 +83,7 @@ class _PreviewFileScreenState extends State<PreviewFileScreen> {
               onTap: () => context.pop(),
               containerColor: ColorsManager().colorScheme.fillRed,
               icon: Icon(
-                Icons.cancel,
+                Icons.close,
                 color: Colors.white,
                 size: 36.r,
               ),

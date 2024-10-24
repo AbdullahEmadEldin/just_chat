@@ -11,7 +11,12 @@ import '../../../../../core/theme/colors/colors_manager.dart';
 
 class VideoMsgTile extends StatefulWidget {
   final String videoUrl;
-  const VideoMsgTile({super.key, required this.videoUrl});
+  final bool playFromLocal;
+  const VideoMsgTile({
+    super.key,
+    required this.videoUrl,
+    this.playFromLocal = false,
+  });
 
   @override
   State<VideoMsgTile> createState() => _VideoMsgTileState();
@@ -26,7 +31,10 @@ class _VideoMsgTileState extends State<VideoMsgTile> {
     super.initState();
 
     _videoPlayerCubit = context.read<VideoPlayerCubit>();
-    _videoPlayerCubit.initVideoPlayerFromUrl(videoUrl: widget.videoUrl);
+
+    widget.playFromLocal
+        ? _videoPlayerCubit.initVideoPlayerFromLocal(videoPath: widget.videoUrl)
+        : _videoPlayerCubit.initVideoPlayerFromUrl(videoUrl: widget.videoUrl);
     _videoPlayerCubit.durationListener();
   }
 
@@ -80,9 +88,17 @@ class _VideoMsgTileState extends State<VideoMsgTile> {
             onPressed: () {
               _videoPlayerCubit.playPauseVideo();
             },
-            icon: Icon(
-              stateIcon,
-              color: ColorsManager().colorScheme.primary,
+            icon: Container(
+              padding: EdgeInsets.all(8.r),
+              // margin: EdgeInsets.all(8.r),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(64.r),
+                color: ColorsManager().colorScheme.grey80.withOpacity(0.5),
+              ),
+              child: Icon(
+                stateIcon,
+                color: ColorsManager().colorScheme.fillPrimary,
+              ),
             ),
           );
         },

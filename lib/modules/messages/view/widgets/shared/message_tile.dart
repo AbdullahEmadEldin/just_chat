@@ -113,6 +113,9 @@ class MessageTile extends StatelessWidget {
       );
     } else if (message.contentType == MsgType.video.name) {
       return BlocProvider(
+        //! This key is a key solution for a very important issue.
+        //? This key prevents repeating the same video if a new msg is sent.
+        key: ValueKey(message.content),
         create: (context) => VideoPlayerCubit(),
         child: VideoMsgTile(videoUrl: message.content),
       );

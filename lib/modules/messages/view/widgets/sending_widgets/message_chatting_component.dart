@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
 import 'package:just_chat/modules/messages/view/widgets/sending_widgets/send_record_button.dart';
-import '../text_msg_widgets/sending_media_widget.dart';
+import 'sending_media_widget.dart';
 import 'messaging_field.dart';
 import '../text_msg_widgets/reply_msg_box.dart';
 
