@@ -16,6 +16,12 @@ class SendingMediaWidget extends StatefulWidget {
 }
 
 class _SendingMediaWidgetState extends State<SendingMediaWidget> {
+  @override
+  void dispose() {
+    _removeOverlay();
+    super.dispose();
+  }
+
   bool overlayOn = false;
   OverlayEntry? overlayEntry;
   @override
@@ -38,8 +44,8 @@ class _SendingMediaWidgetState extends State<SendingMediaWidget> {
     final overlay = Overlay.of(context);
     overlayEntry = OverlayEntry(
       builder: (_) => Positioned(
-        top: MediaQuery.of(context).size.height * 0.7,
-        left: MediaQuery.of(context).size.width * 0.73,
+        top: MediaQuery.of(context).size.height * 0.64,
+        left: MediaQuery.of(context).size.width * 0.7,
         // right: MediaQuery.of(context).size.width * 0.1,
         child: _sendingOptions(context),
       ),
@@ -56,47 +62,41 @@ class _SendingMediaWidgetState extends State<SendingMediaWidget> {
   FlipInY _sendingOptions(BuildContext context) {
     return FlipInY(
       duration: const Duration(milliseconds: 500),
-      child: Material(
-          color: ColorsManager().colorScheme.fillRed,
-          shape: const StadiumBorder(),
-          child: Container(
-            decoration: BoxDecoration(
-                color: ColorsManager().colorScheme.fillPrimary,
-                borderRadius: BorderRadius.circular(8.r)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () async => _pickFile(context, FileType.image),
-                  icon: Icon(
-                    CupertinoIcons.camera_fill,
-                    color: ColorsManager().colorScheme.primary40,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    CupertinoIcons.doc_text_fill,
-                    color: ColorsManager().colorScheme.primary40,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () async => _pickFile(context, FileType.video),
-                  icon: Icon(
-                    CupertinoIcons.videocam_fill,
-                    color: ColorsManager().colorScheme.primary40,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () async => _pickFile(context, FileType.audio),
-                  icon: Icon(
-                    CupertinoIcons.music_house_fill,
-                    color: ColorsManager().colorScheme.primary40,
-                  ),
-                ),
-              ],
-            ),
-          )),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _optionTile(context,
+              icon: CupertinoIcons.camera_fill, fileType: FileType.image),
+          _optionTile(context,
+              icon: CupertinoIcons.doc_text_fill, fileType: FileType.image),
+          _optionTile(context,
+              icon: CupertinoIcons.videocam_fill, fileType: FileType.video),
+          _optionTile(context,
+              icon: CupertinoIcons.music_house_fill, fileType: FileType.audio),
+        ],
+      ),
+    );
+  }
+
+  Container _optionTile(
+    BuildContext context, {
+    required IconData icon,
+    required FileType fileType,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(4.r),
+      margin: EdgeInsets.all(2.r),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(32.r),
+        color: ColorsManager().colorScheme.fillPrimary,
+      ),
+      child: IconButton(
+        onPressed: () async => _pickFile(context, fileType),
+        icon: Icon(
+          icon,
+          color: ColorsManager().colorScheme.primary40,
+        ),
+      ),
     );
   }
 

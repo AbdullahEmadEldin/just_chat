@@ -81,7 +81,7 @@ class ReplyMsgBox extends StatelessWidget {
     if (msg.contentType == MsgType.audio.name) {
       return _fileMsgView(
         icon: Icons.headphones_rounded,
-        title: 'Voice Message (${msg.recordDuration?.toString()}s)',
+        title: 'Voice Message (${msg.recordDuration?.toString() ?? 0}s)',
       );
     } else if (msg.contentType == MsgType.image.name) {
       return CachedNetworkImage(
@@ -103,7 +103,7 @@ class ReplyMsgBox extends StatelessWidget {
     return Row(
       children: [
         Icon(
-         icon,
+          icon,
           color: ColorsManager().colorScheme.fillPrimary,
         ),
         SizedBox(width: 4.w),
