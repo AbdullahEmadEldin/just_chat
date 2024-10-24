@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_chat/modules/messages/view/widgets/image_widgets/preview_image.dart';
+import 'package:just_chat/modules/messages/view/widgets/shared/preview_file.dart';
 
 import 'logic/messaging_cubit/messaging_cubit.dart';
 import 'logic/recorder_cubit/recorder_cubit.dart';
@@ -26,10 +26,10 @@ class MessagingRouter {
                   ],
                   child: MessagingPage(args: args),
                 ));
-      case PreviewImageScreen.routeName:
-        final args = settings.arguments as ImagePreviewArgs;
+      case PreviewFileScreen.routeName:
+        final args = settings.arguments as PreviewFileArgs;
         return MaterialPageRoute(
-            builder: (context) => PreviewImageScreen(args: args));
+            builder: (context) => PreviewFileScreen(args: args));
       default:
         return null;
     }

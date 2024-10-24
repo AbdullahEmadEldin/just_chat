@@ -17,6 +17,8 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   }
 
   void pauseAudio() async {
+
+
     audioPlayer.pause();
 
     emit(AudioPlayerCompleted());

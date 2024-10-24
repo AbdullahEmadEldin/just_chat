@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +32,7 @@ class ReplyMsgBox extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -64,7 +67,7 @@ class ReplyMsgBox extends StatelessWidget {
                 onPressed: () =>
                     context.read<MessagingCubit>().cancelReplyToMsgBox(),
                 icon: const Icon(
-                  Icons.cancel_outlined,
+                  Icons.close,
                   color: Colors.redAccent,
                 ),
               ),
@@ -76,22 +79,43 @@ class ReplyMsgBox extends StatelessWidget {
 
   Widget _handleMsgType(BuildContext context) {
     if (msg.contentType == MsgType.audio.name) {
-      return Row(children: [
+      return _fileMsgView(
+        icon: Icons.headphones_rounded,
+        title: 'Voice Message (${msg.recordDuration?.toString() ?? 0}s)',
+      );
+    } else if (msg.contentType == MsgType.image.name) {
+      return CachedNetworkImage(
+          height: 70.h, width: 70.w, imageUrl: msg.content);
+    } else if (msg.contentType == MsgType.video.name) {
+      return _fileMsgView(
+        icon: CupertinoIcons.video_camera_solid,
+        title: 'Video Message',
+      );
+    } else {
+      return _textMsgBox(context);
+    }
+  }
+
+  Row _fileMsgView({
+    required IconData icon,
+    required String title,
+  }) {
+    return Row(
+      children: [
         Icon(
-          Icons.headphones_rounded,
+          icon,
           color: ColorsManager().colorScheme.fillPrimary,
         ),
         SizedBox(width: 4.w),
         Padding(
           padding: EdgeInsets.only(bottom: 4.h),
           child: Text(
-            'Voice Message (${msg.recordDuration!.toString()}s)',
+            title,
             style: TextStyle(color: ColorsManager().colorScheme.fillPrimary),
           ),
         ),
-      ]);
-    }
-    return _textMsgBox(context);
+      ],
+    );
   }
 
   SizedBox _textMsgBox(BuildContext context) {

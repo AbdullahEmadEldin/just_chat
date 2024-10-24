@@ -8,7 +8,7 @@ import '../../../../core/constants/loties_assets.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../../data/models/message_model.dart';
 import '../../logic/messaging_cubit/messaging_cubit.dart';
-import 'message_tile.dart';
+import 'shared/message_tile.dart';
 
 class MessagesStreamBuilder extends StatefulWidget {
   final String chatId;
