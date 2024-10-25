@@ -44,6 +44,7 @@ class _SendRecordButtonState extends State<SendRecordButton> {
           color: ColorsManager().colorScheme.primary,
         ),
         child: BlocBuilder<MessagingCubit, MessagingState>(
+          buildWhen: (previous, current) => current is SwitchSendButtonIcon,
           builder: (context, state) {
             IconData buttonIcon = CupertinoIcons.mic;
             if (state is SwitchSendButtonIcon) {
