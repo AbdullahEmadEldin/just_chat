@@ -24,7 +24,7 @@ class VideoMsgTile extends StatefulWidget {
 
 class _VideoMsgTileState extends State<VideoMsgTile> {
   late VideoPlayerCubit _videoPlayerCubit;
-  
+
   @override
   void initState() {
     super.initState();
@@ -96,7 +96,7 @@ class _VideoMsgTileState extends State<VideoMsgTile> {
               ),
               child: Icon(
                 stateIcon,
-                color: ColorsManager().colorScheme.fillPrimary,
+                color: ColorsManager().colorScheme.primary,
               ),
             ),
           );

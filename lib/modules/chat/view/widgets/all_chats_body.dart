@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_chat/core/constants/loties_assets.dart';
+import 'package:just_chat/core/widgets/shimmers/chat_tile_shimmer.dart';
 import 'package:just_chat/modules/chat/logic/all_chats_cubit/all_chats_cubit.dart';
 import 'package:just_chat/modules/chat/view/widgets/chat_tile.dart';
 import 'package:lottie/lottie.dart';
@@ -42,8 +43,7 @@ class _AllChatsBodyState extends State<AllChatsBody> {
   }
 
   Widget _handleLoadingChats() {
-    //TODO make it shimmer.
-    return const Center(child: CircularProgressIndicator());
+    return const ChatTileShimmerList();
   }
 
   Widget _handleEmptySnapshot() {

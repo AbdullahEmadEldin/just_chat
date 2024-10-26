@@ -15,7 +15,9 @@ class NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeOut,
       padding: EdgeInsets.all(12.r),
       height: 56.h,
       width: 56.w,
