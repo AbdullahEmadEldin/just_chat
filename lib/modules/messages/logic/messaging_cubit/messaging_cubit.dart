@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:just_chat/core/services/firestore_service.dart';
 import 'package:just_chat/modules/auth/data/models/user_model.dart';
 import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
 
@@ -33,12 +35,29 @@ class MessagingCubit extends Cubit<MessagingState> {
     required MessageModel message,
   }) async {
     try {
+      /// Get My user name to pass it to notification
+      final userName = await FirebaseGeneralServices.getUserById(
+        getIt<FirebaseAuth>().currentUser!.uid,
+      ).then((value) => value.name);
+
+      ///
       if (replyToMessage != null) {
         getIt<MsgsRepoInterface>().sendMessage(
-            message: message.copyWith(replyMsgId: replyToMessage!.msgId));
+          message: message.copyWith(
+            replyMsgId: replyToMessage!.msgId,
+          ),
+          opponentFcmToken: opponentUser!.fcmToken!,
+          senderName: userName,
+        );
         cancelReplyToMsgBox();
       } else {
-        getIt<MsgsRepoInterface>().sendMessage(message: message);
+        getIt<MsgsRepoInterface>().sendMessage(
+          message: message,
+          opponentFcmToken: opponentUser!.fcmToken!,
+          senderName: await FirebaseGeneralServices.getUserById(
+            getIt<FirebaseAuth>().currentUser!.uid,
+          ).then((value) => value.name),
+        );
       }
       textingController.clear();
     } on Exception catch (e) {

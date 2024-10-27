@@ -11,4 +11,13 @@ class UserDataRepo {
           user.toMap(),
         );
   }
+
+  Future<void> updateUserData(UserModel user) async {
+    final String createdUserId = getIt<FirebaseAuth>().currentUser!.uid;
+    await getIt<FirebaseFirestore>().collection('users').doc(createdUserId).update(
+          user.toMap(),
+        );
+  }
+
+  
 }

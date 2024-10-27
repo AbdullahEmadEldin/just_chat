@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:just_chat/core/services/firebase_cloud_msgs.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
 
@@ -26,7 +27,11 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
   }
 
   @override
-  void sendMessage({required MessageModel message}) async {
+  void sendMessage({
+    required MessageModel message,
+    required String opponentFcmToken,
+    required String senderName,
+  }) async {
     try {
       await getIt<FirebaseFirestore>()
           .collection('chats')
@@ -44,6 +49,14 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
         'lastMessageTimestamp': DateTime.now(),
         'lastMessageSenderId': getIt<FirebaseAuth>().currentUser!.uid,
       });
+
+      ///
+      ///Send Notification..
+      ///
+      await FcmService.sendNotification(
+          opponentFcmToken: opponentFcmToken,
+          chatMsg: message,
+          senderName: senderName);
     } catch (e) {
       rethrow;
     }
