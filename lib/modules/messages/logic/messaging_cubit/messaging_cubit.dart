@@ -18,6 +18,7 @@ class MessagingCubit extends Cubit<MessagingState> {
   MessagingCubit({required this.chatModel}) : super(MessagingInitial());
 
   UserModel? opponentUser;
+  UserModel? myUser;
   MessageModel? replyToMessage;
 
   //***************************** Get Chat Messages *************************  */

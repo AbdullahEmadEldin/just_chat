@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_chat/modules/rtc_agora/agora_service_cubit/agora_service_cubit.dart';
 import 'package:just_chat/modules/messages/view/widgets/shared/preview_file.dart';
+import 'package:just_chat/modules/rtc_agora/video_call_page.dart';
 
 import 'logic/messaging_cubit/messaging_cubit.dart';
 import 'logic/recorder_cubit/recorder_cubit.dart';
@@ -30,6 +32,14 @@ class MessagingRouter {
         final args = settings.arguments as PreviewFileArgs;
         return MaterialPageRoute(
             builder: (context) => PreviewFileScreen(args: args));
+      case VideoCallPage.routeName:
+        final args = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => AgoraServiceCubit(),
+            child: VideoCallPage(channelId: args),
+          ),
+        );
       default:
         return null;
     }

@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:just_chat/core/services/firebase_cloud_msgs.dart';
+import 'package:just_chat/core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
 
 import 'core/router/app_router.dart';
 import 'core/theme/theme_manager.dart';
+
+
+    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class JustChatApp extends StatefulWidget {
   final String initialRoute;
@@ -20,12 +23,13 @@ class JustChatApp extends StatefulWidget {
 class _JustChatAppState extends State<JustChatApp> {
   @override
   void initState() {
-    FcmService.setupInteractedMessage();
+    FcmService.setupInteractedMessage(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     debugPrint(
         'Initial Theme ===>>> ${AppThemes.instance.themeNotifier.value}');
 
@@ -36,6 +40,7 @@ class _JustChatAppState extends State<JustChatApp> {
             valueListenable: AppThemes.instance.themeNotifier,
             builder: (context, themeMode, child) {
               return MaterialApp(
+                navigatorKey: navigatorKey,
                 locale: context.locale,
                 localizationsDelegates: context.localizationDelegates,
                 supportedLocales: context.supportedLocales,

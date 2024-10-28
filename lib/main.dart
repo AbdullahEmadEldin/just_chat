@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/app_entry.dart';
-import 'package:just_chat/core/services/firebase_cloud_msgs.dart';
+import 'package:just_chat/core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
 import 'package:just_chat/modules/nav_bar/custom_nav_bar.dart';
 import 'package:just_chat/modules/onboarding/view/page/onboarding_page.dart';

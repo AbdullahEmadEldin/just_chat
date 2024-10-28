@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:just_chat/core/services/firebase_cloud_msgs.dart';
+import 'package:just_chat/core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
 
 import '../../../../core/di/dependency_injection.dart';
+import '../../../../core/services/firebase_notifiaction/firebase_msg_model.dart';
 
 class FirebaseMsgRepo implements MsgsRepoInterface {
   @override
@@ -54,9 +55,14 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
       ///Send Notification..
       ///
       await FcmService.sendNotification(
+        FcmMsgModel(
           opponentFcmToken: opponentFcmToken,
+          senderName: senderName,
+          chatId: message.chatId!,
           chatMsg: message,
-          senderName: senderName);
+          notificationType: 'chat'
+        ),
+      );
     } catch (e) {
       rethrow;
     }

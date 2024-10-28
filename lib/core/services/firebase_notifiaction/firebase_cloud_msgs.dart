@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,6 +8,10 @@ import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
+
+import '../../../app_entry.dart';
+import '../../../modules/rtc_agora/video_call_page.dart';
+import 'firebase_msg_model.dart';
 
 class FcmService {
   static Future<void> setFcmToken(String fcmToken) async {
@@ -64,32 +69,24 @@ class FcmService {
     return credentials.accessToken.data;
   }
 
-  static Future<void> sendNotification({
-    required String opponentFcmToken,
-    required MessageModel chatMsg,
-    required String senderName,
-  }) async {
+  static Future<void> sendNotification(FcmMsgModel fcmMsgModel) async {
     final String accessToken = await _getAccessToken();
     String endpointFCM =
         'https://fcm.googleapis.com/v1/projects/just-chat-afd29/messages:send';
     final Map<String, dynamic> fcmMsg = {
       "message": {
-        'token': opponentFcmToken,
+        'token': fcmMsgModel.opponentFcmToken,
         "notification": {
-          "title": senderName,
-          "body": chatMsg.content,
+          "title": fcmMsgModel.senderName,
+          "body": fcmMsgModel.chatMsg?.content,
         },
         "data": {
-          "chatId": chatMsg.chatId,
+          "chatId": fcmMsgModel.chatId,
           "type": "chat",
         }
       }
     };
-/**
- * fLzaN0uJTMKahe8hl7cpIq:APA91bFDYNCMtkZ7Qi1ziJXmwcfXGyuyXAicE0qxnppTxeCey-
- * 4NtDSikdIo4rOFHjgY1XKtfgheyg3ukKE2JS6sC6rDlgOhoJ1UlBfcYsXGqsA4-
- * 1iqeO8N3Nlt4kwp7FNqgaPKvYVP
- */
+
     /// This http post will send the notification from user to another
     final http.Response response = await http.post(
       Uri.parse(endpointFCM),
@@ -101,8 +98,7 @@ class FcmService {
     );
 
     if (response.statusCode == 200) {
-      print(
-          '----------------------------------------Notification sent successfully--------------$senderName------------------');
+      log('----------------------------------------Notification sent successfully-------------------------------');
     } else {
       print('Failed to send notification 000000000000000000000000000000');
     }
@@ -110,7 +106,7 @@ class FcmService {
 
   //!!!!!!!!!!!!!!!!!!!!!!!!!
   // It is assumed that all messages contain a data field with the key 'type'
-  static Future<void> setupInteractedMessage() async {
+  static Future<void> setupInteractedMessage(BuildContext context) async {
     // Get any messages which caused the application to open from
     // a terminated state.
     RemoteMessage? initialMessage =
@@ -119,18 +115,21 @@ class FcmService {
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
     if (initialMessage != null) {
-      print('Notifactio here ====================000000');
-
-      _handleMessage(initialMessage);
+      _handleMessage(context, initialMessage);
     }
 
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen((remoteMsg) {
+      _handleMessage(context, remoteMsg);
+    });
+    // FirebaseMessaging.
   }
 
-  static void _handleMessage(RemoteMessage message) {
-    print('Notifactio tapped ====================000000');
+  static void _handleMessage(BuildContext context, RemoteMessage message) {
+    log('Notifactio tapped ====================000000');
+    navigatorKey.currentState?.pushNamed(
+      VideoCallPage.routeName,
+      arguments: message.data['chatId'] as String,
+    );
     // if (message.data['type'] == 'chat') {
     //   Navigator.pushNamed(context, '/chat',
     //     arguments: ChatArguments(message),
