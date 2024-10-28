@@ -4,6 +4,7 @@ class UserModel {
   final String phoneNumber;
   final String bio;
   final String? profilePicUrl;
+  final String? fcmToken;
 
   UserModel({
     required this.uid,
@@ -11,6 +12,7 @@ class UserModel {
     required this.phoneNumber,
     required this.bio,
     required this.profilePicUrl,
+    this.fcmToken,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +22,7 @@ class UserModel {
       'phoneNumber': phoneNumber,
       'bio': bio,
       'profilePicUrl': profilePicUrl,
+      'fcmToken': fcmToken
     };
   }
 
@@ -30,6 +33,25 @@ class UserModel {
       phoneNumber: map['phoneNumber'] ?? '',
       bio: map['bio'] ?? '',
       profilePicUrl: map['profilePicUrl'] ?? '',
+      fcmToken: map['fcmToken'] ?? '',
+    );
+  }
+
+  UserModel copyWith({
+    String? uid,
+    String? name,
+    String? phoneNumber,
+    String? bio,
+    String? profilePicUrl,
+    String? fcmToken,
+  }) {
+    return UserModel(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      bio: bio ?? this.bio,
+      profilePicUrl: profilePicUrl ?? this.profilePicUrl,
+      fcmToken: fcmToken ?? this.fcmToken,
     );
   }
 }

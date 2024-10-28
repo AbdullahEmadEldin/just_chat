@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,22 +83,19 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
                       : () async {
                           await _stopAndSend();
                         },
-                  child: Transform.rotate(
-                    angle: -45,
-                    child: state is UploadRecordUiTrigger
-                        ? Shimmer(
-                            duration: const Duration(milliseconds: 900),
-                            child: Icon(
-                              Icons.send,
-                              color: ColorsManager().colorScheme.grey60,
-                              size: 24.r,
-                            ))
-                        : Icon(
-                            Icons.send,
-                            color: ColorsManager().colorScheme.fillPrimary,
+                  child: state is UploadRecordUiTrigger
+                      ? Shimmer(
+                          duration: const Duration(milliseconds: 900),
+                          child: Icon(
+                                CupertinoIcons.paperplane_fill,
+                            color: ColorsManager().colorScheme.grey60,
                             size: 24.r,
-                          ),
-                  ),
+                          ))
+                      : Icon(
+                                CupertinoIcons.paperplane_fill,
+                          color: ColorsManager().colorScheme.fillPrimary,
+                          size: 24.r,
+                        ),
                 ),
               ],
             );

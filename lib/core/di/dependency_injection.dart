@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:get_it/get_it.dart';
@@ -28,8 +29,12 @@ void setUpGetIt() {
   getIt.registerLazySingleton<FirebaseFirestore>(
       () => FirebaseFirestore.instance);
 
-  getIt.registerLazySingleton<PhoneAuthInfo>(() => PhoneAuthInfo());
+  // This global instance for access firebase messaging over the app for Notification management.
+  getIt.registerLazySingleton<FirebaseMessaging>(
+      () => FirebaseMessaging.instance);
 
+  // This global instance for access auth info over the app
+  getIt.registerLazySingleton<PhoneAuthInfo>(() => PhoneAuthInfo());
 }
 
 class PhoneAuthInfo {
