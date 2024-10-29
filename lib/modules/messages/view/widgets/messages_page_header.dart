@@ -8,6 +8,7 @@ import 'package:just_chat/core/widgets/header_back_button.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
 import 'package:just_chat/modules/rtc_agora/video_call_page.dart';
 
+import '../../../../core/constants/enums.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
 import '../../../../core/services/firebase_notifiaction/firebase_msg_model.dart';
@@ -84,7 +85,7 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
                 FcmMsgModel(
                   opponentFcmToken: widget.user.fcmToken!,
                   senderName: senderName,
-                  notificationType: 'video_call',
+                  notificationType: NotificationType.call,
                   // will be the channel id for the video call
                   chatId: _messagingCubit.chatModel.chatId,
                   

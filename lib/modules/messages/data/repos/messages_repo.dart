@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:just_chat/core/constants/enums.dart';
 import 'package:just_chat/core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
@@ -60,7 +61,7 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
           senderName: senderName,
           chatId: message.chatId!,
           chatMsg: message,
-          notificationType: 'chat'
+          notificationType: NotificationType.chat,
         ),
       );
     } catch (e) {

@@ -87,16 +87,17 @@ class _AudioRecordingFieldState extends State<AudioRecordingField> {
                       ? Shimmer(
                           duration: const Duration(milliseconds: 900),
                           child: Icon(
-                                CupertinoIcons.paperplane_fill,
+                            CupertinoIcons.paperplane_fill,
                             color: ColorsManager().colorScheme.grey60,
                             size: 24.r,
                           ))
                       : Icon(
-                                CupertinoIcons.paperplane_fill,
+                          CupertinoIcons.paperplane_fill,
                           color: ColorsManager().colorScheme.fillPrimary,
                           size: 24.r,
                         ),
                 ),
+                SizedBox(width: 8.w),
               ],
             );
           },

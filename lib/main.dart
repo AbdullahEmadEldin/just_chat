@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,6 +16,7 @@ import 'core/constants/constants.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/lang_manager.dart';
 import 'core/services/cache/cache_helper.dart';
+import 'core/services/local_notification/awesome_notification_controller.dart';
 import 'core/theme/colors/colors_manager.dart';
 import 'firebase_options.dart';
 
@@ -32,6 +34,37 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   FirebaseMessaging.onBackgroundMessage(
     _onBackgroundMessage,
+  );
+  //! Init Awesome notification
+  AwesomeNotifications().initialize(
+      // set the icon to null if you want to use the default app icon
+      null,
+      [
+        NotificationChannel(
+            channelGroupKey: 'basic_channel_group',
+            channelKey: AppConstants.awesomeNotificationChanel,
+            channelName: 'Basic notifications',
+            channelDescription: 'Notification channel for basic tests',
+            defaultColor: Color(0xFF9D50DD),
+            ledColor: Colors.white)
+      ],
+      // Channel groups are only visual and are not required
+      channelGroups: [
+        NotificationChannelGroup(
+            channelGroupKey: 'basic_channel_group',
+            channelGroupName: 'Basic group')
+      ],
+      debug: true);
+
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+FcmService.setupInteractedMessage();
+  AwesomeNotifications().setListeners(
+    onActionReceivedMethod:
+        AwesomeNotificationController.onActionReceivedMethod,
   );
   await CacheHelper.init();
   //setUpGetIt();

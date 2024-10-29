@@ -1,11 +1,12 @@
 import '../../../modules/messages/data/models/message_model.dart';
+import '../../constants/enums.dart';
 
 class FcmMsgModel {
   final String opponentFcmToken;
   final String senderName;
-  final String notificationType;
+  final NotificationType notificationType;
 
-  /// in Video Call will be the channed Id.
+  /// in Video Call will be the channel Id.
   final String chatId;
   final MessageModel? chatMsg;
 
@@ -17,10 +18,18 @@ class FcmMsgModel {
     this.chatMsg,
   });
 
-  Map<String, dynamic> toJson() => {
-        'pponentFcmToken': opponentFcmToken,
-        'senderName': senderName,
-        'chatId': chatId,
-        'chatMsg': chatMsg?.toJson(),
+  Map<String, dynamic> toFcmJson() => {
+        "message": {
+          'token': opponentFcmToken,
+          "notification": {
+            "title": senderName,
+            "body": chatMsg?.content,
+          },
+          "data": {
+            "chatId": chatId,
+            "type": notificationType.name,
+            "chatType": chatMsg?.contentType  ,
+          }
+        }
       };
 }

@@ -5,3 +5,8 @@ enum MsgType {
   video,
   file,
 }
+
+enum NotificationType {
+  chat,
+  call,
+}
