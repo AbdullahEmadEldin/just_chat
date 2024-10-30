@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:just_chat/core/di/dependency_injection.dart';
@@ -93,7 +92,7 @@ class FcmService {
     if (response.statusCode == 200) {
       log('----------------------------------------Notification sent successfully-------------------------------');
     } else {
-      print('Failed to send notification 000000000000000000000000000000');
+      log('Failed to send notification--${response.body}-');
     }
   }
 
@@ -122,21 +121,6 @@ class FcmService {
 
       // _handleNotificationTap(remoteMsg);
     });
-  }
-
-  static void _handleNotificationTap(RemoteMessage message) {
-    log('Notifactio tapped ====================000000');
-    if (message.data['type'] == NotificationType.chat.name) {
-      navigatorKey.currentState?.pushNamed(
-        AllChatsPage.routeName,
-      );
-    }
-    if (message.data['type'] == NotificationType.call.name) {
-      navigatorKey.currentState?.pushNamed(
-        VideoCallPage.routeName,
-        arguments: message.data['chatId'] as String,
-      );
-    }
   }
 
   /// I will use it show any notification either background or foreground or terminated
@@ -174,15 +158,20 @@ class FcmService {
 
     AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
-        channelKey: AppConstants.awesomeNotificationChanel,
-        actionType: ActionType.Default,
-        title: message.notification?.title ?? 'New Message',
-        body: contentText,
-        groupKey: groupKey,
-        largeIcon: icon,
-        notificationLayout: NotificationLayout.BigText,
-      ),
+          id: DateTime.now()
+              .millisecondsSinceEpoch
+              .remainder(100000), // unique id
+          channelKey: AppConstants.awesomeNotificationChanel,
+          actionType: ActionType.Default,
+          title: message.notification?.title ?? 'New Message',
+          body: contentText,
+          groupKey: groupKey,
+          largeIcon: icon,
+          notificationLayout: NotificationLayout.BigText,
+          payload: {
+            "chatId": message.data['chatId'],
+            "remoteUserId": message.data['remoteUserId'],
+          }),
       actionButtons: [
         NotificationActionButton(
           key: 'ANSWER',
@@ -198,41 +187,6 @@ class FcmService {
         )
       ],
     );
-
-    // void _showCustomNotification(
-    //     String? messageType, String? title, String? body) {
-    //   String icon;
-    //   String contentText;
-
-    //   switch (messageType) {
-    //     case 'image':
-    //       icon = 'resource://drawable/res_camera_icon';
-    //       contentText = 'Image';
-    //       break;
-    //     case 'voice':
-    //       icon = 'resource://drawable/res_mic_icon';
-    //       contentText = 'Voice Message';
-    //       break;
-    //     default:
-    //       icon = 'resource://drawable/res_text_icon';
-    //       contentText = body ?? 'You have a new message';
-    //       break;
-    //   }
-
-    //   AwesomeNotifications().createNotification(
-    //     content: NotificationContent(
-    //       id: DateTime.now()
-    //           .millisecondsSinceEpoch
-    //           .remainder(100000), //createUniqueId(),
-    //       channelKey: 'basic_channel',
-    //       title: title ?? 'New Message',
-    //       body: contentText,
-    //       largeIcon: icon,
-    //       notificationLayout: NotificationLayout.BigText,
-    //       payload: {'type': messageType ?? 'text'},
-    //     ),
-    //   );
-    // }
 
     log('ForeGround =============');
   }

@@ -3,6 +3,7 @@ import '../../constants/enums.dart';
 
 class FcmMsgModel {
   final String opponentFcmToken;
+  final String remoteUserId;
   final String senderName;
   final NotificationType notificationType;
 
@@ -12,6 +13,7 @@ class FcmMsgModel {
 
   FcmMsgModel({
     required this.opponentFcmToken,
+    required this.remoteUserId,
     required this.senderName,
     required this.chatId,
     required this.notificationType,
@@ -28,7 +30,8 @@ class FcmMsgModel {
           "data": {
             "chatId": chatId,
             "type": notificationType.name,
-            "chatType": chatMsg?.contentType  ,
+            "chatType": chatMsg?.contentType,
+            "remoteUserId": remoteUserId,
           }
         }
       };

@@ -48,11 +48,20 @@ class AwesomeNotificationController {
   ) {
     if (receivedAction.buttonKeyPressed == 'ANSWER' ||
         receivedAction.groupKey == 'call') {
-      navigatorKey.currentState?.pushNamed(VideoCallPage.routeName);
+      navigatorKey.currentState?.pushNamed(
+        VideoCallPage.routeName,
+        // This arg represents channel id but it will not used as we use a static chanel id from Agora Console.
+        arguments: 'receivedAction.payload',
+      );
     } else if (receivedAction.groupKey == 'chat') {
       log('onActionReceivedMethod =======Should Navigate =to chat ROOM=====');
 
-      navigatorKey.currentState?.pushNamed(MessagingPage.routeName);
+      navigatorKey.currentState?.pushNamed(
+        MessagingPage.routeName,
+        arguments: MessagingPageArgs(
+            chatId: receivedAction.payload?['chatId'] as String,
+            remoteUserId: receivedAction.payload?['remoteUserId'] as String),
+      );
     }
   }
 }

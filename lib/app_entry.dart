@@ -21,10 +21,14 @@ class JustChatApp extends StatefulWidget {
   State<JustChatApp> createState() => _JustChatAppState();
 }
 
-class _JustChatAppState extends State<JustChatApp> {
+class _JustChatAppState extends State<JustChatApp>  {
   @override
   void initState() {
-    
+    FcmService.setupInteractedMessage();
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod:
+          AwesomeNotificationController.onActionReceivedMethod,
+    );
     super.initState();
   }
 

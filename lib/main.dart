@@ -61,11 +61,7 @@ void main() async {
       AwesomeNotifications().requestPermissionToSendNotifications();
     }
   });
-FcmService.setupInteractedMessage();
-  AwesomeNotifications().setListeners(
-    onActionReceivedMethod:
-        AwesomeNotificationController.onActionReceivedMethod,
-  );
+
   await CacheHelper.init();
   //setUpGetIt();
   final String startLocale = await LanguageManager.getAppLang();
