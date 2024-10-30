@@ -17,6 +17,24 @@ import '../../../../core/services/firebase_notifiaction/firebase_msg_model.dart'
 import '../../../../core/services/firestore_service.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 
+class ChatRoomHeaderDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return const MessagesPageHeader();
+  }
+
+  @override
+  double get maxExtent => 60.0; // Adjust the height of the search bar
+  @override
+  double get minExtent => 60.0;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+}
+
 class MessagesPageHeader extends StatefulWidget {
   const MessagesPageHeader({super.key});
 

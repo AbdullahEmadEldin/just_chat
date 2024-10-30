@@ -35,6 +35,8 @@ class FirebaseChatRepo implements ChatRepoInterface {
     }
   }
 
+  /// This function actually will start a new chat with the user
+  
   @override
   Future<int> getUnreadChatsCount({required String chatId}) async {
     print('Update count called');

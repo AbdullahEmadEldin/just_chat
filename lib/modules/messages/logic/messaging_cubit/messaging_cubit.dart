@@ -26,7 +26,7 @@ class MessagingCubit extends Cubit<MessagingState> {
 
   UserModel? opponentUser;
   MessageModel? replyToMessage;
-
+  bool firstMsgInChat = false;
   Future<void> fetchChatRoomArgs() async {
     emit(FetchPageArgsLoading());
     opponentUser = await FirebaseGeneralServices.getUserById(remoteUserId);
@@ -88,9 +88,48 @@ class MessagingCubit extends Cubit<MessagingState> {
     }
   }
 
-  void markMsgAsSeen({required String chiId}) async {
+  Future<void> sendFirstMsg({
+    required MessageModel msg,
+  }) async {
     try {
-      await getIt<MsgsRepoInterface>().markMsgsAsSeen(chatId: chiId);
+      await getIt<MsgsRepoInterface>().sendFirstMsg(
+        userId: remoteUserId,
+        chatId: chatId,
+        msg: msg,
+      );
+
+      /// Get My user name to pass it to notification
+      final userName = await FirebaseGeneralServices.getUserById(
+        getIt<FirebaseAuth>().currentUser!.uid,
+      ).then((value) => value.name);
+
+      ///
+      /// Send Notification...
+      ///
+
+      await FcmService.sendNotification(
+        FcmMsgModel(
+          remoteUserId: remoteUserId,
+          opponentFcmToken: opponentUser!.fcmToken!,
+          senderName: userName,
+          chatId: chatId,
+          chatMsg: msg,
+          notificationType: NotificationType.chat,
+        ),
+      );
+    } on Exception catch (e) {
+      log('Error ===== $e');
+    }
+  }
+
+  ///
+  ///
+  ///
+
+  void markMsgAsSeen() async {
+    try {
+      log('=====>> mark msg as seen cubit <<====');
+      await getIt<MsgsRepoInterface>().markMsgsAsSeen(chatId: chatId);
     } catch (e) {
       print('Error mark msg as seen cubit :: $e');
     }

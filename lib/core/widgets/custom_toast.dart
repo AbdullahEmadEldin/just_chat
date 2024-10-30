@@ -9,7 +9,7 @@ void showCustomToast(BuildContext context, String message,
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: MediaQuery.of(context).size.height * 0.8,
+        bottom: MediaQuery.of(context).size.height * 0.8,
         left: MediaQuery.of(context).size.width * 0.1,
         right: MediaQuery.of(context).size.width * 0.1,
         child: Material(

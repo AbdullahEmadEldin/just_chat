@@ -26,7 +26,7 @@ class MessagingRouter {
                       create: (context) => RecorderCubit(),
                     ),
                   ],
-                  child: const MessagingPage(),
+                  child:const  MessagingPage(),
                 ));
       case PreviewFileScreen.routeName:
         final args = settings.arguments as PreviewFileArgs;

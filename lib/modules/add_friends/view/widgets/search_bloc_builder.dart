@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/modules/add_friends/logic/cubit/add_friends_cubit.dart';
 import 'package:just_chat/modules/add_friends/view/widgets/search_result_tile.dart';
 import 'package:lottie/lottie.dart';
@@ -12,7 +15,7 @@ class SearchBlocBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddFriendsCubit, AddFriendsState>(
+    return BlocBuilder<SearchForFriendsCubit, AddFriendsState>(
         builder: (context, state) {
       if (state is SearchForFriendsLoading) {
         return const Center(
@@ -28,9 +31,13 @@ class SearchBlocBuilder extends StatelessWidget {
         return Expanded(
           child: ListView.builder(
             itemCount: results.length,
-            itemBuilder: (context, index) => SearchResultTile(
-              user: results[index],
-            ),
+            itemBuilder: (context, index) {
+              final isMyPhone = _myPhoneBool(results[index].uid);
+              return SearchResultTile(
+                user: results[index],
+                isMyPhone: isMyPhone,
+              );
+            },
           ),
         );
       } else if (state is SearchForFriendsFailure) {
@@ -58,5 +65,10 @@ class SearchBlocBuilder extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool _myPhoneBool(String searchResultId) {
+    if (getIt<FirebaseAuth>().currentUser!.uid == searchResultId) return true;
+    return false;
   }
 }

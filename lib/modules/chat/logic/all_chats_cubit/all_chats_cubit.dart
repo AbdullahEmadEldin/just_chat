@@ -36,7 +36,9 @@ class AllChatsCubit extends Cubit<AllChatsState> {
       return const Stream.empty();
     }
   }
-
+  
+ 
+//! private helpers///
   _getOpponentUsersList(List<ChatModel> chats) async {
     List<UserModel> users = [];
     for (var chat in chats) {

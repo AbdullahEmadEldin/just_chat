@@ -1,6 +1,12 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/di/dependency_injection.dart';
+import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
+import 'package:just_chat/modules/add_friends/view/add_friends_page.dart';
 
 import 'all_chats_header_custom_painter.dart';
 
@@ -59,7 +65,10 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
                 ),
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  log('----------- ${getIt<FirebaseAuth>().currentUser!.uid}');
+                  context.pushNamed(SearchForFriendsPage.routeName);
+                },
                 icon: Icon(
                   Icons.search,
                   size: 32.r,

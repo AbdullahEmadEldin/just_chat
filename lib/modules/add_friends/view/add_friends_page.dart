@@ -7,8 +7,9 @@ import 'package:just_chat/modules/add_friends/view/widgets/search_bloc_builder.d
 
 import '../../../core/theme/colors/colors_manager.dart';
 
-class AddFriendsPage extends StatelessWidget {
-  const AddFriendsPage({super.key});
+class SearchForFriendsPage extends StatelessWidget {
+  static const String routeName = '/search_for_friends_page';
+  const SearchForFriendsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class AddFriendsPage extends StatelessWidget {
               suffixIcon: const Icon(Icons.search),
               onChanged: (p0) {
                 context
-                    .read<AddFriendsCubit>()
+                    .read<SearchForFriendsCubit>()
                     .searchForFriendByPhoneNumber(phoneNumber: p0);
               },
             ),
