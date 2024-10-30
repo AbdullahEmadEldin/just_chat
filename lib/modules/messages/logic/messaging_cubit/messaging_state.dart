@@ -5,6 +5,12 @@ sealed class MessagingState {}
 
 final class MessagingInitial extends MessagingState {}
 
+
+
+
+final class FetchPageArgsLoading extends MessagingState {}
+final class FetchPageArgsSuccess extends MessagingState {}
+
 ///
 //! Changing UI states
 

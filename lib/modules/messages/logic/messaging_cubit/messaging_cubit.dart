@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,20 +8,31 @@ import 'package:just_chat/core/services/firestore_service.dart';
 import 'package:just_chat/modules/auth/data/models/user_model.dart';
 import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
 
+import '../../../../core/constants/enums.dart';
 import '../../../../core/di/dependency_injection.dart';
-import '../../../chat/data/models/chat_model.dart';
+import '../../../../core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
+import '../../../../core/services/firebase_notifiaction/firebase_msg_model.dart';
 import '../../data/models/message_model.dart';
 
 part 'messaging_state.dart';
 
-//TODO make chatId global over all messaging page components through this cubit.
 class MessagingCubit extends Cubit<MessagingState> {
-  ChatModel chatModel;
-  MessagingCubit({required this.chatModel}) : super(MessagingInitial());
+  String chatId;
+  String remoteUserId;
+  MessagingCubit({
+    required this.chatId,
+    required this.remoteUserId,
+  }) : super(MessagingInitial());
 
   UserModel? opponentUser;
-  UserModel? myUser;
   MessageModel? replyToMessage;
+
+  Future<void> fetchChatRoomArgs() async {
+    emit(FetchPageArgsLoading());
+    opponentUser = await FirebaseGeneralServices.getUserById(remoteUserId);
+    emit(FetchPageArgsSuccess());
+    log('fetch ======Chat Room Args ==${opponentUser?.name}==');
+  }
 
   //***************************** Get Chat Messages *************************  */
   Stream<List<MessageModel>?> getChatMessages(String chatId) {
@@ -47,20 +60,29 @@ class MessagingCubit extends Cubit<MessagingState> {
           message: message.copyWith(
             replyMsgId: replyToMessage!.msgId,
           ),
-          opponentFcmToken: opponentUser!.fcmToken!,
-          senderName: userName,
         );
         cancelReplyToMsgBox();
       } else {
         getIt<MsgsRepoInterface>().sendMessage(
           message: message,
-          opponentFcmToken: opponentUser!.fcmToken!,
-          senderName: await FirebaseGeneralServices.getUserById(
-            getIt<FirebaseAuth>().currentUser!.uid,
-          ).then((value) => value.name),
         );
       }
       textingController.clear();
+
+      ///
+      /// Send Notification...
+      ///
+
+      await FcmService.sendNotification(
+        FcmMsgModel(
+          remoteUserId: remoteUserId,
+          opponentFcmToken: opponentUser!.fcmToken!,
+          senderName: userName,
+          chatId: chatId,
+          chatMsg: message,
+          notificationType: NotificationType.chat,
+        ),
+      );
     } on Exception catch (e) {
       debugPrint('Error ===== $e');
     }

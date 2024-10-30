@@ -13,14 +13,14 @@ class ChatModel {
   final Timestamp? chatCreatedAt;
   final List<MessageModel>? messages;
 
-  ChatModel(
-    this.chatCreatedAt, {
+  ChatModel({
     required this.chatId,
     required this.members,
-    required this.messages,
-    required this.lastMessage,
-    required this.lastMessageTimestamp,
-    required this.lastMessageSenderId,
+    this.chatCreatedAt,
+    this.messages,
+    this.lastMessage,
+    this.lastMessageTimestamp,
+    this.lastMessageSenderId,
     this.groupName,
     this.groupImageUrl,
   });
@@ -40,7 +40,7 @@ class ChatModel {
 
   factory ChatModel.fromMap(Map<String, dynamic> map) {
     return ChatModel(
-      map['chatCreatedAt'],
+      chatCreatedAt: map['chatCreatedAt'],
       chatId: map['chatId'],
       members: List<String>.from(map['members']),
       messages: map['messages'] != null

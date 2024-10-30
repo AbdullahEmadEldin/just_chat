@@ -19,8 +19,8 @@ class MessagingRouter {
                 MultiBlocProvider(
                   providers: [
                     BlocProvider(
-                      create: (context) => MessagingCubit(chatModel: args.chat)
-                        ..opponentUser = args.opponentUser,
+                      create: (context) => MessagingCubit(
+                          chatId: args.chatId, remoteUserId: args.remoteUserId)..fetchChatRoomArgs(),
                     ),
                     BlocProvider(
                       create: (context) => RecorderCubit(),
