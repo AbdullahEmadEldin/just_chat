@@ -5,6 +5,8 @@ import 'package:just_chat/modules/messages/logic/recorder_cubit/recorder_cubit.d
 import 'package:just_chat/modules/messages/view/widgets/audio_recording_widgets/audio_recording_field.dart';
 import 'package:just_chat/modules/messages/view/widgets/text_msg_widgets/chatting_text_field.dart';
 
+import 'sending_media_widget.dart';
+
 class MessagingField extends StatelessWidget {
   final String chatId;
   const MessagingField({
@@ -24,7 +26,15 @@ class MessagingField extends StatelessWidget {
             chatId: chatId,
           ));
         } else {
-          return const ChattingTextField();
+          return const Expanded(
+            child:  Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ChattingTextField(),
+                SendingMediaWidget(),
+              ],
+            ),
+          );
         }
       },
     );

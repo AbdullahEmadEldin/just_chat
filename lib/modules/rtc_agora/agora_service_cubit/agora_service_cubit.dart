@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
@@ -14,8 +15,8 @@ class AgoraServiceCubit extends Cubit<AgoraServiceState> {
   // for testing purpose only as well as channel
   // in production level you will use token generator for each channel from server.
   static const _tempTokenServer =
-      '007eJxTYNhzxiWiZZa2Scj9c0UPbrRGvzfb9iJm9rxLmQX6aw/qnzypwGCUZGpmkpSWapZqZG6SYplmaWiYlJiYZGCWbJZsaWBs6HZRPr0hkJGh/HwkEyMDBIL4XAwlqcUl8WWZKan5DAwA6+0kXw==';
-  static const _channelId = "test_video"; // you set it in agora console
+      '007eJxTYEgNnaOYdEgm9evVNSuT2wvP2XxbcupSrj+rj5Dkyf1HfykqMBglmZqZJKWlmqUamZukWKZZGhomJSYmGZglmyVbGhgbrgxXSm8IZGRoPbSClZEBAkF8NoaS1OKSkhIGBgDc5CF1';
+  String channelId = "testtt"; // you set it in agora console
   ///
   ///
 
@@ -42,17 +43,13 @@ class AgoraServiceCubit extends Cubit<AgoraServiceState> {
     /// ensure the client role is broadcaster not audience.
     await agoraEngine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
     await agoraEngine.setupLocalVideo(const VideoCanvas(uid: 0));
-    //! 333333
 
     registerEventHandler();
-    //!4444
     joinChannel();
   }
 
   //! 333333
   void registerEventHandler() {
-    log('33333333333333');
-
     agoraEngine.registerEventHandler(
       RtcEngineEventHandler(
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
@@ -89,7 +86,7 @@ class AgoraServiceCubit extends Cubit<AgoraServiceState> {
 
     await agoraEngine.joinChannel(
       token: _tempTokenServer,
-      channelId: _channelId, // static for testing level..
+      channelId: channelId, // static for testing level..
       uid: 0,
       options: const ChannelMediaOptions(),
     );
@@ -119,9 +116,5 @@ class AgoraServiceCubit extends Cubit<AgoraServiceState> {
     await agoraEngine.release();
   }
 
-  // @override
-  // Future<void> close() async {
-  //   dispose();
-  //   super.close();
-  // }
+  
 }

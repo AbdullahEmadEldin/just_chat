@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:just_chat/modules/auth/data/models/user_model.dart';
-import 'package:just_chat/modules/chat/data/models/chat_model.dart';
+import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
 import 'package:just_chat/modules/messages/view/widgets/messages_page_header.dart';
 import 'package:just_chat/modules/messages/view/widgets/messages_stream_builder.dart';
 
@@ -9,19 +9,20 @@ import '../../../../core/theme/colors/colors_manager.dart';
 import '../widgets/sending_widgets/message_chatting_component.dart';
 
 class MessagingPageArgs {
-  final ChatModel chat;
-  final UserModel opponentUser;
+  final String chatId;
+  final String remoteUserId;
 
   MessagingPageArgs({
-    required this.chat,
-    required this.opponentUser,
+    required this.chatId,
+    required this.remoteUserId,
   });
 }
 
 class MessagingPage extends StatelessWidget {
   static const String routeName = '/messaging_page';
-  final MessagingPageArgs args;
-  const MessagingPage({super.key, required this.args});
+  const MessagingPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +30,25 @@ class MessagingPage extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: ColorsManager().colorScheme.primary20.withOpacity(0.9),
-        body: Column(
-          children: [
-            MessagesPageHeader(user: args.opponentUser),
-            SizedBox(height: 12.h),
-            MessagesStreamBuilder(
-              chatId: args.chat.chatId,
-            )
-          ],
+        body: BlocBuilder<MessagingCubit, MessagingState>(
+          buildWhen: (previous, current) =>
+              current is FetchPageArgsLoading ||
+              current is FetchPageArgsSuccess,
+          builder: (context, state) {
+            return state is FetchPageArgsSuccess
+                ? Column(
+                    children: [
+                      const MessagesPageHeader(),
+                      SizedBox(height: 12.h),
+                      MessagesStreamBuilder(
+                        chatId: context.read<MessagingCubit>().chatId,
+                      )
+                    ],
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  );
+          },
         ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.only(
@@ -44,7 +56,8 @@ class MessagingPage extends StatelessWidget {
                 .viewInsets
                 .bottom, // This adjusts for the keyboard
           ),
-          child: MessageChattingComponent(chatId: args.chat.chatId),
+          child: MessageChattingComponent(
+              chatId: context.read<MessagingCubit>().chatId),
         ),
       ),
     );

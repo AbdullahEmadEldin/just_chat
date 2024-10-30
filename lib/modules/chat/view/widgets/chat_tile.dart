@@ -28,8 +28,8 @@ class ChatTile extends StatelessWidget {
       onTap: () {
         context.pushNamed(MessagingPage.routeName,
             arguments: MessagingPageArgs(
-              chat: chat,
-              opponentUser: opponentUser,
+              chatId: chat.chatId,
+              remoteUserId: opponentUser.uid,
             ));
       },
       child: Container(

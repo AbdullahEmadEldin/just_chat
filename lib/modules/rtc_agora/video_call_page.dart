@@ -13,8 +13,6 @@ import '../messages/view/pages/messaging_page.dart';
 import 'agora_service_cubit/agora_service_cubit.dart';
 import 'view/widgets/toggle_mic_button.dart';
 
-const channel = "test_video"; // you set it in agora console
-
 class VideoCallPage extends StatefulWidget {
   static const String routeName = '${MessagingPage.routeName}/video_call_page';
   final String channelId;
@@ -102,7 +100,10 @@ class _VideoCallPageState extends State<VideoCallPage> {
           int? remoteUid;
           if (state is RemoteUserOffline) {
             remoteUid = state.remoteUid;
-            return const Text('User Has left the Call');
+            return Text(
+              'User Has left the Call',
+              style: Theme.of(context).textTheme.bodyLarge,
+            );
           }
           if (state is RemoteUserJoined) {
             remoteUid = state.remoteUid;
@@ -112,11 +113,13 @@ class _VideoCallPageState extends State<VideoCallPage> {
                   controller: VideoViewController.remote(
                     rtcEngine: _agoraServiceCubit.agoraEngine,
                     canvas: VideoCanvas(uid: remoteUid),
-                    connection: const RtcConnection(channelId: channel),
+                    connection:
+                        RtcConnection(channelId: _agoraServiceCubit.channelId),
                   ),
                 )
-              : const Text(
+              : Text(
                   'Please wait for remote user to join',
+                  style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                 );
         },

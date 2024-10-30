@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,6 +22,7 @@ import 'core/theme/colors/colors_manager.dart';
 import 'firebase_options.dart';
 
 Future<void> _onBackgroundMessage(remoteMsg) async {
+  FcmService.handleCustomNotificationUi(remoteMsg);
   print('================>>> Background Message: ${remoteMsg.data}');
 }
 
@@ -33,6 +37,35 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(
     _onBackgroundMessage,
   );
+
+  //! Init Awesome notification
+  AwesomeNotifications().initialize(
+      // set the icon to null if you want to use the default app icon
+      null,
+      [
+        NotificationChannel(
+            channelGroupKey: 'basic_channel_group',
+            channelKey: AppConstants.awesomeNotificationChanel,
+            channelName: 'Basic notifications',
+            channelDescription: 'Notification channel for basic tests',
+            defaultColor: Color(0xFF9D50DD),
+            ledColor: Colors.white)
+      ],
+      // Channel groups are only visual and are not required
+      channelGroups: [
+        NotificationChannelGroup(
+            channelGroupKey: 'basic_channel_group',
+            channelGroupName: 'Basic group')
+      ],
+      debug: true);
+
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+  FcmService.setupInteractedMessage();
+
   await CacheHelper.init();
   //setUpGetIt();
   final String startLocale = await LanguageManager.getAppLang();
@@ -84,9 +117,9 @@ Future<String> handleInitialRoute() async {
 
 _setFcmTokenToUserModel() async {
   final fcmToken = await getIt<FirebaseMessaging>().getToken();
+  log('fcm token = $fcmToken');
   FcmService.setFcmToken(fcmToken!);
-  //! a user can have many tokens (from multiple devices, or token refreshes),
-  //! therefore we use FieldValue.arrayUnion
+
   getIt<FirebaseMessaging>()
       .onTokenRefresh
       .listen((newToken) => FcmService.setFcmToken(newToken));

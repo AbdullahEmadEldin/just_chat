@@ -11,6 +11,7 @@ import '../../../core/services/firestore_service.dart';
 import '../../../core/theme/colors/colors_manager.dart';
 
 class ProfilePage extends StatelessWidget {
+  
   const ProfilePage({
     super.key,
   });

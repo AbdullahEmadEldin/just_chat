@@ -126,7 +126,7 @@ class _PreviewFileScreenState extends State<PreviewFileScreen> {
     messagingCubit
         .sendMessage(
       message: MessageModel(
-        chatId: messagingCubit.chatModel.chatId,
+        chatId: messagingCubit.chatId,
         msgId: const Uuid().v1(),
         senderId: getIt<FirebaseAuth>().currentUser!.uid,
         content: await NetworkHelper.uploadFileToFirebase(widget.args.filePath),

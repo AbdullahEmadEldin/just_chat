@@ -1,16 +1,20 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:just_chat/core/di/dependency_injection.dart';
-import 'package:just_chat/modules/messages/data/models/message_model.dart';
-
+import 'package:just_chat/core/theme/colors/colors_manager.dart';
+import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
 import '../../../app_entry.dart';
 import '../../../modules/rtc_agora/video_call_page.dart';
+import '../../constants/constants.dart';
+import '../../constants/enums.dart';
 import 'firebase_msg_model.dart';
 
 class FcmService {
@@ -73,19 +77,7 @@ class FcmService {
     final String accessToken = await _getAccessToken();
     String endpointFCM =
         'https://fcm.googleapis.com/v1/projects/just-chat-afd29/messages:send';
-    final Map<String, dynamic> fcmMsg = {
-      "message": {
-        'token': fcmMsgModel.opponentFcmToken,
-        "notification": {
-          "title": fcmMsgModel.senderName,
-          "body": fcmMsgModel.chatMsg?.content,
-        },
-        "data": {
-          "chatId": fcmMsgModel.chatId,
-          "type": "chat",
-        }
-      }
-    };
+    final Map<String, dynamic> remoteMsg = fcmMsgModel.toFcmJson();
 
     /// This http post will send the notification from user to another
     final http.Response response = await http.post(
@@ -94,46 +86,104 @@ class FcmService {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $accessToken'
       },
-      body: jsonEncode(fcmMsg),
+      body: jsonEncode(remoteMsg),
     );
 
     if (response.statusCode == 200) {
       log('----------------------------------------Notification sent successfully-------------------------------');
     } else {
-      print('Failed to send notification 000000000000000000000000000000');
+      log('Failed to send notification--${response.body}-');
     }
   }
 
   //!!!!!!!!!!!!!!!!!!!!!!!!!
   // It is assumed that all messages contain a data field with the key 'type'
-  static Future<void> setupInteractedMessage(BuildContext context) async {
+  static Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
 
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    if (initialMessage != null) {
-      _handleMessage(context, initialMessage);
-    }
+    await FirebaseMessaging.instance.getInitialMessage();
 
-    FirebaseMessaging.onMessageOpenedApp.listen((remoteMsg) {
-      _handleMessage(context, remoteMsg);
+    //! foreground
+    FirebaseMessaging.onMessage.listen((remoteMsg) {
+      log('A7A 11111');
+
+      handleCustomNotificationUi(remoteMsg);
     });
-    // FirebaseMessaging.
+    //! background
+    FirebaseMessaging.onMessageOpenedApp.listen((remoteMsg) {
+      log('A7A 0000');
+      handleCustomNotificationUi(remoteMsg);
+    });
   }
 
-  static void _handleMessage(BuildContext context, RemoteMessage message) {
-    log('Notifactio tapped ====================000000');
-    navigatorKey.currentState?.pushNamed(
-      VideoCallPage.routeName,
-      arguments: message.data['chatId'] as String,
+  /// I will use it show any notification either background or foreground or terminated
+  static void handleCustomNotificationUi(RemoteMessage message) async {
+    //
+    String icon;
+    String contentText;
+    String groupKey = 'chat';
+    if (message.data['type'] == NotificationType.call.name) {
+      icon = 'resource://drawable/res_video_icon';
+      contentText = 'Video Call';
+      groupKey = 'call';
+    } else {
+      switch (message.data['chatType']) {
+        case 'image':
+          icon =
+              'https://firebasestorage.googleapis.com/v0/b/just-chat-afd29.appspot.com/o/uploads%2Fnotification_image.png?alt=media&token=d92b14cb-eab2-41b8-8681-d451777a4bde';
+          contentText = 'Image sent...';
+          break;
+        case 'audio':
+          icon =
+              'https://firebasestorage.googleapis.com/v0/b/just-chat-afd29.appspot.com/o/uploads%2Fnotification_voice.png?alt=media&token=114076f3-c084-4d93-b255-e0a3cf7c7e3b';
+          contentText = 'Voice Message sent...';
+          break;
+        case 'video':
+          icon =
+              'https://firebasestorage.googleapis.com/v0/b/just-chat-afd29.appspot.com/o/uploads%2Fnotification_video.png?alt=media&token=ec2c10a1-a1b0-47f1-af1f-0eabae8b2199';
+          contentText = 'Video Sent...';
+        default:
+          icon = 'resource://drawable/res_text_icon';
+          contentText = message.data['body'] ?? 'You have a new message';
+          break;
+      }
+    }
+
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+          id: DateTime.now()
+              .millisecondsSinceEpoch
+              .remainder(100000), // unique id
+          channelKey: AppConstants.awesomeNotificationChanel,
+          actionType: message.data['type'] == NotificationType.call.name
+              ? ActionType.DisabledAction
+              : ActionType.Default,
+          title: message.data['title'] ?? 'New Message',
+          body: contentText,
+          groupKey: groupKey,
+          largeIcon: icon,
+          notificationLayout: NotificationLayout.Messaging,
+          payload: {
+            "chatId": message.data['chatId'],
+            "remoteUserId": message.data['remoteUserId'],
+          }),
+      actionButtons: message.data['type'] == NotificationType.call.name ? [
+        NotificationActionButton(
+          key: 'ANSWER',
+          label: 'Answer',
+          color: Colors.green,
+          actionType: ActionType.Default,
+        ),
+        NotificationActionButton(
+          key: 'DISMISS',
+          label: 'Dismiss',
+          actionType: ActionType.DismissAction,
+          isDangerousOption: true,
+        )
+      ] : null,
     );
-    // if (message.data['type'] == 'chat') {
-    //   Navigator.pushNamed(context, '/chat',
-    //     arguments: ChatArguments(message),
-    //   );
-    // }
+
+    log('ForeGround =============');
   }
 }

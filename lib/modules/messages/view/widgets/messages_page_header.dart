@@ -3,21 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_chat/core/widgets/circle_cached_image.dart';
 import 'package:just_chat/core/widgets/header_back_button.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
 import 'package:just_chat/modules/rtc_agora/video_call_page.dart';
 
+import '../../../../core/constants/enums.dart';
+import '../../../../core/constants/image_assets.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
 import '../../../../core/services/firebase_notifiaction/firebase_msg_model.dart';
 import '../../../../core/services/firestore_service.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
-import '../../../auth/data/models/user_model.dart';
 
 class MessagesPageHeader extends StatefulWidget {
-  final UserModel user;
-  const MessagesPageHeader({super.key, required this.user});
+  const MessagesPageHeader({super.key});
 
   @override
   State<MessagesPageHeader> createState() => _MessagesPageHeaderState();
@@ -48,14 +49,14 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
           const HeaderBackButton(),
           SizedBox(width: 8.w),
           CircleCachedImage(
-            imageUrl: widget.user.profilePicUrl!,
+            imageUrl: _messagingCubit.opponentUser!.profilePicUrl!,
           ),
           SizedBox(width: 8.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.user.name,
+                _messagingCubit.opponentUser!.name,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: ColorsManager().colorScheme.primary,
                       fontWeight: FontWeight.bold,
@@ -72,8 +73,8 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
             ],
           ),
           const Spacer(),
-          IconButton(
-            onPressed: () async {
+          InkWell(
+            onTap: () async {
               final senderName = await FirebaseGeneralServices.getUserById(
                 getIt<FirebaseAuth>().currentUser!.uid,
               ).then((value) => value.name);
@@ -82,26 +83,23 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
               ///
               await FcmService.sendNotification(
                 FcmMsgModel(
-                  opponentFcmToken: widget.user.fcmToken!,
+                  remoteUserId: _messagingCubit.opponentUser!.uid,
+                  opponentFcmToken: _messagingCubit.opponentUser!.fcmToken!,
                   senderName: senderName,
-                  notificationType: 'video_call',
-                  // will be the channel id for the video call
-                  chatId: _messagingCubit.chatModel.chatId,
-                  
+                  notificationType: NotificationType.call,
+                  // chat id will be the channel id for the video call
+                  chatId: _messagingCubit.chatId,
                 ),
               ).then((value) {
                 if (mounted) {
                   Navigator.of(context).pushNamed(
                     VideoCallPage.routeName,
-                    arguments: _messagingCubit.chatModel.chatId,
+                    arguments: _messagingCubit.chatId,
                   );
                 }
               });
             },
-            icon: Icon(
-              Icons.call_rounded,
-              color: ColorsManager().colorScheme.primary,
-            ),
+            child: SvgPicture.asset(ImagesAssets.videoCallSvg),
           )
         ],
       ),
