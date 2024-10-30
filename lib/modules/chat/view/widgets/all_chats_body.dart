@@ -21,6 +21,7 @@ class _AllChatsBodyState extends State<AllChatsBody> {
         if (state is GetChatsLoading) {
           return _handleLoadingChats();
         } else if (state is GetChatsSuccess) {
+          if (state.chats.isEmpty) return _handleEmptySnapshot();
           return Expanded(
             child: ListView.builder(
               itemCount: state.chats.length,

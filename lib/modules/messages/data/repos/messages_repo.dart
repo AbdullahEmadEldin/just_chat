@@ -46,12 +46,36 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
         'lastMessageTimestamp': DateTime.now(),
         'lastMessageSenderId': getIt<FirebaseAuth>().currentUser!.uid,
       });
-
-    
-      
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future<void> sendFirstMsg({
+    required String userId,
+    required String chatId,
+    required MessageModel msg,
+  }) async {
+    DocumentReference chatDocRef =
+        getIt<FirebaseFirestore>().collection('chats').doc(chatId);
+
+    await chatDocRef.set(
+      {
+        'chatId': chatId,
+        'members': [
+          getIt<FirebaseAuth>().currentUser!.uid,
+          userId,
+        ],
+        'lastMessage': msg.content,
+        "chatCreatedAt": DateTime.now(),
+        'lastMessageTimestamp': DateTime.now(),
+        'lastMessageSenderId': getIt<FirebaseAuth>().currentUser!.uid,
+      },
+    );
+
+    CollectionReference messagesRef = chatDocRef.collection('messages');
+    await messagesRef.add(msg.toJson());
   }
 
   @override
@@ -82,7 +106,10 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
         .doc(chatId)
         .collection('messages')
         .where('senderId', isNotEqualTo: getIt<FirebaseAuth>().currentUser!.uid)
-        .where('isSeen', isEqualTo: false);
+        .where(
+          'isSeen',
+          isEqualTo: false,
+        );
 
     ///Executes the previously built query
     final msgQuerySnapshot = await msgQuery.get();

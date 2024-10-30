@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -58,18 +60,25 @@ class _SendRecordButtonState extends State<SendRecordButton> {
   }
 
   void _sendTextMsg(BuildContext context) {
-    context.read<MessagingCubit>().sendMessage(
-          message: MessageModel(
-            chatId: widget.chatId,
-            msgId: const Uuid().v1(),
-            senderId: getIt<FirebaseAuth>().currentUser!.uid,
-            replyMsgId: context.read<MessagingCubit>().replyToMessage?.msgId,
-            content: context.read<MessagingCubit>().textingController.text,
-            contentType: MsgType.text.name,
-            sentTime: Timestamp.fromDate(DateTime.now()),
-            isSeen: false,
-          ),
-        );
+    final newMsg = MessageModel(
+      chatId: widget.chatId,
+      msgId: const Uuid().v1(),
+      senderId: getIt<FirebaseAuth>().currentUser!.uid,
+      replyMsgId: context.read<MessagingCubit>().replyToMessage?.msgId,
+      content: context.read<MessagingCubit>().textingController.text,
+      contentType: MsgType.text.name,
+      sentTime: Timestamp.fromDate(DateTime.now()),
+      isSeen: false,
+    );
+    if (context.read<MessagingCubit>().firstMsgInChat) {
+      log('==>>>> FIrst MESSGAE 000');
+      context.read<MessagingCubit>().sendFirstMsg(msg: newMsg);
+      context.read<MessagingCubit>().firstMsgInChat = false;
+    } else {
+      context.read<MessagingCubit>().sendMessage(
+            message: newMsg,
+          );
+    }
     context.read<MessagingCubit>().switchSendButtonIcon();
   }
 }

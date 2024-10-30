@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,13 +40,20 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
           return _handleErrorSnapshot(snapshot.error.toString());
         }
         if (!snapshot.hasData || snapshot.data.isNullOrEmpty()) {
+          context.read<MessagingCubit>().firstMsgInChat = true;
+          log('First MSG here active..${context.read<MessagingCubit>().firstMsgInChat}....');
           return _handleEmptySnapshot(context);
         }
         var messages = snapshot.data!;
-        context.read<MessagingCubit>().markMsgAsSeen(chiId: widget.chatId);
+
+        // if (messages.isNotEmpty || messages.length == 1) {
+        //   log('Mark seen active......');
+        //   context.read<MessagingCubit>().markMsgAsSeen();
+        // } else {}
 
         return Expanded(
           child: ListView.builder(
+            // shrinkWrap: true,
             reverse: true,
             controller: context.read<MessagingCubit>().scrollController,
             itemCount: messages.length,
@@ -77,7 +86,7 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 120.h),
+        SizedBox(height: 80.h),
         Lottie.asset(LottiesAssets.emptyChat, width: 200.w),
         Text(
           'Start a new chat...',

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
-import 'package:just_chat/core/router/app_router.dart';
-import 'package:just_chat/modules/add_friends/logic/cubit/add_friends_cubit.dart';
+import 'package:just_chat/core/widgets/custom_toast.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/constants/image_assets.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
@@ -12,13 +11,28 @@ import '../../../messages/view/pages/messaging_page.dart';
 
 class SearchResultTile extends StatelessWidget {
   final UserModel user;
-  const SearchResultTile({super.key, required this.user});
+  final bool isMyPhone;
+  const SearchResultTile(
+      {super.key, required this.user, required this.isMyPhone});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async {
-        context.pushNamed(MessagingPage.routeName);
+      onTap: () {
+        if (isMyPhone) {
+          showCustomToast(context, 'You can\'t chat with yourself',
+              isError: true);
+        } else {
+          final newChatId = const Uuid().v4();
+
+          context.pushNamed(
+            MessagingPage.routeName,
+            arguments: MessagingPageArgs(
+              chatId: newChatId,
+              remoteUserId: user.uid,
+            ),
+          );
+        }
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8.h),
@@ -42,7 +56,13 @@ class SearchResultTile extends StatelessWidget {
                 Text(user.phoneNumber,
                     style: Theme.of(context).textTheme.bodyMedium),
                 SizedBox(height: 4.h),
-                Text(user.name, style: Theme.of(context).textTheme.bodyMedium),
+                isMyPhone
+                    ? Text(
+                        'Your Number',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      )
+                    : Text(user.name,
+                        style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
             const Spacer(),

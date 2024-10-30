@@ -9,4 +9,10 @@ abstract class MsgsRepoInterface {
   Future<void> markMsgsAsSeen({
     required String chatId,
   });
+
+  Future<void> sendFirstMsg({
+    required String userId,
+    required String chatId,
+    required MessageModel msg,
+  });
 }

@@ -23,21 +23,21 @@ class AddFriendsRepo {
     }
   }
 
-  // /// This function actually will start a new chat with the user
-  // Future<void> addFriend({required String userId}) async {
-  //   final docId = getIt<Uuid>().v1();
-  //   DocumentReference docRef =
-  //       getIt<FirebaseFirestore>().collection('chats').doc(docId);
+  /// This function actually will start a new chat with the user
+  Future<void> addFriend({required String userId}) async {
+    final docId = getIt<Uuid>().v1();
+    DocumentReference docRef =
+        getIt<FirebaseFirestore>().collection('chats').doc(docId);
    
-  //   await docRef.set(
-  //     {
-  //       'chatId': docId,
-  //       'members': [
-  //         getIt<FirebaseAuth>().currentUser!.uid,
-  //         userId,
-  //       ],
-  //       'messages': [],
-  //     },
-  //   );
-  // }
+    await docRef.set(
+      {
+        'chatId': docId,
+        'members': [
+          getIt<FirebaseAuth>().currentUser!.uid,
+          userId,
+        ],
+        'messages': [],
+      },
+    );
+  }
 }
