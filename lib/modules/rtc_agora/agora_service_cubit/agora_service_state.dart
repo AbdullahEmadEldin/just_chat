@@ -5,6 +5,16 @@ sealed class AgoraServiceState {}
 
 final class AgoraServiceInitial extends AgoraServiceState {}
 
+
+final class UpdateCallTimer extends AgoraServiceState {
+
+  final int callDurationInSeconds;
+  UpdateCallTimer({required this.callDurationInSeconds});
+}
+final class RingingTimeOut extends AgoraServiceState {}
+
+//!!!!
+
 final class LocalUserJoined extends AgoraServiceState {}
 
 final class RemoteUserJoined extends AgoraServiceState {

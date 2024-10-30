@@ -20,19 +20,39 @@ class FcmMsgModel {
     this.chatMsg,
   });
 
-  Map<String, dynamic> toFcmJson() => {
-        "message": {
-          'token': opponentFcmToken,
-          "notification": {
-            "title": senderName,
-            "body": chatMsg?.content,
-          },
-          "data": {
-            "chatId": chatId,
-            "type": notificationType.name,
-            "chatType": chatMsg?.contentType,
-            "remoteUserId": remoteUserId,
-          }
+  Map<String, dynamic> toFcmJson() {
+    /// if you want to disable push notification from FCM
+    /// Don't include "notification": {}
+    // final map = {
+    //   "message": {
+    //     'token': opponentFcmToken,
+    //     "notification": {
+    //       "title": senderName,
+    //       "body": chatMsg?.content,
+    //     },
+    //     "data": {
+    //       "title": senderName,
+    //       "body": chatMsg?.content,
+    //       "chatId": chatId,
+    //       "type": notificationType.name,
+    //       "chatType": chatMsg?.contentType,
+    //       "remoteUserId": remoteUserId,
+    //     }
+    //   }
+    // };
+    final map = {
+      "message": {
+        'token': opponentFcmToken,
+        "data": {
+          "title": senderName,
+          "body": chatMsg?.content,
+          "chatId": chatId,
+          "type": notificationType.name,
+          "chatType": chatMsg?.contentType,
+          "remoteUserId": remoteUserId,
         }
-      };
+      }
+    };
+    return map;
+  }
 }

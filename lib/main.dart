@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,11 +18,11 @@ import 'core/constants/constants.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/lang_manager.dart';
 import 'core/services/cache/cache_helper.dart';
-import 'core/services/local_notification/awesome_notification_controller.dart';
 import 'core/theme/colors/colors_manager.dart';
 import 'firebase_options.dart';
 
 Future<void> _onBackgroundMessage(remoteMsg) async {
+  FcmService.handleCustomNotificationUi(remoteMsg);
   print('================>>> Background Message: ${remoteMsg.data}');
 }
 
@@ -35,6 +37,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(
     _onBackgroundMessage,
   );
+
   //! Init Awesome notification
   AwesomeNotifications().initialize(
       // set the icon to null if you want to use the default app icon
@@ -61,6 +64,7 @@ void main() async {
       AwesomeNotifications().requestPermissionToSendNotifications();
     }
   });
+  FcmService.setupInteractedMessage();
 
   await CacheHelper.init();
   //setUpGetIt();
@@ -113,9 +117,9 @@ Future<String> handleInitialRoute() async {
 
 _setFcmTokenToUserModel() async {
   final fcmToken = await getIt<FirebaseMessaging>().getToken();
+  log('fcm token = $fcmToken');
   FcmService.setFcmToken(fcmToken!);
-  //! a user can have many tokens (from multiple devices, or token refreshes),
-  //! therefore we use FieldValue.arrayUnion
+
   getIt<FirebaseMessaging>()
       .onTokenRefresh
       .listen((newToken) => FcmService.setFcmToken(newToken));

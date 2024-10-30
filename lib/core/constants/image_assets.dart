@@ -9,4 +9,6 @@ class ImagesAssets {
 
   static const String seenSvg = 'assets/images/seen.svg';
   static const String checkMrkSvg = 'assets/images/checkmark.svg';
+
+  static const String videoCallSvg = 'assets/images/video_call_icon.svg';
 }

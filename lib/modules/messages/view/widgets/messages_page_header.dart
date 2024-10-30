@@ -3,18 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_chat/core/widgets/circle_cached_image.dart';
 import 'package:just_chat/core/widgets/header_back_button.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
 import 'package:just_chat/modules/rtc_agora/video_call_page.dart';
 
 import '../../../../core/constants/enums.dart';
+import '../../../../core/constants/image_assets.dart';
 import '../../../../core/di/dependency_injection.dart';
 import '../../../../core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
 import '../../../../core/services/firebase_notifiaction/firebase_msg_model.dart';
 import '../../../../core/services/firestore_service.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
-import '../../../auth/data/models/user_model.dart';
 
 class MessagesPageHeader extends StatefulWidget {
   const MessagesPageHeader({super.key});
@@ -72,8 +73,8 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
             ],
           ),
           const Spacer(),
-          IconButton(
-            onPressed: () async {
+          InkWell(
+            onTap: () async {
               final senderName = await FirebaseGeneralServices.getUserById(
                 getIt<FirebaseAuth>().currentUser!.uid,
               ).then((value) => value.name);
@@ -98,10 +99,7 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
                 }
               });
             },
-            icon: Icon(
-              Icons.call_rounded,
-              color: ColorsManager().colorScheme.primary,
-            ),
+            child: SvgPicture.asset(ImagesAssets.videoCallSvg),
           )
         ],
       ),

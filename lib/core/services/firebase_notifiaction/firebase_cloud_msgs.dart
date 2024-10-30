@@ -101,30 +101,24 @@ class FcmService {
   static Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
-    // RemoteMessage? initialMessage =
+
     await FirebaseMessaging.instance.getInitialMessage();
 
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    // if (initialMessage != null) {
-    //   _handleCustomNotificationUi(initialMessage);
-    // }
     //! foreground
     FirebaseMessaging.onMessage.listen((remoteMsg) {
-      _handleCustomNotificationUi(remoteMsg);
+      log('A7A 11111');
 
-      // _handleNotificationTap(remoteMsg);
+      handleCustomNotificationUi(remoteMsg);
     });
     //! background
     FirebaseMessaging.onMessageOpenedApp.listen((remoteMsg) {
-      _handleCustomNotificationUi(remoteMsg);
-
-      // _handleNotificationTap(remoteMsg);
+      log('A7A 0000');
+      handleCustomNotificationUi(remoteMsg);
     });
   }
 
   /// I will use it show any notification either background or foreground or terminated
-  static void _handleCustomNotificationUi(RemoteMessage message) async {
+  static void handleCustomNotificationUi(RemoteMessage message) async {
     //
     String icon;
     String contentText;
@@ -151,7 +145,7 @@ class FcmService {
           contentText = 'Video Sent...';
         default:
           icon = 'resource://drawable/res_text_icon';
-          contentText = message.notification?.body ?? 'You have a new message';
+          contentText = message.data['body'] ?? 'You have a new message';
           break;
       }
     }
@@ -162,21 +156,23 @@ class FcmService {
               .millisecondsSinceEpoch
               .remainder(100000), // unique id
           channelKey: AppConstants.awesomeNotificationChanel,
-          actionType: ActionType.Default,
-          title: message.notification?.title ?? 'New Message',
+          actionType: message.data['type'] == NotificationType.call.name
+              ? ActionType.DisabledAction
+              : ActionType.Default,
+          title: message.data['title'] ?? 'New Message',
           body: contentText,
           groupKey: groupKey,
           largeIcon: icon,
-          notificationLayout: NotificationLayout.BigText,
+          notificationLayout: NotificationLayout.Messaging,
           payload: {
             "chatId": message.data['chatId'],
             "remoteUserId": message.data['remoteUserId'],
           }),
-      actionButtons: [
+      actionButtons: message.data['type'] == NotificationType.call.name ? [
         NotificationActionButton(
           key: 'ANSWER',
           label: 'Answer',
-          color: ColorsManager().colorScheme.fillGreen,
+          color: Colors.green,
           actionType: ActionType.Default,
         ),
         NotificationActionButton(
@@ -185,7 +181,7 @@ class FcmService {
           actionType: ActionType.DismissAction,
           isDangerousOption: true,
         )
-      ],
+      ] : null,
     );
 
     log('ForeGround =============');
