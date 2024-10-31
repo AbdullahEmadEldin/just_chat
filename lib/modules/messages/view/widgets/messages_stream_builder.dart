@@ -46,10 +46,10 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         }
         var messages = snapshot.data!;
 
-        // if (messages.isNotEmpty || messages.length == 1) {
-        //   log('Mark seen active......');
-        //   context.read<MessagingCubit>().markMsgAsSeen();
-        // } else {}
+        if (messages.isNotEmpty) {
+          log('Mark seen active......');
+          context.read<MessagingCubit>().markMsgAsSeen();
+        }
 
         return Expanded(
           child: ListView.builder(

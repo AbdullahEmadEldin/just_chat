@@ -1,4 +1,4 @@
-part of 'add_friends_cubit.dart';
+part of 'search_for_friends_cubit.dart';
 
 @immutable
 sealed class AddFriendsState {}

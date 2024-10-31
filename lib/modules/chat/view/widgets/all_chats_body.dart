@@ -26,7 +26,6 @@ class _AllChatsBodyState extends State<AllChatsBody> {
             child: ListView.builder(
               itemCount: state.chats.length,
               itemBuilder: (context, index) {
-                print('index ::: ${index}');
                 return ChatTile(
                   chat: state.chats[index],
                   opponentUser: state.opponentUsers[index],

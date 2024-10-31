@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
-import 'package:just_chat/modules/add_friends/logic/cubit/add_friends_cubit.dart';
+import 'package:just_chat/modules/add_friends/logic/cubit/search_for_friends_cubit.dart';
 import 'package:just_chat/modules/add_friends/view/widgets/search_result_tile.dart';
 import 'package:lottie/lottie.dart';
 
