@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -74,12 +75,11 @@ class AllChatsCubit extends Cubit<AllChatsState> {
       for (var chat in chats) {
         int count = await getIt<ChatRepoInterface>()
             .getUnreadChatsCount(chatId: chat.chatId);
-
         unreadMsgsOfChats.add(count);
       }
       return unreadMsgsOfChats;
     } catch (e) {
-      debugPrint(
+      log(
           'This is Error on getting count of unread messages: ${e.toString()}');
       rethrow;
     }
@@ -87,7 +87,7 @@ class AllChatsCubit extends Cubit<AllChatsState> {
 
   @override
   Future<void> close() {
-    print(
+    log(
         '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Close all Chats Cubit');
     return super.close();
   }

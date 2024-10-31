@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
@@ -39,7 +41,7 @@ class FirebaseChatRepo implements ChatRepoInterface {
   
   @override
   Future<int> getUnreadChatsCount({required String chatId}) async {
-    print('Update count called');
+    log('Update unread Msg count called ---');
     final msgQuery = getIt<FirebaseFirestore>()
         .collection('chats')
         .doc(chatId)

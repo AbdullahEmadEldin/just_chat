@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
@@ -42,6 +44,7 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
           .collection('chats')
           .doc(message.chatId)
           .update({
+        'isSeen': false,
         'lastMessage': message.content,
         'lastMessageTimestamp': DateTime.now(),
         'lastMessageSenderId': getIt<FirebaseAuth>().currentUser!.uid,
@@ -67,6 +70,7 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
           getIt<FirebaseAuth>().currentUser!.uid,
           userId,
         ],
+        'isSeen': false,
         'lastMessage': msg.content,
         "chatCreatedAt": DateTime.now(),
         'lastMessageTimestamp': DateTime.now(),
@@ -99,13 +103,15 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
   Future<void> markMsgsAsSeen({
     required String chatId,
   }) async {
+    final localId = getIt<FirebaseAuth>().currentUser!.uid;
+
     /// final messagesQuery: This creates a query that will later be executed
     /// to fetch `His` messages that haven't been seen.
     final msgQuery = getIt<FirebaseFirestore>()
         .collection('chats')
         .doc(chatId)
         .collection('messages')
-        .where('senderId', isNotEqualTo: getIt<FirebaseAuth>().currentUser!.uid)
+        .where('senderId', isNotEqualTo: localId)
         .where(
           'isSeen',
           isEqualTo: false,
@@ -131,8 +137,14 @@ class FirebaseMsgRepo implements MsgsRepoInterface {
     /// Update the 'isSeen' field in the 'chats' collection
     //? This field wouldn't be used at any part of the application.
     //? but it's use to just trigger the stream listener to update the UI with 0 unread msgs when the chat is opened.
-    getIt<FirebaseFirestore>().collection('chats').doc(chatId).update({
-      'isSeen': true,
-    });
+    final chatDocRef =
+        getIt<FirebaseFirestore>().collection('chats').doc(chatId);
+    final chatDocSnapShot = await chatDocRef.get();
+    final chatData = chatDocSnapShot.data() as Map<String, dynamic>;
+    if (chatData['lastMessageSenderId'] != localId) {
+      chatDocRef.update({
+        'isSeen': true,
+      });
+    }
   }
 }
