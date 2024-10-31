@@ -132,6 +132,7 @@ class _FillDataPageState extends State<FillDataPage> {
           UserModel(
             uid: getIt<FirebaseAuth>().currentUser!.uid,
             name: nameController.text,
+            isOnline: true,
             phoneNumber: getIt<PhoneAuthInfo>().phoneNumber!,
             bio: bioController.text,
             profilePicUrl:
