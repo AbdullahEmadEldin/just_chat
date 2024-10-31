@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,24 +20,6 @@ import '../../../../core/services/firebase_notifiaction/firebase_cloud_msgs.dart
 import '../../../../core/services/firebase_notifiaction/firebase_msg_model.dart';
 import '../../../../core/services/firestore_service.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
-
-class ChatRoomHeaderDelegate extends SliverPersistentHeaderDelegate {
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return const MessagesPageHeader();
-  }
-
-  @override
-  double get maxExtent => 60.0; // Adjust the height of the search bar
-  @override
-  double get minExtent => 60.0;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
-}
 
 class MessagesPageHeader extends StatefulWidget {
   const MessagesPageHeader({super.key});
@@ -80,14 +66,7 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              Text(
-                'Active 1m ago',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: ColorsManager().colorScheme.grey60,
-                      fontWeight:
-                          FontWeight.bold, // fontWeight: FontWeight.bold,
-                    ),
-              ),
+              _onlineStatus(context),
             ],
           ),
           const Spacer(),
@@ -122,5 +101,50 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
         ],
       ),
     );
+  }
+
+  Widget _onlineStatus(BuildContext context) {
+    return StreamBuilder<Object>(
+        stream: getIt<FirebaseFirestore>()
+            .collection('users')
+            .doc(_messagingCubit.opponentUser!.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const SizedBox.shrink();
+          }
+          final DocumentSnapshot documentSnapshot =
+              snapshot.data as DocumentSnapshot;
+          final data = documentSnapshot.data() as Map<String, dynamic>?;
+
+          final bool isOnline = data?['isOnline'] as bool;
+          //
+          final lastSeen = (data?['lastSeen'] as Timestamp);
+          final formattedLastSeen = _handleLastSeenAppearance(lastSeen);
+          //
+          return Text(
+            isOnline ? 'Online' : 'Last seen $formattedLastSeen',
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: isOnline
+                      ? ColorsManager().colorScheme.fillGreen
+                      : ColorsManager().colorScheme.grey60,
+                  fontWeight: FontWeight.bold, // fontWeight: FontWeight.bold,
+                ),
+          );
+        });
+  }
+
+  String _handleLastSeenAppearance(Timestamp lastSeen) {
+    final lastSeenDate = lastSeen.toDate();
+    final now = DateTime.now();
+    final difference = now.difference(lastSeenDate).inDays;
+
+    if (difference == 0) {
+      String formattedLastSeen = DateFormat('hh:mm a').format(lastSeenDate);
+      return formattedLastSeen;
+    } else {
+      String formattedLastSeen = DateFormat('dd/MM/yyyy').format(lastSeenDate);
+      return formattedLastSeen;
+    }
   }
 }

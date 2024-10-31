@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:just_chat/modules/auth/data/models/user_model.dart';
@@ -14,10 +16,21 @@ class UserDataRepo {
 
   Future<void> updateUserData(UserModel user) async {
     final String createdUserId = getIt<FirebaseAuth>().currentUser!.uid;
-    await getIt<FirebaseFirestore>().collection('users').doc(createdUserId).update(
+    await getIt<FirebaseFirestore>()
+        .collection('users')
+        .doc(createdUserId)
+        .update(
           user.toMap(),
         );
   }
 
-  
+  static void updateUserStatus(bool isOnline) async {
+    final String userId = getIt<FirebaseAuth>().currentUser!.uid;
+    log('=====> User is ;;;;;;; $isOnline');
+    // Online status
+    await getIt<FirebaseFirestore>().collection('users').doc(userId).update({
+      'isOnline': isOnline,
+      'lastSeen': Timestamp.now(),
+    });
+  }
 }
