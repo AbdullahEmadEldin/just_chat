@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/widgets/input_feild.dart';
-import 'package:just_chat/modules/add_friends/logic/cubit/add_friends_cubit.dart';
+import 'package:just_chat/modules/add_friends/logic/cubit/search_for_friends_cubit.dart';
 import 'package:just_chat/modules/add_friends/view/widgets/search_bloc_builder.dart';
 
 import '../../../core/theme/colors/colors_manager.dart';
