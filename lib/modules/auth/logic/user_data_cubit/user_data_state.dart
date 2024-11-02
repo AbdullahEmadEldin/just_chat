@@ -14,3 +14,27 @@ final class SetUserDataFailure extends UserDataState {
 
   SetUserDataFailure({required this.errorMsg});
 }
+
+//! Update User Data
+final class UpdateUserDataLoading extends UserDataState {}
+
+final class UpdateUserDataSuccess extends UserDataState {}
+
+final class UpdateUserDataFailure extends UserDataState {
+  final String errorMsg;
+
+  UpdateUserDataFailure({required this.errorMsg});
+}
+
+//! Get User Data
+final class GetUserDataLoading extends UserDataState {}
+
+final class GetUserDataSuccess extends UserDataState {
+  final UserModel userModel;
+  GetUserDataSuccess({required this.userModel});
+}
+
+final class GetUserDataFailure extends UserDataState {
+  final String errorMsg;
+  GetUserDataFailure({required this.errorMsg});
+}

@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:get_it/get_it.dart';
+import 'package:just_chat/modules/auth/data/repos/user_data_repo.dart';
 import 'package:just_chat/modules/chat/data/repos/firebase_chat_repo.dart';
 import 'package:just_chat/modules/messages/data/repos/messages_repo.dart';
 import 'package:just_chat/modules/messages/data/repos/msg_repo_interface.dart';
@@ -35,6 +36,8 @@ void setUpGetIt() {
 
   // This global instance for access auth info over the app
   getIt.registerLazySingleton<PhoneAuthInfo>(() => PhoneAuthInfo());
+
+  getIt.registerLazySingleton<UserDataRepo>(() => UserDataRepo());
 }
 
 class PhoneAuthInfo {

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
 import 'package:just_chat/modules/chat/logic/all_chats_cubit/all_chats_cubit.dart';
 import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
 import 'package:just_chat/modules/nav_bar/nav_bar_item.dart';
@@ -28,7 +29,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
     return Scaffold(
       backgroundColor: ColorsManager().colorScheme.primary80,
       body: PageView(
-        
         controller: _pageController,
         onPageChanged: (index) {
           setState(() {
@@ -84,6 +84,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
       create: (context) => AllChatsCubit()..getAllChats(),
       child: const AllChatsPage(),
     ),
-    const ProfilePage(),
+    BlocProvider(
+      create: (context) => UserDataCubit()..getUserData(),
+      child: const ProfilePage(),
+    ),
   ];
 }
