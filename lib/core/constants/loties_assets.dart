@@ -8,4 +8,6 @@ class LottiesAssets {
   static const String messageIcon = 'assets/lotties/message_icon.json';
   static const String unlock = 'assets/lotties/unlock.json';
   static const String rightArrow = 'assets/lotties/right_arrow.json';
+    static const String underConstruction = 'assets/lotties/under_construction.json';
+
 }

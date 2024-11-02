@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:just_chat/modules/chat/logic/all_chats_cubit/all_chats_cubit.dart';
+import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
+import 'package:just_chat/modules/chat/logic/all_chats/all_chats_cubit.dart';
+import 'package:just_chat/modules/chat/logic/friend_chat_cubit/friend_chat_cubit.dart';
 import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
 import 'package:just_chat/modules/nav_bar/nav_bar_item.dart';
 import 'package:just_chat/modules/profile/view/profile_page.dart';
@@ -18,9 +22,9 @@ class CustomNavBar extends StatefulWidget {
 }
 
 class _CustomNavBarState extends State<CustomNavBar> {
-  final PageController _pageController = PageController();
+  final PageController _pageController = PageController(initialPage: 1);
 
-  int currentIndex = 0;
+  int currentIndex = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +33,14 @@ class _CustomNavBarState extends State<CustomNavBar> {
         controller: _pageController,
         onPageChanged: (index) {
           setState(() {
+            log('Ehhhhhhh');
             currentIndex = index;
           });
         },
         children: _pages,
       ),
       bottomNavigationBar: Container(
-          height: 80.h,
+          height: 70.h,
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           width: double.infinity,
           decoration: BoxDecoration(
@@ -67,19 +72,29 @@ class _CustomNavBarState extends State<CustomNavBar> {
   }
 
   final List<String> _navBarItems = [
-    ImagesAssets.chatIcon,
     ImagesAssets.settingsIcon,
+    ImagesAssets.chatIcon,
     ImagesAssets.profileIcon
   ];
 
   final _pages = [
-    BlocProvider(
-      create: (context) => AllChatsCubit()..getAllChats(),
-      child: const AllChatsPage(),
-    ),
     Center(
       child: Text('This is Settings'),
     ),
-    const ProfilePage(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => FriendsChatCubit()..getAllChats(),
+        ),
+        BlocProvider(
+          create: (context) => AllChatsCubit(),
+        ),
+      ],
+      child: const AllChatsPage(),
+    ),
+    BlocProvider(
+      create: (context) => UserDataCubit()..getUserData(),
+      child: const ProfilePage(),
+    ),
   ];
 }

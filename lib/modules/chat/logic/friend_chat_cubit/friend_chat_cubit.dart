@@ -12,10 +12,10 @@ import '../../../auth/data/models/user_model.dart';
 import '../../data/models/chat_model.dart';
 import '../../data/repos/chat_repo_interface.dart';
 
-part 'all_chats_state.dart';
+part 'friend_chat_state.dart';
 
-class AllChatsCubit extends Cubit<AllChatsState> {
-  AllChatsCubit() : super(AllChatsInitial());
+class FriendsChatCubit extends Cubit<FriendsChatState> {
+  FriendsChatCubit() : super(AllChatsInitial());
 
   Stream<List<ChatModel>?> getAllChats() {
     emit(GetChatsLoading());
@@ -37,8 +37,7 @@ class AllChatsCubit extends Cubit<AllChatsState> {
       return const Stream.empty();
     }
   }
-  
- 
+
 //! private helpers///
   _getOpponentUsersList(List<ChatModel> chats) async {
     List<UserModel> users = [];
@@ -79,16 +78,14 @@ class AllChatsCubit extends Cubit<AllChatsState> {
       }
       return unreadMsgsOfChats;
     } catch (e) {
-      log(
-          'This is Error on getting count of unread messages: ${e.toString()}');
+      log('This is Error on getting count of unread messages: ${e.toString()}');
       rethrow;
     }
   }
 
   @override
   Future<void> close() {
-    log(
-        '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Close all Chats Cubit');
+    log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Close all Chats Cubit');
     return super.close();
   }
 }

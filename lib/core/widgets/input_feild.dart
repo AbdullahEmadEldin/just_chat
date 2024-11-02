@@ -18,6 +18,7 @@ class InputField extends StatelessWidget {
   final int? maxLines;
 final Function(String)? onChanged;
   final Function(String?)? onSaved;
+  final FocusNode? focusNode;
   const InputField({
     super.key,
     required this.hintText,
@@ -34,11 +35,13 @@ final Function(String)? onChanged;
     this.maxLines,
     this.onChanged,
     this.onSaved,
+    this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       onChanged: onChanged,
       onSaved: onSaved,
       maxLines: maxLines,
