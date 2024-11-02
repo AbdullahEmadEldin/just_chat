@@ -19,8 +19,8 @@ class NavBarItem extends StatelessWidget {
       duration: const Duration(milliseconds: 600),
       curve: Curves.easeOut,
       padding: EdgeInsets.all(12.r),
-      height: 56.h,
-      width: 56.w,
+      height: isSelected ? 65.h : 56.h,
+      width: isSelected ? 65.w : 56.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(64.r),
         color: isSelected ? Colors.white : Colors.transparent,

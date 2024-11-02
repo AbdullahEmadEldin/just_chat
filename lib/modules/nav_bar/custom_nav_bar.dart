@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,17 +20,19 @@ class CustomNavBar extends StatefulWidget {
 }
 
 class _CustomNavBarState extends State<CustomNavBar> {
-  final PageController _pageController = PageController();
+  final PageController _pageController = PageController(initialPage: 1);
 
-  int currentIndex = 0;
+  int currentIndex = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager().colorScheme.primary80,
       body: PageView(
+        
         controller: _pageController,
         onPageChanged: (index) {
           setState(() {
+            log('Ehhhhhhh');
             currentIndex = index;
           });
         },
@@ -67,18 +71,18 @@ class _CustomNavBarState extends State<CustomNavBar> {
   }
 
   final List<String> _navBarItems = [
-    ImagesAssets.chatIcon,
     ImagesAssets.settingsIcon,
+    ImagesAssets.chatIcon,
     ImagesAssets.profileIcon
   ];
 
   final _pages = [
+    Center(
+      child: Text('This is Settings'),
+    ),
     BlocProvider(
       create: (context) => AllChatsCubit()..getAllChats(),
       child: const AllChatsPage(),
-    ),
-    Center(
-      child: Text('This is Settings'),
     ),
     const ProfilePage(),
   ];
