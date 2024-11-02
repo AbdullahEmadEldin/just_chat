@@ -16,32 +16,34 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorsManager().colorScheme.primary80,
-        body: Container(
-          padding: EdgeInsets.only(top: 36.h),
-          height: MediaQuery.of(context).size.height,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(42.r),
-              bottomRight: Radius.circular(42.r),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(top: 36.h),
+            height: MediaQuery.of(context).size.height * 0.91,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(42.r),
+                bottomRight: Radius.circular(42.r),
+              ),
             ),
+            child: BlocBuilder<UserDataCubit, UserDataState>(
+                buildWhen: (previous, current) =>
+                    current is GetUserDataSuccess ||
+                    current is GetUserDataFailure ||
+                    current is GetUserDataLoading,
+                builder: (context, state) {
+                  if (state is GetUserDataSuccess) {
+                    return Column(
+                      children: [
+                        ProfileHeader(user: state.userModel),
+                      ],
+                    );
+                  }
+                  return const ProfileShimmer();
+                }),
           ),
-          child: BlocBuilder<UserDataCubit, UserDataState>(
-              buildWhen: (previous, current) =>
-                  current is GetUserDataSuccess ||
-                  current is GetUserDataFailure ||
-                  current is GetUserDataLoading,
-              builder: (context, state) {
-                if (state is GetUserDataSuccess) {
-                  return Column(
-                    children: [
-                      ProfileHeader(user: state.userModel),
-                    ],
-                  );
-                }
-                return const ProfileShimmer();
-              }),
         ));
   }
 }

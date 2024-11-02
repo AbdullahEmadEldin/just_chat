@@ -56,7 +56,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
       },
       builder: (context, state) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -165,7 +165,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
             child: Icon(
               nameReadOnly ? Icons.edit : Icons.check,
               color: ColorsManager().colorScheme.grey60,
-              size: 30,
+              size: 25.r,
             ),
           ),
         ),

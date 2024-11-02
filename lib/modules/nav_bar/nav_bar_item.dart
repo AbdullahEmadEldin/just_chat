@@ -18,9 +18,9 @@ class NavBarItem extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 600),
       curve: Curves.easeOut,
-      padding: EdgeInsets.all(12.r),
-      height: isSelected ? 65.h : 56.h,
-      width: isSelected ? 65.w : 56.w,
+      padding: EdgeInsets.all(8.r),
+      height: isSelected ? 55.h : 45.h,
+      width: isSelected ? 55.w : 45.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(64.r),
         color: isSelected ? Colors.white : Colors.transparent,

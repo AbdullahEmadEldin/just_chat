@@ -10,3 +10,8 @@ enum NotificationType {
   chat,
   call,
 }
+
+enum ChatType{
+  friend,
+  group
+}

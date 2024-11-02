@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/modules/auth/data/models/user_model.dart';
 import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
-import 'package:just_chat/modules/profile/view/profile_page.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../../../core/theme/colors/colors_manager.dart';

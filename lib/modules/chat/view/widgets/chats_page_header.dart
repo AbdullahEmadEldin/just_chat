@@ -1,13 +1,12 @@
-import 'dart:developer';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
 import 'package:just_chat/modules/add_friends/view/search_for_friends_page.dart';
 
+import '../../../../core/constants/enums.dart';
+import '../../logic/all_chats/all_chats_cubit.dart';
 import 'all_chats_header_custom_painter.dart';
 
 class ChatsPageHeader extends StatefulWidget {
@@ -41,6 +40,9 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
+                context.read<AllChatsCubit>().switchBetweenChatTypes(
+                      ChatType.friend,
+                    );
                 setState(() {
                   selectedIndex = 0;
                 });
@@ -66,7 +68,6 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
               ),
               child: IconButton(
                 onPressed: () {
-                  log('----------- ${getIt<FirebaseAuth>().currentUser!.uid}');
                   context.pushNamed(SearchForFriendsPage.routeName);
                 },
                 icon: Icon(
@@ -83,7 +84,9 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque, // Ensures full tap area
               onTap: () {
-                print('!!!!!!!!!!!!!!!!!!!!!!!!');
+                context.read<AllChatsCubit>().switchBetweenChatTypes(
+                      ChatType.group,
+                    );
                 setState(() {
                   selectedIndex = 1;
                 });

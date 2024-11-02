@@ -104,12 +104,14 @@ class _SendingMediaWidgetState extends State<SendingMediaWidget> {
     await FilePicker.platform.pickFiles(type: fileType).then((value) {
       _removeOverlay();
       if (value != null) {
-        context.pushNamed(PreviewFileScreen.routeName,
-            arguments: PreviewFileArgs(
-              filePath: value.files.first.path!,
-              fileType: fileType,
-              sendCubitContext: context,
-            ));
+        context.pushNamed(
+          PreviewFileScreen.routeName,
+          arguments: PreviewFileArgs(
+            filePath: value.files.first.path!,
+            fileType: fileType,
+            sendCubitContext: context,
+          ),
+        );
 
         //value.files.first.extension;
       }

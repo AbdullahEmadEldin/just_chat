@@ -1,13 +1,13 @@
-part of 'all_chats_cubit.dart';
+part of 'friend_chat_cubit.dart';
 
 @immutable
-sealed class AllChatsState {}
+sealed class FriendsChatState {}
 
-final class AllChatsInitial extends AllChatsState {}
+final class AllChatsInitial extends FriendsChatState {}
 
-final class GetChatsLoading extends AllChatsState {}
+final class GetChatsLoading extends FriendsChatState {}
 
-final class GetChatsSuccess extends AllChatsState {
+final class GetChatsSuccess extends FriendsChatState {
   final List<ChatModel> chats;
 
   final List<UserModel> opponentUsers;
@@ -19,7 +19,7 @@ final class GetChatsSuccess extends AllChatsState {
   });
 }
 
-final class GetChatsFailure extends AllChatsState {
+final class GetChatsFailure extends FriendsChatState {
   final String error;
 
   GetChatsFailure({required this.error});
