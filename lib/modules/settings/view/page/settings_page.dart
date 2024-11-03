@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/constants/image_assets.dart';
 import 'package:just_chat/core/constants/loties_assets.dart';
+import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/core/helpers/network_helper.dart';
+import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
 import 'package:just_chat/modules/settings/view/widget/notification_switcher.dart';
 import 'package:just_chat/modules/settings/view/widget/settings_item.dart';
 import 'package:lottie/lottie.dart';
@@ -152,13 +154,35 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                             ),
                           ),
+                          SizedBox(height: 12.h),
+                          SettingsItem(
+                            title: 'Logout',
+                            suffixIconData: CupertinoIcons.power,
+                            actionIcon: IconButton(
+                              onPressed: () async {
+                                await FirebaseGeneralServices.logout()
+                                    .then((value) {
+                                  context.pushNamedAndRemoveUntil(
+                                    PhoneAuthPage.routeName,
+                                    predicate: (Route<dynamic> route) =>
+                                        false, // false means remove all routes the exists in the stack
+                                  );
+                                });
+                              },
+                              icon: Icon(
+                                CupertinoIcons.right_chevron ,
+                                color: ColorsManager().colorScheme.grey40,
+                                size: 20,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     )),
               ),
             ),
             SizedBox(height: 24.h),
-            Lottie.asset(LottiesAssets.settings, height: 300.h),
+            Lottie.asset(LottiesAssets.settings, height: 250.h),
           ],
         ),
       ),

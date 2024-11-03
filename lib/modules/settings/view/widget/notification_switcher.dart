@@ -26,9 +26,10 @@ class _NotificationSwitcherState extends State<NotificationSwitcher> {
           thumbIcon: WidgetStateProperty.all(
             Icon(
               CupertinoIcons.bell_fill,
-              color: CacheHelper.getData(key: SharedPrefKeys.notification)
-                  ? Colors.white
-                  : ColorsManager().colorScheme.grey70,
+              color:
+                  CacheHelper.getData(key: SharedPrefKeys.notification) ?? true
+                      ? Colors.white
+                      : ColorsManager().colorScheme.grey70,
               // size: 20,
             ),
           ),

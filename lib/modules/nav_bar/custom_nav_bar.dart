@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
 import 'package:just_chat/modules/chat/logic/all_chats/all_chats_cubit.dart';
-import 'package:just_chat/modules/chat/logic/friend_chat_cubit/friend_chat_cubit.dart';
 import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
 import 'package:just_chat/modules/nav_bar/nav_bar_item.dart';
 import 'package:just_chat/modules/profile/view/profile_page.dart';
@@ -78,15 +76,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   final _pages = [
     const SettingsPage(),
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => FriendsChatCubit()..getAllChats(),
-        ),
-        BlocProvider(
-          create: (context) => AllChatsCubit(),
-        ),
-      ],
+    BlocProvider(
+      create: (context) => AllChatsCubit(),
       child: const AllChatsPage(),
     ),
     BlocProvider(

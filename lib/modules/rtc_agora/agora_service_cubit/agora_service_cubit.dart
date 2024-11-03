@@ -6,19 +6,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../core/services/firestore_service.dart';
+
 part 'agora_service_state.dart';
 
 class AgoraServiceCubit extends Cubit<AgoraServiceState> {
   AgoraServiceCubit() : super(AgoraServiceInitial());
   //! =============================== CONST Values ===============================
-  static const _appId = "2b564bfe6e274d9f911baab06c6c9031"; //from agora console
+  static const String _appId =
+      "2b564bfe6e274d9f911baab06c6c9031"; //from agora console
   // for testing purpose only as well as channel
   // in production level you will use token generator for each channel from server.
-  static const _tempTokenServer =
-      '007eJxTYEgNnaOYdEgm9evVNSuT2wvP2XxbcupSrj+rj5Dkyf1HfykqMBglmZqZJKWlmqUamZukWKZZGhomJSYmGZglmyVbGhgbrgxXSm8IZGRoPbSClZEBAkF8NoaS1OKSkhIGBgDc5CF1';
-  String channelId = "testtt"; // you set it in agora console
+  late String _tempTokenServer;
+  late String channelId; // you set it in agora console
   ///
   ///
+  Future<void> getAgoraVarFromFirebase() async {
+    _tempTokenServer = await FirebaseGeneralServices.getAppVar(
+        docName: 'agoraTempToken', varName: 'token');
+    channelId = await FirebaseGeneralServices.getAppVar(
+        docName: 'agoraTempToken', varName: 'channel');
+  }
 
   late RtcEngine agoraEngine;
 
@@ -115,6 +123,4 @@ class AgoraServiceCubit extends Cubit<AgoraServiceState> {
     await leaveChannel();
     await agoraEngine.release();
   }
-
-  
 }
