@@ -36,7 +36,7 @@ class MessagingRouter {
         final args = settings.arguments as String;
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => AgoraServiceCubit(),
+            create: (context) => AgoraServiceCubit()..getAgoraVarFromFirebase(),
             child: VideoCallPage(channelId: args),
           ),
         );

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_chat/modules/add_friends/view/search_for_friends_page.dart';
 import 'package:just_chat/modules/auth/auth_router.dart';
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
+import 'package:just_chat/modules/chat/logic/friend_chat_cubit/friend_chat_cubit.dart';
 import 'package:just_chat/modules/messages/messaging_router.dart';
 import 'package:just_chat/modules/messages/view/pages/messaging_page.dart';
 
@@ -23,7 +24,13 @@ class AppRouter {
       case PhoneAuthPage.routeName:
         return AuthRouter.onGenerate(settings);
       case CustomNavBar.routeName:
-        return MaterialPageRoute(builder: (context) => const CustomNavBar());
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+                  //? Wrapping this cubit in a high level to avoid bad state when It's emitted through the stream listener
+                  //? and isn't in the chats route...
+                  create: (context) => FriendsChatCubit()..getAllChats(),
+                  child: const CustomNavBar(),
+                ));
       case MessagingPage.routeName:
         return MessagingRouter.onGenerate(settings);
       case SearchForFriendsPage.routeName:

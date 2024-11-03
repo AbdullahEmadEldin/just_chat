@@ -170,7 +170,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 });
                               },
                               icon: Icon(
-                                Icons.arrow_forward_ios,
+                                CupertinoIcons.right_chevron ,
                                 color: ColorsManager().colorScheme.grey40,
                                 size: 20,
                               ),
