@@ -23,33 +23,43 @@ import 'firebase_options.dart';
 
 Future<void> _onBackgroundMessage(remoteMsg) async {
   FcmService.handleCustomNotificationUi(remoteMsg);
-  print('================>>> Background Message: ${remoteMsg.data}');
+  log('================>>> Background Message: ${remoteMsg.data}');
 }
 
 void main() async {
+  /// Firebase Initialization
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  /// Dependency Injection Initialization..
   setUpGetIt();
+
+  /// ScreenUtil Initialization
   await ScreenUtil.ensureScreenSize();
+
+  /// EasyLocalization Initialization.
   await EasyLocalization.ensureInitialized();
+
+  /// Firebase Messaging Initialization
   FirebaseMessaging.onBackgroundMessage(
     _onBackgroundMessage,
   );
 
-  //! Init Awesome notification
+  /// Init Awesome notification
   AwesomeNotifications().initialize(
       // set the icon to null if you want to use the default app icon
       null,
       [
         NotificationChannel(
-            channelGroupKey: 'basic_channel_group',
-            channelKey: AppConstants.awesomeNotificationChanel,
-            channelName: 'Basic notifications',
-            channelDescription: 'Notification channel for basic tests',
-            defaultColor: Color(0xFF9D50DD),
-            ledColor: Colors.white)
+          channelGroupKey: 'basic_channel_group',
+          channelKey: AppConstants.awesomeNotificationChanel,
+          channelName: 'Basic notifications',
+          channelDescription: 'Notification channel for basic tests',
+          defaultColor:const Color(0xff4556F8),
+          ledColor: Colors.white,
+        )
       ],
       // Channel groups are only visual and are not required
       channelGroups: [
@@ -64,14 +74,23 @@ void main() async {
       AwesomeNotifications().requestPermissionToSendNotifications();
     }
   });
-  FcmService.setupInteractedMessage();
+ // FcmService.setupInteractedMessage();
 
+  /// CacheHelper Initialization
   await CacheHelper.init();
-  //setUpGetIt();
   final String startLocale = await LanguageManager.getAppLang();
-  CacheHelper.init();
-  // Set initial route
+
+  /// Set initial route
   final String initialRoute = await handleInitialRoute();
+
+  /// This bool comes from settings page where user can turn on/off notifications
+  final bool notificationStatus =
+     await CacheHelper.getData(key: SharedPrefKeys.notification) ?? true;
+  //
+  if (notificationStatus == true) {
+    log('=========>>> notificationStatus = $notificationStatus');
+    FcmService.setupInteractedMessage();
+  }
   // Set the status bar to the app background
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -83,7 +102,6 @@ void main() async {
     ),
   );
 
-  // runApp(DevicePreview(enabled: !kReleaseMode, builder: (_) => MyApp()));
   runApp(
     EasyLocalization(
         startLocale: Locale(startLocale),

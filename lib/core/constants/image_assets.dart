@@ -11,4 +11,6 @@ class ImagesAssets {
   static const String checkMrkSvg = 'assets/images/checkmark.svg';
 
   static const String videoCallSvg = 'assets/images/video_call_icon.svg';
+  static const String nightMode = 'assets/images/dark_theme_moon.png';
+  static const String lightMode = 'assets/images/light_mode_sun.png';
 }

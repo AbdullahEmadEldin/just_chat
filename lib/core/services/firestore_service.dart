@@ -16,8 +16,18 @@ class FirebaseGeneralServices {
     }
   }
 
+static  Future<String> getAppVar(
+      {required String docName, required String varName}) async {
+    final String variable = await getIt<FirebaseFirestore>()
+        .collection('appVars')
+        .doc(docName)
+        .get()
+        .then((value) {
+      return value.data()![varName];
+    });
+    return variable;
+  }
 
- 
   static Future<void> logout() async {
     await getIt<FirebaseAuth>().signOut();
   }
