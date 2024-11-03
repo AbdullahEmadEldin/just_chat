@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +8,7 @@ import 'package:just_chat/modules/chat/logic/friend_chat_cubit/friend_chat_cubit
 import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
 import 'package:just_chat/modules/nav_bar/nav_bar_item.dart';
 import 'package:just_chat/modules/profile/view/profile_page.dart';
+import 'package:just_chat/modules/settings/view/page/settings_page.dart';
 
 import '../../core/constants/image_assets.dart';
 import '../../core/theme/colors/colors_manager.dart';
@@ -33,7 +33,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
         controller: _pageController,
         onPageChanged: (index) {
           setState(() {
-            log('Ehhhhhhh');
             currentIndex = index;
           });
         },
@@ -78,9 +77,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
   ];
 
   final _pages = [
-    Center(
-      child: Text('This is Settings'),
-    ),
+    const SettingsPage(),
     MultiBlocProvider(
       providers: [
         BlocProvider(

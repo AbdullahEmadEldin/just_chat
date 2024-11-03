@@ -1,11 +1,15 @@
+import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:just_chat/core/constants/constants.dart';
 import 'package:just_chat/core/constants/image_assets.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:just_chat/core/widgets/custom_toast.dart';
 
 class NetworkHelper {
   /// This method is used to upload image to Firebase Storage
@@ -70,28 +74,24 @@ class NetworkHelper {
     return file;
   }
 
-  /// This method is used to launch the url in external website or app
-  // static Future<void> customLaunchUrl(
-  //   BuildContext context, {
-  //   required String url,
-  // }) async {
-  //   Uri uri = Uri.parse(url);
+  // This method is used to launch the url in external website or app
+  static Future<void> customLaunchUrl(
+    BuildContext context, {
+    required String url,
+  }) async {
+    Uri uri = Uri.parse(url);
 
-  //   /// before launching the url, give permission of internet access in Android Manifest file.
-  //   bool canLaunch = await canLaunchUrl(uri);
-  //   try {
-  //     if (canLaunch) {
-  //       await launchUrl(
-  //         uri,
-  //         mode: LaunchMode.externalApplication,
-  //       );
-  //     } else {
-  //       showToast(context, 'Could not launch url', isError: true);
-  //     }
-  //   } on Exception catch (e) {
-  //     showToast(context, e.toString(), isError: true);
-  //   }
-  // }
+    /// before launching the url, give permission of internet access in Android Manifest file.
+    try {
+      await launchUrl(
+        uri,
+        mode: LaunchMode.platformDefault,
+      );
+    } on Exception catch (e) {
+      log('Error in launching url $e');
+      showCustomToast(context, 'Could not launch ', isError: true);
+    }
+  }
 
   /// This method to get the image bytes from it's URL as Uint8List to store it as BLOB in SQLite database.
   ///

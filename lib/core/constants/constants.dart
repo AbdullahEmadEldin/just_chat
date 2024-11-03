@@ -19,4 +19,6 @@ class SharedPrefKeys {
   static String token = 'userToken';
   static String userId = 'id';
   static String isDark = 'isDark';
+    static String notification = 'notification';
+
 }
