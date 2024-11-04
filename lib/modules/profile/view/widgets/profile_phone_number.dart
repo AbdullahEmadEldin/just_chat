@@ -17,6 +17,7 @@ class ProfilePhoneNumber extends StatelessWidget {
   Widget build(BuildContext context) {
     return InputField(
       hintText: 'Phone number',
+      backgroundColor: ColorsManager().colorScheme.background,
       suffixIcon: IconButton(
         onPressed: () {
           Clipboard.setData(

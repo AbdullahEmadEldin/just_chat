@@ -14,13 +14,12 @@ class SearchForFriendsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsManager().colorScheme.primary80,
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ColorsManager().colorScheme.background,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(42.r),
             bottomRight: Radius.circular(42.r),
@@ -31,7 +30,12 @@ class SearchForFriendsPage extends StatelessWidget {
             SizedBox(height: 28.h),
             InputField(
               hintText: 'Search by phone number',
-              suffixIcon: const Icon(Icons.search),
+              backgroundColor: ColorsManager().colorScheme.background,
+              suffixIcon: Icon(
+                Icons.search,
+                size: 25.r,
+                color: ColorsManager().colorScheme.primary40,
+              ),
               onChanged: (p0) {
                 context
                     .read<SearchForFriendsCubit>()

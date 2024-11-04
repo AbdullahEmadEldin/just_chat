@@ -40,7 +40,7 @@ class ChatTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             36.r,
           ),
-          color: ColorsManager().colorScheme.grey20,
+          color: ColorsManager().colorScheme.primary80.withOpacity(0.8),
         ),
         child: Row(
           children: [
@@ -67,7 +67,7 @@ class ChatTile extends StatelessWidget {
               Text(
                 _handleLastMsgAppearance(),
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: ColorsManager().colorScheme.grey60,
+                      color: ColorsManager().colorScheme.grey40,
                       fontWeight: FontWeight.bold,
                     ),
               ),
@@ -98,7 +98,7 @@ class ChatTile extends StatelessWidget {
           Text(
             opponentUser.name,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: ColorsManager().colorScheme.primary,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -107,7 +107,7 @@ class ChatTile extends StatelessWidget {
             UiHelper.formatTimestampToDate(
                 timestamp: chat.lastMessageTimestamp!),
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: ColorsManager().colorScheme.grey60,
+                  color: ColorsManager().colorScheme.grey40,
                   fontWeight: FontWeight.bold,
                 ),
           ),

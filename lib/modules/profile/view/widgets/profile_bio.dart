@@ -70,6 +70,7 @@ class _ProfileBioState extends State<ProfileBio> {
         SizedBox(height: 8.h),
         InputField(
           focusNode: bioFocusNode,
+          backgroundColor: ColorsManager().colorScheme.background,
           controller: bioController,
           hintText: 'Enter your bio...',
           maxLines: 4,

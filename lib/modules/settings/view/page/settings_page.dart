@@ -40,7 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ColorsManager().colorScheme.background,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(42.r),
             bottomRight: Radius.circular(42.r),
@@ -59,17 +59,13 @@ class _SettingsPageState extends State<SettingsPage> {
             Container(
               margin: EdgeInsets.only(left: 24.w, right: 24.w, top: 24.h),
               decoration: BoxDecoration(
-                color: ColorsManager().colorScheme.primary20.withOpacity(0.5),
+                color: ColorsManager().colorScheme.primary80.withOpacity(0.5),
                 image: const DecorationImage(
                   image: AssetImage(
                     ImagesAssets.settingsIcon,
                   ),
                 ),
                 borderRadius: BorderRadius.circular(32.r),
-                border: Border.all(
-                  width: 2.w,
-                  color: ColorsManager().colorScheme.primary40,
-                ),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(32.r),

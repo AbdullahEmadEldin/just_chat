@@ -41,14 +41,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           width: double.infinity,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              ColorsManager().colorScheme.primary80,
-              const Color.fromARGB(255, 18, 150, 186),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
+            gradient: ColorsManager().colorScheme.navBarGradient,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(

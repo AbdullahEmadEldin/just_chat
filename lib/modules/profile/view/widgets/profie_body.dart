@@ -61,8 +61,11 @@ class _ProfileHeaderState extends State<ProfileHeader> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                  height: UiHelper.getResponsiveDimension(context,
-                      baseDimension: 48)),
+                height: UiHelper.getResponsiveDimension(
+                  context,
+                  baseDimension: 48.h,
+                ),
+              ),
               Center(
                 child: ProfilePicAvatar(
                   isLoading: state is UpdateUserDataLoading,

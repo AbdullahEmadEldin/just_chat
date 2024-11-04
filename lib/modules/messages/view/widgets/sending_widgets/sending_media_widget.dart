@@ -34,8 +34,10 @@ class _SendingMediaWidgetState extends State<SendingMediaWidget> {
           _overlay(context);
         }
       },
-      icon: Icon(CupertinoIcons.paperclip,
-          color: ColorsManager().colorScheme.primary40),
+      icon: Icon(
+        CupertinoIcons.paperclip,
+        color: ColorsManager().colorScheme.primary40,
+      ),
     );
   }
 

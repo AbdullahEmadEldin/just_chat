@@ -23,7 +23,9 @@ class NavBarItem extends StatelessWidget {
       width: isSelected ? 55.w : 45.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(64.r),
-        color: isSelected ? Colors.white : Colors.transparent,
+        color: isSelected
+            ? ColorsManager().colorScheme.background
+            : Colors.transparent,
       ),
       child: Image.asset(
         iconPath,

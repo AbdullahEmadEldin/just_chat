@@ -36,6 +36,9 @@ abstract class AppColorScheme {
   Color get fillPrimary;
   Color get fillRed;
   Color get fillGreen;
+
+  /// Gradient Colors
+  LinearGradient get navBarGradient;
 }
 
 class LightColorScheme implements AppColorScheme {
@@ -103,12 +106,22 @@ class LightColorScheme implements AppColorScheme {
 
   @override
   Color get surfaceRed => const Color(0xffEAF2FF);
+
+  @override
+  LinearGradient get navBarGradient => const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xff5162F9),
+          Color.fromARGB(255, 18, 150, 186),
+        ],
+      );
 }
 
 class DarkColorScheme implements AppColorScheme {
   //********************************** Background0 Color IMPL **************************** */
   @override
-  Color get background => const Color(0xffFFFFFF);
+  Color get background => const Color(0xff1F2041);
 
   @override
   Color get black => const Color(0xff161616);
@@ -118,15 +131,15 @@ class DarkColorScheme implements AppColorScheme {
 
   //********************************** PRIMARY Color IMPL **************************** */
   @override
-  Color get primary => const Color(0xff247CFF);
+  Color get primary => const Color(0xff7578BD);
   @override
-  Color get primary80 => const Color(0xff5096FF);
+  Color get primary80 => const Color(0xff3C3E7C);
   @override
   Color get primary60 => const Color(0xff7CB0FF);
   @override
-  Color get primary40 => const Color(0xffD3E5FF);
+  Color get primary40 => const Color(0xff949EFB);
   @override
-  Color get primary20 => const Color(0xffEAF2FF);
+  Color get primary20 => const Color(0xff9192CA);
   @override
   Color get onPrimary => const Color(0xffA7CBFF);
 
@@ -154,7 +167,7 @@ class DarkColorScheme implements AppColorScheme {
 
   //***************************************** Secondary Color IMPL **************************** */
   @override
-  Color get fillPrimary => const Color(0xff247CFF);
+  Color get fillPrimary => const Color(0xff141429);
 
   @override
   Color get fillGreen => const Color(0xff22C55E);
@@ -170,4 +183,14 @@ class DarkColorScheme implements AppColorScheme {
 
   @override
   Color get surfaceRed => const Color(0xffEAF2FF);
+
+  @override
+  LinearGradient get navBarGradient => const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xff3C3E7C),
+          Color(0xff5A5BAF),
+        ],
+      );
 }

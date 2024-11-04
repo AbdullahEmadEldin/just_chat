@@ -41,7 +41,7 @@ class SearchResultTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             24.r,
           ),
-          color: ColorsManager().colorScheme.grey20,
+          color: ColorsManager().colorScheme.primary80.withOpacity(0.8),
         ),
         child: Row(
           children: [
@@ -54,15 +54,23 @@ class SearchResultTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(user.phoneNumber,
-                    style: Theme.of(context).textTheme.bodyMedium),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: ColorsManager().colorScheme.grey40,
+                        )),
                 SizedBox(height: 4.h),
                 isMyPhone
                     ? Text(
                         'Your Number',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: ColorsManager().colorScheme.grey40,
+                            ),
                       )
-                    : Text(user.name,
-                        style: Theme.of(context).textTheme.bodyMedium),
+                    : Text(
+                        user.name,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: ColorsManager().colorScheme.grey40,
+                            ),
+                      ),
               ],
             ),
             const Spacer(),

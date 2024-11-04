@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../theme/theme_manager.dart';
 
 class UiHelper {
   static String formatTimestampToDate({required Timestamp timestamp}) {
@@ -14,6 +13,7 @@ class UiHelper {
   /// you can determine the max length for the string.
   static String limitStringLength({
     required String str,
+
     /// gfdg
     required int maxLength,
   }) {
@@ -73,17 +73,5 @@ class UiHelper {
     return double.parse(scaleFactor.toStringAsFixed(1));
   }
 
-  static LinearGradient gradientContainerColors() {
-    return LinearGradient(
-      colors: AppThemes.instance.themeNotifier.value == ThemeMode.dark
-          ? const [
-              Color(0xff2c3e50),
-              Color(0xff2b5876),
-            ]
-          : const [
-              Color.fromARGB(177, 234, 236, 198),
-              Color.fromARGB(186, 191, 233, 255),
-            ],
-    );
-  }
+  
 }
