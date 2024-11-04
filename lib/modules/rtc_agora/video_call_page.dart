@@ -60,8 +60,9 @@ class _VideoCallPageState extends State<VideoCallPage> {
     return BlocBuilder<AgoraServiceCubit, AgoraServiceState>(
       buildWhen: (previous, current) => current is LocalUserJoined,
       builder: (context, state) {
-        return Align(
-          alignment: Alignment.topLeft,
+        return Positioned(
+          left: 20.w,
+          top: 40.h,
           child: SizedBox(
             width: 100.w,
             height: 150.h,
