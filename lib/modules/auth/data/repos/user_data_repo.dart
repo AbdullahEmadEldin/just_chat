@@ -24,7 +24,7 @@ class UserDataRepo {
         );
   }
 
-   Future<UserModel> getUserData() async {
+  Future<UserModel> getUserData() async {
     final String userId = getIt<FirebaseAuth>().currentUser!.uid;
     final userRef = getIt<FirebaseFirestore>().collection('users').doc(userId);
     final snapshot = await userRef.get();
@@ -33,7 +33,7 @@ class UserDataRepo {
   }
 
   /// Update user status ONLINE or OFFLINE.
-  static void updateUserStatus(bool isOnline) async {
+  static Future<void> updateUserStatus(bool isOnline) async {
     final String userId = getIt<FirebaseAuth>().currentUser!.uid;
     log('=====> User is ;;;;;;; $isOnline');
     // Online status

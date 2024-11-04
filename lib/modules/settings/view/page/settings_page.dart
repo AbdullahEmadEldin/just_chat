@@ -19,6 +19,7 @@ import '../../../../core/services/cache/cache_helper.dart';
 import '../../../../core/services/firestore_service.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../../../../core/theme/theme_manager.dart';
+import '../../../auth/data/repos/user_data_repo.dart';
 import '../widget/pop_menu_component.dart';
 import '../widget/theme_switcher.dart';
 
@@ -160,6 +161,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             suffixIconData: CupertinoIcons.power,
                             actionIcon: IconButton(
                               onPressed: () async {
+                                await UserDataRepo.updateUserStatus(false);
                                 await FirebaseGeneralServices.logout()
                                     .then((value) {
                                   context.pushNamedAndRemoveUntil(
@@ -170,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 });
                               },
                               icon: Icon(
-                                CupertinoIcons.right_chevron ,
+                                CupertinoIcons.right_chevron,
                                 color: ColorsManager().colorScheme.grey40,
                                 size: 20,
                               ),
