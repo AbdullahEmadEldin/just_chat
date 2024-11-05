@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:just_chat/modules/auth/logic/verify_phone_number_cubit/auth_cubit.dart';
 
+import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/di/dependency_injection.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
 
@@ -49,7 +51,7 @@ class EnterPhoneField extends StatelessWidget {
               letterSpacing: 3.w,
             ),
         inputDecoration: InputDecoration(
-            hintText: 'Enter your phone number',
+            hintText: AppStrings.enterYourPhoneNumber.tr(),
             hintStyle: Theme.of(context).textTheme.bodyMedium,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),

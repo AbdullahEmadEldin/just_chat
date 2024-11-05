@@ -10,6 +10,7 @@ import 'package:just_chat/modules/settings/view/page/settings_page.dart';
 
 import '../../core/constants/image_assets.dart';
 import '../../core/theme/colors/colors_manager.dart';
+import '../../core/theme/theme_manager.dart';
 
 class CustomNavBar extends StatefulWidget {
   static const String routeName = '/custom_nav_bar';
@@ -36,35 +37,32 @@ class _CustomNavBarState extends State<CustomNavBar> {
         },
         children: _pages,
       ),
-      bottomNavigationBar: Container(
-          height: 70.h,
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          width: double.infinity,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              ColorsManager().colorScheme.primary80,
-              const Color.fromARGB(255, 18, 150, 186),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(
-              _navBarItems.length,
-              (index) => GestureDetector(
-                onTap: () {
-                  setState(() => currentIndex = index);
-                  _pageController.jumpToPage(index);
-                },
-                child: NavBarItem(
-                  iconPath: _navBarItems[index],
-                  isSelected: currentIndex == index,
+      bottomNavigationBar: ValueListenableBuilder<ThemeMode?>(
+        valueListenable: AppThemes.instance.themeNotifier,
+        builder: (context, themeMode, child) => Container(
+            height: 70.h,
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: ColorsManager().colorScheme.navBarGradient,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                _navBarItems.length,
+                (index) => GestureDetector(
+                  onTap: () {
+                    setState(() => currentIndex = index);
+                    _pageController.jumpToPage(index);
+                  },
+                  child: NavBarItem(
+                    iconPath: _navBarItems[index],
+                    isSelected: currentIndex == index,
+                  ),
                 ),
               ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 

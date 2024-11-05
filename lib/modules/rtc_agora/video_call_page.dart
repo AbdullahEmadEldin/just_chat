@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/modules/rtc_agora/view/widgets/switch_camera_button.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -60,8 +62,9 @@ class _VideoCallPageState extends State<VideoCallPage> {
     return BlocBuilder<AgoraServiceCubit, AgoraServiceState>(
       buildWhen: (previous, current) => current is LocalUserJoined,
       builder: (context, state) {
-        return Align(
-          alignment: Alignment.topLeft,
+        return Positioned(
+          left: 20.w,
+          top: 40.h,
           child: SizedBox(
             width: 100.w,
             height: 150.h,
@@ -101,7 +104,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
           if (state is RemoteUserOffline) {
             remoteUid = state.remoteUid;
             return Text(
-              'User Has left the Call',
+              AppStrings.userLeftCall.tr(),
               style: Theme.of(context).textTheme.bodyLarge,
             );
           }
@@ -118,7 +121,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
                   ),
                 )
               : Text(
-                  'Please wait for remote user to join',
+                  AppStrings.waitForUserToJoin.tr(),
                   style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                 );

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
 import 'package:just_chat/modules/add_friends/view/search_for_friends_page.dart';
@@ -49,7 +51,7 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
               },
               child: _headerButton(
                 context,
-                title: ' Friends',
+                title: AppStrings.friends.tr(),
                 icon: Icons.people_alt_rounded,
                 isSelected: selectedIndex == 0,
               ),
@@ -59,7 +61,7 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
             top: 15.h,
             left: 155.w,
             child: Container(
-              margin: EdgeInsets.all(4),
+              margin:const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -93,7 +95,7 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
               },
               child: _headerButton(
                 context,
-                title: ' Groups ',
+                title: AppStrings.groups.tr(),
                 icon: Icons.groups_2,
                 textIsFirst: true,
                 isSelected: selectedIndex == 1,

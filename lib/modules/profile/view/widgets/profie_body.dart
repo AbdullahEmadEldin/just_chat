@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ import 'package:just_chat/modules/profile/view/widgets/profile_bio.dart';
 import 'package:just_chat/modules/profile/view/widgets/profile_phone_number.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
+import '../../../../core/constants/app_strings.dart';
 import '../../../../core/helpers/ui_helpers.dart';
 import '../../../auth/data/models/user_model.dart';
 import '../../../auth/view/widgets/fill_data/profile_pic_avatar.dart';
@@ -61,8 +63,11 @@ class _ProfileHeaderState extends State<ProfileHeader> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                  height: UiHelper.getResponsiveDimension(context,
-                      baseDimension: 48)),
+                height: UiHelper.getResponsiveDimension(
+                  context,
+                  baseDimension: 48.h,
+                ),
+              ),
               Center(
                 child: ProfilePicAvatar(
                   isLoading: state is UpdateUserDataLoading,
@@ -116,7 +121,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Phone Number',
+                AppStrings.phone.tr(),
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: ColorsManager().colorScheme.grey60,
                     ),

@@ -38,7 +38,7 @@ class _MessagingPageState extends State<MessagingPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorsManager().colorScheme.primary20.withOpacity(0.9),
+        backgroundColor: ColorsManager().colorScheme.primary20,
         body: MediaQuery.removeViewInsets(
           context: context,
           removeBottom: true,

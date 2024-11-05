@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
 import 'package:just_chat/modules/messages/logic/messaging_cubit/messaging_cubit.dart';
@@ -81,7 +83,8 @@ class ReplyMsgBox extends StatelessWidget {
     if (msg.contentType == MsgType.audio.name) {
       return _fileMsgView(
         icon: Icons.headphones_rounded,
-        title: 'Voice Message (${msg.recordDuration?.toString() ?? 0}s)',
+        title:
+            '${AppStrings.voiceMessage.tr()} (${msg.recordDuration?.toString() ?? 0}s)',
       );
     } else if (msg.contentType == MsgType.image.name) {
       return CachedNetworkImage(
@@ -89,7 +92,7 @@ class ReplyMsgBox extends StatelessWidget {
     } else if (msg.contentType == MsgType.video.name) {
       return _fileMsgView(
         icon: CupertinoIcons.video_camera_solid,
-        title: 'Video Message',
+        title: AppStrings.videoMessage.tr(),
       );
     } else {
       return _textMsgBox(context);
@@ -137,7 +140,7 @@ class ReplyMsgBox extends StatelessWidget {
 
   String _handleMsgSenderName(BuildContext context) {
     if (getIt<FirebaseAuth>().currentUser?.uid == msg.senderId) {
-      return 'You';
+      return AppStrings.you.tr();
     } else {
       return context.read<MessagingCubit>().opponentUser!.name;
     }

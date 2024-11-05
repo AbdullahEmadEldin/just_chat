@@ -14,7 +14,7 @@ class HeaderBackButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(32.r),
       child: CircleAvatar(
         radius: 22.r,
-        backgroundColor: Colors.white,
+        backgroundColor: ColorsManager().colorScheme.background,
         child: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(

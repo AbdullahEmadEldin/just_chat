@@ -14,6 +14,7 @@ class ColorsManager {
 
   AppColorScheme get colorScheme => _colorScheme;
 
+  /// Updating the Colors theme according to the user choice
   void updateTheme(bool isDark) {
     if (isDark) {
       _colorScheme = DarkColorScheme();

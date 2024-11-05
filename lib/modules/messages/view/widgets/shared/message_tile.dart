@@ -46,7 +46,7 @@ class MessageTile extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _myAlignment()
                     ? ColorsManager().colorScheme.primary80
-                    : ColorsManager().colorScheme.primary60.withOpacity(0.8),
+                    : ColorsManager().colorScheme.primary80.withOpacity(0.7),
                 borderRadius: BorderRadius.only(
                   topRight:
                       _myAlignment() ? Radius.zero : Radius.circular(16.r),

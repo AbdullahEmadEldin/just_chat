@@ -14,6 +14,7 @@ class AppThemes {
   static ThemeMode? _value;
   ThemeMode? get themeMode => _value;
 
+  /// update the ThemeNotifier value.  
   updateThemeValue(bool isDark) {
     if (CacheHelper.getData(key: SharedPrefKeys.isDark) != null) {
       _value = CacheHelper.getData(key: SharedPrefKeys.isDark)

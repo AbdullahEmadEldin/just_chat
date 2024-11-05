@@ -57,7 +57,7 @@ void main() async {
           channelKey: AppConstants.awesomeNotificationChanel,
           channelName: 'Basic notifications',
           channelDescription: 'Notification channel for basic tests',
-          defaultColor:const Color(0xff4556F8),
+          defaultColor: const Color(0xff4556F8),
           ledColor: Colors.white,
         )
       ],
@@ -74,7 +74,7 @@ void main() async {
       AwesomeNotifications().requestPermissionToSendNotifications();
     }
   });
- // FcmService.setupInteractedMessage();
+  // FcmService.setupInteractedMessage();
 
   /// CacheHelper Initialization
   await CacheHelper.init();
@@ -85,7 +85,7 @@ void main() async {
 
   /// This bool comes from settings page where user can turn on/off notifications
   final bool notificationStatus =
-     await CacheHelper.getData(key: SharedPrefKeys.notification) ?? true;
+      await CacheHelper.getData(key: SharedPrefKeys.notification) ?? true;
   //
   if (notificationStatus == true) {
     log('=========>>> notificationStatus = $notificationStatus');
@@ -106,8 +106,8 @@ void main() async {
     EasyLocalization(
         startLocale: Locale(startLocale),
         supportedLocales: [
-          Locale(LanguageType.english.code),
-          Locale(LanguageType.arabic.code)
+          Locale(LanguageType.English.code),
+          Locale(LanguageType.Arabic.code)
         ],
         path: 'assets/translations',
         child: JustChatApp(

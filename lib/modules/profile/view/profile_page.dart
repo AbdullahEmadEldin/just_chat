@@ -22,7 +22,7 @@ class ProfilePage extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.91,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ColorsManager().colorScheme.background,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(42.r),
                 bottomRight: Radius.circular(42.r),

@@ -84,7 +84,7 @@ TextStyle getTextStyle(BuildContext context,
     {required double fontSize, FontWeight? fontWeight, required Color color}) {
   return TextStyle(
       fontSize: fontSize.sp,
-      fontFamily: context.locale.languageCode == LanguageType.arabic.code
+      fontFamily: context.locale.languageCode == LanguageType.Arabic.code
           ? AppFonts.notoKufiArabic
           : AppFonts.fredoka,
       color: color,

@@ -16,9 +16,10 @@ class InputField extends StatelessWidget {
   final bool readOnly;
   final TextEditingController? controller;
   final int? maxLines;
-final Function(String)? onChanged;
+  final Function(String)? onChanged;
   final Function(String?)? onSaved;
   final FocusNode? focusNode;
+  final TextStyle? textStyle;
   const InputField({
     super.key,
     required this.hintText,
@@ -36,6 +37,7 @@ final Function(String)? onChanged;
     this.onChanged,
     this.onSaved,
     this.focusNode,
+    this.textStyle,
   });
 
   @override
@@ -49,10 +51,10 @@ final Function(String)? onChanged;
       readOnly: readOnly,
       validator: validator,
       obscureText: obscureText ?? false,
-      style: Theme.of(context)
-          .textTheme
-          .bodyMedium!
-          .copyWith(color: ColorsManager().colorScheme.grey80),
+      style: textStyle ??
+          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: ColorsManager().colorScheme.grey80,
+              ),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: Theme.of(context)

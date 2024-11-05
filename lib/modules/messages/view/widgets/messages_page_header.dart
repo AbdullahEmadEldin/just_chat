@@ -42,7 +42,7 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
           bottomLeft: Radius.circular(28.r),
           bottomRight: Radius.circular(28.r),
         ),
-        color: Colors.white,
+        color: ColorsManager().colorScheme.background.withOpacity(0.9),
       ),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       child: Row(

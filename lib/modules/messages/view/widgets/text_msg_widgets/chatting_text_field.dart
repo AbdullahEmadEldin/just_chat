@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 
 import '../../../../../core/theme/colors/colors_manager.dart';
 import '../../../logic/messaging_cubit/messaging_cubit.dart';
@@ -22,8 +24,7 @@ class ChattingTextField extends StatelessWidget {
         cursorHeight: 24.h,
         cursorColor: ColorsManager().colorScheme.primary,
         decoration: InputDecoration(
-         
-          hintText: 'Type a message...',
+          hintText: AppStrings.typeMessage.tr(),
           hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: ColorsManager().colorScheme.grey60,
               ),

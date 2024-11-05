@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/di/dependency_injection.dart';
 import 'package:just_chat/modules/add_friends/logic/cubit/search_for_friends_cubit.dart';
 import 'package:just_chat/modules/add_friends/view/widgets/search_result_tile.dart';
@@ -24,8 +25,8 @@ class SearchBlocBuilder extends StatelessWidget {
       } else if (state is SearchForFriendsSuccess) {
         final results = state.usersResults;
         if (results.isEmpty) {
-          return const Center(
-            child: Text('No Results Found'),
+          return Center(
+            child: Text(AppStrings.noResultsFound.tr()),
           );
         }
         return Expanded(
@@ -59,7 +60,7 @@ class SearchBlocBuilder extends StatelessWidget {
           LottieBuilder.asset(LottiesAssets.chatBubble),
           SizedBox(height: 16.h),
           Text(
-            'Start a new chat...',
+            AppStrings.startNewChat.tr(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ],

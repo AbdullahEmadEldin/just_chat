@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
-import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
 import 'package:just_chat/modules/nav_bar/custom_nav_bar.dart';
 import 'package:lottie/lottie.dart';
 
@@ -37,7 +36,7 @@ class FillDataBlocListener extends StatelessWidget {
               context: context,
               dialogType: DialogType.error,
               animType: AnimType.rightSlide,
-              title: AppStrings.errorOccured.tr(),
+              title: AppStrings.errorOccurred.tr(),
               desc: state.errorMsg,
               btnOkOnPress: () {},
             ).show();

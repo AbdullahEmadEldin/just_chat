@@ -23,7 +23,7 @@ class AllChatsPage extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ColorsManager().colorScheme.background,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(42.r),
             bottomRight: Radius.circular(42.r),

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../../../../core/widgets/custom_toast.dart';
@@ -16,7 +18,8 @@ class ProfilePhoneNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputField(
-      hintText: 'Phone number',
+      hintText: AppStrings.phone.tr(),
+      backgroundColor: ColorsManager().colorScheme.background,
       suffixIcon: IconButton(
         onPressed: () {
           Clipboard.setData(
@@ -26,7 +29,7 @@ class ProfilePhoneNumber extends StatelessWidget {
           );
           showCustomToast(
             context,
-            'Copied message',
+            AppStrings.copiedMessage.tr(),
           );
         },
         icon: Icon(

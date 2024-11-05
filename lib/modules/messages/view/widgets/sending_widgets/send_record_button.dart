@@ -43,7 +43,7 @@ class _SendRecordButtonState extends State<SendRecordButton> {
         padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(64.r),
-          color: ColorsManager().colorScheme.primary,
+          color: ColorsManager().colorScheme.primary80,
         ),
         child: BlocBuilder<MessagingCubit, MessagingState>(
           buildWhen: (previous, current) => current is SwitchSendButtonIcon,
