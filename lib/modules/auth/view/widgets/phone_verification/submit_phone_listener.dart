@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:just_chat/modules/auth/logic/verify_phone_number_cubit/auth_cubi
 import 'package:just_chat/modules/auth/view/page/check_otp_page.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/constants/loties_assets.dart';
 
 class SubmitPhoneListener extends StatelessWidget {
@@ -38,7 +40,7 @@ class SubmitPhoneListener extends StatelessWidget {
               context: context,
               dialogType: DialogType.error,
               animType: AnimType.rightSlide,
-              title: 'Error Occured',
+              title: AppStrings.errorOccurred.tr(),
               desc: state.errorMsg,
               btnOkOnPress: () {},
             ).show();

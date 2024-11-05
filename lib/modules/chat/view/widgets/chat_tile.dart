@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/core/helpers/ui_helpers.dart';
 import 'package:just_chat/core/widgets/circle_cached_image.dart';
@@ -127,8 +129,8 @@ class ChatTile extends StatelessWidget {
   String _handleLastMsgAppearance() {
     if (chat.lastMessage!.startsWith('http')) {
       return chat.lastMessageSenderId != getIt<FirebaseAuth>().currentUser!.uid
-          ? 'File sent...'
-          : 'You Sent File...';
+          ? AppStrings.fileSent.tr()
+          : AppStrings.youSentFile.tr();
     } else {
       return UiHelper.limitStringLength(str: chat.lastMessage!, maxLength: 21);
     }

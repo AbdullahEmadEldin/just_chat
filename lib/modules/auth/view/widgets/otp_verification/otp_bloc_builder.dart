@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
@@ -6,6 +7,7 @@ import 'package:just_chat/modules/auth/logic/otp_verify_cubit/otp_verification_c
 import 'package:just_chat/modules/auth/view/page/fill_data_page.dart';
 import 'package:just_chat/modules/nav_bar/custom_nav_bar.dart';
 
+import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/theme/colors/colors_manager.dart';
 import '../../../../../core/widgets/main_button.dart';
 
@@ -22,7 +24,7 @@ class OtpBlocBuilder extends StatelessWidget {
               context: context,
               dialogType: DialogType.error,
               animType: AnimType.rightSlide,
-              title: 'Error Occured',
+              title: AppStrings.errorOccurred.tr(),
               desc: state.errorMsg,
               btnOkOnPress: () {},
             ).show();
@@ -36,7 +38,7 @@ class OtpBlocBuilder extends StatelessWidget {
                   color: Colors.white,
                 )
               : Text(
-                  'Verify Code',
+                  AppStrings.verifyPhoneNumber.tr(),
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: ColorsManager().colorScheme.background,
                       fontWeight: FontWeight.bold),

@@ -7,8 +7,8 @@ import 'constants/constants.dart';
 import 'services/cache/cache_helper.dart';
 
 enum LanguageType {
-  english('en'),
-  arabic('ar');
+  English('en'),
+  Arabic('ar');
 
   final String code;
 
@@ -25,6 +25,6 @@ class LanguageManager {
 
   static Future<String> getAppLang() async {
     return await CacheHelper.getData(key: SharedPrefKeys.lang) ??
-        LanguageType.english.code;
+        LanguageType.English.code;
   }
 }

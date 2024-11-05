@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:lottie/lottie.dart';
 
@@ -89,7 +91,7 @@ class _MessagesStreamBuilderState extends State<MessagesStreamBuilder> {
         SizedBox(height: 80.h),
         Lottie.asset(LottiesAssets.emptyChat, width: 200.w),
         Text(
-          'Start a new chat...',
+          AppStrings.startNewChat.tr(),
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: ColorsManager().colorScheme.background,
               ),

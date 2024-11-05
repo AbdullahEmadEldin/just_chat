@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/modules/auth/data/models/user_model.dart';
 import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -34,7 +36,7 @@ class _ProfileBioState extends State<ProfileBio> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Bio',
+              AppStrings.bio.tr(),
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: ColorsManager().colorScheme.grey60,
                   ),
@@ -72,7 +74,7 @@ class _ProfileBioState extends State<ProfileBio> {
           focusNode: bioFocusNode,
           backgroundColor: ColorsManager().colorScheme.background,
           controller: bioController,
-          hintText: 'Enter your bio...',
+          hintText: AppStrings.enterYourBio.tr(),
           maxLines: 4,
         ),
       ],

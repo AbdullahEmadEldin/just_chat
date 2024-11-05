@@ -57,31 +57,31 @@ class _OnboardingPageState extends State<OnboardingPage> {
   List<OnboardingModel> onboardingList() {
     return [
       OnboardingModel(
-          title: AppStrings.onBoardingText1.tr(),
+          title: AppStrings.onBoardingTitle1.tr(),
           subtitles: [
             SubtitleModel(
-              subtitle: AppStrings.onBoardingSubtitle1.tr(),
+              subtitle: AppStrings.onBoardingSubTitle1.tr(),
               subtitleIcon: Icons.chat,
             ),
             SubtitleModel(
-              subtitle: AppStrings.onBoardingSubtitle2.tr(),
+              subtitle: AppStrings.onBoardingSubTitle2.tr(),
               subtitleIcon: Icons.call,
             ),
             SubtitleModel(
-              subtitle: AppStrings.onBoardingSubtitle3.tr(),
+              subtitle: AppStrings.onBoardingSubTitle3.tr(),
               subtitleIcon: Icons.share,
             ),
           ],
           lottiePath: LottiesAssets.onboarding1),
       OnboardingModel(
-          title: AppStrings.onBoardingText2.tr(),
+          title: AppStrings.onBoardingTitle2.tr(),
           subtitles: [
             SubtitleModel(
-              subtitle: AppStrings.onBoardingSubtitle4.tr(),
+              subtitle: AppStrings.onBoardingSubTitle4.tr(),
               subtitleIcon: Icons.person_add,
             ),
             SubtitleModel(
-              subtitle: AppStrings.onBoardingSubtitle5.tr(),
+              subtitle: AppStrings.onBoardingSubTitle5.tr(),
               subtitleIcon: Icons.timelapse_outlined,
             ),
           ],

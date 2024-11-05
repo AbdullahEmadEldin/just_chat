@@ -13,6 +13,7 @@ import 'package:just_chat/modules/settings/view/widget/notification_switcher.dar
 import 'package:just_chat/modules/settings/view/widget/settings_item.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/lang_manager.dart';
 import '../../../../core/services/cache/cache_helper.dart';
@@ -50,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             SizedBox(height: 28.h),
             Text(
-              'Settings',
+              AppStrings.settings.tr(),
               style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     color: ColorsManager().colorScheme.primary,
                     fontWeight: FontWeight.bold,
@@ -92,7 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: Column(
                         children: [
                           SettingsItem(
-                            title: 'Theme',
+                            title: AppStrings.theme.tr(),
                             suffixIconData: Icons.mode_night_outlined,
                             actionIcon: ValueSwitcher(
                               value: CacheHelper.getData(
@@ -108,14 +109,14 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           ),
                           SizedBox(height: 12.h),
-                          const SettingsItem(
-                            title: 'Notifications',
+                          SettingsItem(
+                            title: AppStrings.notifications.tr(),
                             suffixIconData: CupertinoIcons.bell_fill,
                             actionIcon: const NotificationSwitcher(),
                           ),
                           SizedBox(height: 12.h),
                           SettingsItem(
-                            title: 'Language',
+                            title: AppStrings.language.tr(),
                             suffixIconData: Icons.language,
                             actionIcon: PopMenuComponent(
                                 initialValue: context.locale.languageCode,
@@ -123,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     .map(
                                       (lang) => PopupMenuItem(
                                           child: Text(
-                                            lang.name,
+                                            lang.name.tr(),
                                           ),
                                           onTap: () =>
                                               LanguageManager.changeAppLang(
@@ -134,7 +135,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                           SizedBox(height: 12.h),
                           SettingsItem(
-                            title: 'About Us',
+                            title: AppStrings.aboutUs.tr(),
                             suffixIconData: Icons.error_outline,
                             actionIcon: IconButton(
                               onPressed: () async {
@@ -153,7 +154,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                           SizedBox(height: 12.h),
                           SettingsItem(
-                            title: 'Logout',
+                            title: AppStrings.logout.tr(),
                             suffixIconData: CupertinoIcons.power,
                             actionIcon: IconButton(
                               onPressed: () async {

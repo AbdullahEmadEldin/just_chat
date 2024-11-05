@@ -1,8 +1,10 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
 import 'package:just_chat/core/widgets/custom_toast.dart';
 import 'package:just_chat/modules/messages/data/models/message_model.dart';
@@ -175,7 +177,7 @@ class _SelectableDismissibleWidgetState
                       ).then((_) {
                         showCustomToast(
                           context,
-                          'Copied message',
+                          AppStrings.copiedMessage.tr(),
                         );
                       });
                       isSelected = false;

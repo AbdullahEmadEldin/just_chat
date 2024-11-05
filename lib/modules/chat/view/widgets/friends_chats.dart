@@ -42,7 +42,7 @@ class _FriendsChatBodyState extends State<FriendsChatBody> {
         } else if (state is GetChatsFailure) {
           return _handleErrorSnapshot(state.error);
         }
-        return Text('WHAT THE FUCK===> ${state.runtimeType}');
+        return Text('Unexpected Error ${state.runtimeType}');
       },
     );
   }

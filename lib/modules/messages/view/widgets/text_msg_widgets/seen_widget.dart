@@ -18,8 +18,8 @@ class SeenWidget extends StatelessWidget {
       transitionBuilder: (Widget child, Animation<double> animation) {
         return SlideTransition(
           position: Tween<Offset>(
-            begin: Offset(1, 0), // Slide from the right
-            end: Offset(0, 0),
+            begin:const Offset(1, 0), // Slide from the right
+            end:const Offset(0, 0),
           ).animate(animation),
           child: FadeTransition(
             opacity: animation,

@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
 import 'package:just_chat/modules/auth/view/widgets/otp_verification/otp_bloc_builder.dart';
 import 'package:lottie/lottie.dart';
@@ -27,11 +29,11 @@ class OtpVerificationPage extends StatelessWidget {
                 child: AppLogo(),
               ),
               Text(
-                'Enter 6-digit code',
+                AppStrings.enterCode.tr(),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               Text(
-                'We sent a code to phone number: ${getIt<PhoneAuthInfo>().phoneNumber}',
+                '${AppStrings.codeSentToPhone.tr()} ${getIt<PhoneAuthInfo>().phoneNumber}',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: ColorsManager().colorScheme.grey60,
                       fontWeight: FontWeight.bold,
@@ -41,7 +43,7 @@ class OtpVerificationPage extends StatelessWidget {
               const OtpVerificationField(),
               Center(child: Lottie.asset(LottiesAssets.shield, width: 400.w)),
               SizedBox(height: 36.h),
-              OtpBlocBuilder(),
+              const OtpBlocBuilder(),
               SizedBox(height: 8.h),
             ],
           ),

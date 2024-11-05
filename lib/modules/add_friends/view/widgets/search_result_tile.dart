@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/app_strings.dart';
 import 'package:just_chat/core/helpers/extensions.dart';
 import 'package:just_chat/core/widgets/custom_toast.dart';
 import 'package:uuid/uuid.dart';
@@ -20,7 +22,7 @@ class SearchResultTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (isMyPhone) {
-          showCustomToast(context, 'You can\'t chat with yourself',
+          showCustomToast(context, AppStrings.cannotChatWithSelf.tr(),
               isError: true);
         } else {
           final newChatId = const Uuid().v4();
@@ -60,7 +62,7 @@ class SearchResultTile extends StatelessWidget {
                 SizedBox(height: 4.h),
                 isMyPhone
                     ? Text(
-                        'Your Number',
+                        AppStrings.yourNumber.tr(),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: ColorsManager().colorScheme.grey40,
                             ),
