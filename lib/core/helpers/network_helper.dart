@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:just_chat/core/services/firestore_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
@@ -44,22 +46,50 @@ class NetworkHelper {
   }
 
   static Future<String> uploadFileToFirebase(String filePath) async {
+//! Supabase =====
+    //? Getting secret vars from firebase.
+    final appUrl = await FirebaseGeneralServices.getAppVar(
+        docName: 'supabaseVar', varName: 'appUrl');
+    final anonKey = await FirebaseGeneralServices.getAppVar(
+        docName: 'supabaseVar', varName: 'anonKey');
+    final supabase = SupabaseClient(appUrl, anonKey);
+    //? fileName to shorten the uploaded path
+    final String fileName = filePath.split('/').last;
+
     try {
-      File file = File(filePath);
+      final file = File(filePath);
+      final storageResponse =
+          await supabase.storage.from('uploads').upload(fileName, file);
 
-      FirebaseStorage storage = FirebaseStorage.instance;
-      var storageRef = storage.ref(
-          '${AppConstants.uploadsPath}/${DateTime.now().millisecondsSinceEpoch.toString()}_${filePath.split('/').last}');
-      //
-      await storageRef.putFile(file);
-      //
-      String downloadURL = await storageRef.getDownloadURL();
+      ///
+      //? getting Url
+      log('storageResponse: $storageResponse');
+      final fileUrl = supabase.storage.from('uploads').getPublicUrl(fileName);
+      log('=====> URL : $fileUrl');
 
-      return downloadURL;
+      return fileUrl;
     } catch (e) {
-      print('Error uploading record: $e');
+      log('Error uploading record: $e');
       rethrow;
     }
+
+//! Firebase ======
+    // try {
+    //   File file = File(filePath);
+
+    //   FirebaseStorage storage = FirebaseStorage.instance;
+    //   var storageRef = storage.ref(
+    //       '${AppConstants.uploadsPath}/${DateTime.now().millisecondsSinceEpoch.toString()}_${filePath.split('/').last}');
+    //   //
+    //   await storageRef.putFile(file);
+    //   //
+    //   String downloadURL = await storageRef.getDownloadURL();
+
+    //   return downloadURL;
+    // } catch (e) {
+    //   print('Error uploading record: $e');
+    //   rethrow;
+    // }
   }
 
   static Future<File> getImageFileFromAssets(String imagePath) async {
