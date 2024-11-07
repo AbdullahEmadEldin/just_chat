@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -35,7 +36,6 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
             VideoInitialized(),
           );
           videoDuration = videoController.value.duration;
-          print('===============>>>>> XXXX init video: $videoDuration');
         },
       );
   }
@@ -43,7 +43,7 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   void durationListener() {
     videoController.addListener(() {
       videoDuration = videoController.value.position;
-      print('===============>>>>> XXXX init video: $videoDuration');
+      log('===============>>>>> XXXX init video: $videoDuration');
 
       emit(VideoDurationProgress());
 
@@ -56,6 +56,7 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   void playPauseVideo() {
     if (videoController.value.isPlaying) {
       videoController.pause();
+
       emit(VideoStateChanged(newIcon: CupertinoIcons.play));
     } else {
       videoController.play();
