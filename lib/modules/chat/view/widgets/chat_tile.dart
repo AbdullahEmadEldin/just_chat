@@ -36,7 +36,7 @@ class ChatTile extends StatelessWidget {
       },
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
         padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(

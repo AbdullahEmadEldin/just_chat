@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,7 +62,7 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
             top: 15.h,
             left: 155.w,
             child: Container(
-              margin:const EdgeInsets.all(4),
+              margin: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -73,7 +74,7 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
                   context.pushNamed(SearchForFriendsPage.routeName);
                 },
                 icon: Icon(
-                  Icons.search,
+                  CupertinoIcons.search,
                   size: 32.r,
                   color: Colors.white,
                 ),
@@ -113,56 +114,60 @@ class _ChatsPageHeaderState extends State<ChatsPageHeader> {
     required IconData icon,
     bool isSelected = false,
     bool textIsFirst = false,
-  }) =>
-      Container(
-        padding: EdgeInsetsDirectional.only(
-            end: textIsFirst ? 0 : 8.w, start: textIsFirst ? 8.w : 0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(64),
-          color: isSelected ? Colors.white : Colors.transparent,
-        ),
-        child: Row(
-          children: [
-            if (textIsFirst)
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: isSelected
-                          ? ColorsManager().colorScheme.primary
-                          : Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-            Container(
-              height: 45.h,
-              width: 45.w,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isSelected
-                    ? ColorsManager().colorScheme.grey30
-                    : Colors.transparent,
-                border: Border.all(
-                  color: ColorsManager().colorScheme.grey10,
-                ),
-              ),
-              child: Icon(
-                icon,
+  }) {
+    final textStyle = context.locale.languageCode == 'en'
+        ? Theme.of(context).textTheme.titleSmall
+        : Theme.of(context).textTheme.bodyLarge;
+    return Container(
+      padding: EdgeInsetsDirectional.only(
+          end: textIsFirst ? 0 : 8.w, start: textIsFirst ? 8.w : 0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(64),
+        color: isSelected ? Colors.white : Colors.transparent,
+      ),
+      child: Row(
+        children: [
+          if (textIsFirst)
+            Text(
+              title,
+              style: textStyle!.copyWith(
                 color: isSelected
                     ? ColorsManager().colorScheme.primary
                     : Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            if (!textIsFirst)
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: isSelected
-                          ? ColorsManager().colorScheme.primary
-                          : Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+          Container(
+            height: 45.h,
+            width: 45.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isSelected
+                  ? ColorsManager().colorScheme.grey30
+                  : Colors.transparent,
+              border: Border.all(
+                color: ColorsManager().colorScheme.grey10,
               ),
-          ],
-        ),
-      );
+            ),
+            child: Icon(
+              icon,
+              color: isSelected
+                  ? ColorsManager().colorScheme.primary
+                  : Colors.white,
+            ),
+          ),
+          if (!textIsFirst)
+            Text(
+              title,
+              style: textStyle!.copyWith(
+                color: isSelected
+                    ? ColorsManager().colorScheme.primary
+                    : Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

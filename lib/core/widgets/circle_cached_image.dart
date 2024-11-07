@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_chat/core/constants/image_assets.dart';
 
 class CircleCachedImage extends StatelessWidget {
   final String imageUrl;
@@ -25,10 +26,8 @@ class CircleCachedImage extends StatelessWidget {
       ),
       progressIndicatorBuilder: (context, url, downloadProgress) =>
           CircularProgressIndicator(value: downloadProgress.progress),
-      errorWidget: (context, url, error) => const Icon(
-        Icons.error,
-        color: Colors.red,
-      ),
+      errorWidget: (context, url, error) =>
+          Image.asset(ImagesAssets.profileHolder),
     );
   }
 }
