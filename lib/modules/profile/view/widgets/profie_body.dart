@@ -101,8 +101,8 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                       await userDataCubit.updateUserData(
                         widget.user.copyWith(
                           profilePicUrl:
-                              await NetworkHelper.uploadProfileImageToFirebase(
-                            newProfilePic!,
+                              await NetworkHelper.uploadFileToFirebase(
+                            newProfilePic!.path,
                           ),
                         ),
                       );
