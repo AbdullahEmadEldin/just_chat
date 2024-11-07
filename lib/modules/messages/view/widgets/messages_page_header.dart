@@ -119,7 +119,7 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
 
           final bool isOnline = data?['isOnline'] as bool;
           //
-          final lastSeen = (data?['lastSeen'] as Timestamp);
+          final lastSeen = (data?['lastSeen'] as Timestamp?);
           final formattedLastSeen = _handleLastSeenAppearance(lastSeen);
           //
           return Text(
@@ -134,7 +134,10 @@ class _MessagesPageHeaderState extends State<MessagesPageHeader> {
         });
   }
 
-  String _handleLastSeenAppearance(Timestamp lastSeen) {
+  String _handleLastSeenAppearance(Timestamp? lastSeen) {
+    if (lastSeen == null) {
+      return '';
+    }
     final lastSeenDate = lastSeen.toDate();
     final now = DateTime.now();
     final difference = now.difference(lastSeenDate).inDays;

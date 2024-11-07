@@ -125,6 +125,15 @@ class _SettingsPageState extends State<SettingsPage> {
                                       (lang) => PopupMenuItem(
                                           child: Text(
                                             lang.name.tr(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: ColorsManager()
+                                                      .colorScheme
+                                                      .primary,
+                                                ),
                                           ),
                                           onTap: () =>
                                               LanguageManager.changeAppLang(

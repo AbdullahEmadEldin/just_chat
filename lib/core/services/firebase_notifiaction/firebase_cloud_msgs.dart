@@ -3,16 +3,12 @@ import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:just_chat/core/di/dependency_injection.dart';
-import 'package:just_chat/core/theme/colors/colors_manager.dart';
-import 'package:just_chat/modules/chat/view/pages/all_chats_page.dart';
-import '../../../app_entry.dart';
-import '../../../modules/rtc_agora/video_call_page.dart';
+
 import '../../constants/constants.dart';
 import '../../constants/enums.dart';
 import 'firebase_msg_model.dart';

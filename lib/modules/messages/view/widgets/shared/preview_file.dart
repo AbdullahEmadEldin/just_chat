@@ -1,6 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,7 @@ import 'package:just_chat/modules/messages/view/widgets/audio_recording_widgets/
 import 'package:just_chat/modules/messages/view/widgets/media_msgs_widgets/video_msg_tile.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/di/dependency_injection.dart';
 import '../../../data/models/message_model.dart';
 
@@ -123,24 +127,42 @@ class _PreviewFileScreenState extends State<PreviewFileScreen> {
     setState(() {
       uploading = true;
     });
-    messagingCubit
-        .sendMessage(
-      message: MessageModel(
-        chatId: messagingCubit.chatId,
-        msgId: const Uuid().v1(),
-        senderId: getIt<FirebaseAuth>().currentUser!.uid,
-        content: await NetworkHelper.uploadFileToFirebase(widget.args.filePath),
-        contentType: widget.args.fileType.name,
-        sentTime: Timestamp.fromDate(DateTime.now()),
-        isSeen: false,
-      ),
-    )
-        .then((_) {
+    try {
+      messagingCubit
+          .sendMessage(
+        message: MessageModel(
+          chatId: messagingCubit.chatId,
+          msgId: const Uuid().v1(),
+          senderId: getIt<FirebaseAuth>().currentUser!.uid,
+          content:
+              await NetworkHelper.uploadFileToFirebase(widget.args.filePath),
+          contentType: widget.args.fileType.name,
+          sentTime: Timestamp.fromDate(DateTime.now()),
+          isSeen: false,
+        ),
+      )
+          .then((_) {
+        setState(() {
+          uploading = false;
+        });
+        context.pop();
+      });
+    } catch (e) {
+      log('Error sending file: $e');
       setState(() {
         uploading = false;
       });
-      context.pop();
-    });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          title: AppStrings.errorOccurred.tr(),
+          desc: e.toString(),
+          btnOkOnPress: () {},
+        ).show();
+      });
+    }
   }
 
   Widget _actionButton({
