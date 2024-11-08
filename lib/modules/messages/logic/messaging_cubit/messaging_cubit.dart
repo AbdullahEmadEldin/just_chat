@@ -68,6 +68,7 @@ class MessagingCubit extends Cubit<MessagingState> {
         );
       }
       textingController.clear();
+      switchSendButtonIcon();
 
       ///
       /// Send Notification...
@@ -97,6 +98,8 @@ class MessagingCubit extends Cubit<MessagingState> {
         chatId: chatId,
         msg: msg,
       );
+      textingController.clear();
+      switchSendButtonIcon();
 
       /// Get My user name to pass it to notification
       final userName = await FirebaseGeneralServices.getUserById(
@@ -171,7 +174,7 @@ class MessagingCubit extends Cubit<MessagingState> {
   final GlobalKey messageKey = GlobalKey();
   //
   void switchSendButtonIcon() {
-    if (textingController.text.isEmpty) {
+    if (textingController.text.isEmpty || textingController.text == '') {
       emit(SwitchSendButtonIcon(newIcon: CupertinoIcons.mic));
     } else {
       emit(SwitchSendButtonIcon(newIcon: Icons.send));
