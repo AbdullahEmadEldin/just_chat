@@ -18,6 +18,7 @@ import 'package:just_chat/modules/auth/logic/user_data_cubit/user_data_cubit.dar
 import 'package:just_chat/modules/auth/view/page/phone_auth_page.dart';
 import 'package:just_chat/modules/auth/view/widgets/fill_data/fill_data_bloc_listener.dart';
 
+import '../../../../core/services/firebase_notifiaction/firebase_cloud_msgs.dart';
 import '../../../../core/theme/colors/colors_manager.dart';
 import '../../../../core/widgets/app_logo.dart';
 import '../widgets/fill_data/profile_pic_avatar.dart';
@@ -119,6 +120,7 @@ class _FillDataPageState extends State<FillDataPage> {
                 ),
                 onPressed: () async {
                   await _uploadUserData(context);
+                  await FcmService.setupInteractedMessage();
                 },
               ),
               const FillDataBlocListener()

@@ -55,10 +55,18 @@ dependencies:
   url_launcher: ^6.3.1
   supabase_flutter: ^2.8.0
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.1
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/nativeSplash_logo.png"
+  adaptive_icon_background: "#FFFFFF" # Replace with your background color
+  adaptive_icon_foreground: "assets/icon.png"
 flutter:
   uses-material-design: true
 
