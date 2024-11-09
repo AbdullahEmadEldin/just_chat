@@ -1,6 +1,6 @@
 name: just_chat
 description: "A new Flutter project."
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -13,7 +13,7 @@ dependencies:
   animate_do: ^3.3.4
   cupertino_icons: 1.0.8
   easy_localization: ^3.0.7
-  firebase_core: ^3.5.0 # to init firebase in the project
+  firebase_core: ^3.5.0 # to init firebase in the project 
   firebase_auth: ^5.3.1 # to use firebase auth
   cloud_firestore: ^5.4.3 # NoSql database structured with docs and collections
   firebase_storage: ^12.3.2 # to store medial like images and videos in firebase.
@@ -29,7 +29,7 @@ dependencies:
   intl: 0.19.0
   pretty_dio_logger: 1.4.0
   shared_preferences: ^2.3.2
-  # this package for shimmer or flashing effect on buttons
+  # this package for shimmer or flashing effect on buttons 
   shimmer_animation: ^2.2.1
   # this package for drawing shimmer without need to build it from scratch
   awesome_dialog: ^3.2.1
@@ -88,6 +88,9 @@ flutter:
     - family: NotoKufiArabic
       fonts:
         - asset: assets/fonts/NotoKufiArabic.ttf
+    - family: Fredoka
+      fonts:
+        - asset: assets/fonts/Fredoka.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

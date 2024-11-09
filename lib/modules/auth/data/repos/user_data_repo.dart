@@ -37,9 +37,13 @@ class UserDataRepo {
     final String userId = getIt<FirebaseAuth>().currentUser!.uid;
     log('=====> User is ;;;;;;; $isOnline');
     // Online status
-    await getIt<FirebaseFirestore>().collection('users').doc(userId).update({
-      'isOnline': isOnline,
-      'lastSeen': Timestamp.now(),
-    });
+    final userDoc =
+        await getIt<FirebaseFirestore>().collection('users').doc(userId).get();
+    if (userDoc.exists) {
+      await getIt<FirebaseFirestore>().collection('users').doc(userId).update({
+        'isOnline': isOnline,
+        'lastSeen': Timestamp.now(),
+      });
+    }
   }
 }
