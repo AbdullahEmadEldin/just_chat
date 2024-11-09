@@ -54,17 +54,17 @@ class NetworkHelper {
         docName: 'supabaseVar', varName: 'anonKey');
     final supabase = SupabaseClient(appUrl, anonKey);
     //? fileName to shorten the uploaded path
-    final String fileName = filePath.split('/').last;
+    final String fileId = DateTime.now().millisecondsSinceEpoch.toString();
 
     try {
       final file = File(filePath);
       final storageResponse =
-          await supabase.storage.from('uploads').upload(fileName, file);
+          await supabase.storage.from('uploads').upload(fileId, file);
 
       ///
       //? getting Url
       log('storageResponse: $storageResponse');
-      final fileUrl = supabase.storage.from('uploads').getPublicUrl(fileName);
+      final fileUrl = supabase.storage.from('uploads').getPublicUrl(fileId);
       log('=====> URL : $fileUrl');
 
       return fileUrl;
