@@ -123,16 +123,4 @@ class NetworkHelper {
     }
   }
 
-  /// This method to get the image bytes from it's URL as Uint8List to store it as BLOB in SQLite database.
-  ///
-  // static Future<Uint8List?> getImageBytesFromResponse(String? imageUrl) async {
-  //   if (imageUrl == null) {
-  //     return null;
-  //   }
-  //   final response = await DioConsumer().get(
-  //       path: imageUrl, options: Options(responseType: ResponseType.bytes));
-  //   print(
-  //       '============================>>>> Convert image ======= ${response.runtimeType}');
-  //   return response; // This returns the image as Uint8List
-  // }
 }

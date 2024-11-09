@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../helpers/ui_helpers.dart';
 
@@ -9,9 +9,9 @@ class ProfileShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: ColorsManager().colorScheme.background,
-      highlightColor: ColorsManager().colorScheme.primary20,
+    return Shimmer(
+      duration: const Duration(milliseconds: 900),
+      color: ColorsManager().colorScheme.background,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

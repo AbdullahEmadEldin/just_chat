@@ -18,6 +18,7 @@ class FirebaseChatRepo implements ChatRepoInterface {
             'members',
             arrayContains: getIt<FirebaseAuth>().currentUser!.uid,
           )
+          .orderBy('lastMessageTimestamp', descending: true)
           // snapshot hold the chat data and other metadata comes from firebase.
           .snapshots()
           // Transforms each element of this stream into a new stream event.
@@ -38,7 +39,7 @@ class FirebaseChatRepo implements ChatRepoInterface {
   }
 
   /// This function actually will start a new chat with the user
-  
+
   @override
   Future<int> getUnreadChatsCount({required String chatId}) async {
     log('Update unread Msg count called ---');
