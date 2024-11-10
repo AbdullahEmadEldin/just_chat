@@ -25,19 +25,19 @@
             "name": "emulator",
             "request": "launch",
             "type": "dart",
-            "deviceId": "emulator-5554"
+            "deviceId": "emulator-5554",
         },
         {
             "name": "minote-wireless",
             "request": "launch",
             "type": "dart",
-            "deviceId": "192.168.1.60:5555"
+            "deviceId": "192.168.1.60:5555",
         },
         {
             "name": "minote-wired",
             "request": "launch",
             "type": "dart",
-            "deviceId": "6d5b3618"
+            "deviceId": "6d5b3618",
         },
     ],
     "compounds": [

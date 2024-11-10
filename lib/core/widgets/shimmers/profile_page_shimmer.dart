@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_chat/core/theme/colors/colors_manager.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../../helpers/ui_helpers.dart';
 
@@ -9,9 +9,9 @@ class ProfileShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: ColorsManager().colorScheme.background,
-      highlightColor: ColorsManager().colorScheme.primary20,
+    return Shimmer(
+      duration: const Duration(milliseconds: 900),
+      color: ColorsManager().colorScheme.background,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +23,7 @@ class ProfileShimmer extends StatelessWidget {
               width:
                   UiHelper.getResponsiveDimension(context, baseDimension: 135),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(64), color: Colors.red),
+                  borderRadius: BorderRadius.circular(64), color: ColorsManager().colorScheme.primary20),
             ),
           ),
           const SizedBox(height: 16),
@@ -34,7 +34,7 @@ class ProfileShimmer extends StatelessWidget {
               width:
                   UiHelper.getResponsiveDimension(context, baseDimension: 100),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8), color: Colors.red),
+                  borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
             ),
           ),
           const SizedBox(height: 16),
@@ -43,56 +43,56 @@ class ProfileShimmer extends StatelessWidget {
             height: UiHelper.getResponsiveDimension(context, baseDimension: 28),
             width: UiHelper.getResponsiveDimension(context, baseDimension: 120),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.red),
+                borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
           ),
           Container(
             margin: const EdgeInsets.all(16),
             height: UiHelper.getResponsiveDimension(context, baseDimension: 28),
             width: UiHelper.getResponsiveDimension(context, baseDimension: 350),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.red),
+                borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
           ),
           Container(
             margin: const EdgeInsets.all(16),
             height: UiHelper.getResponsiveDimension(context, baseDimension: 28),
             width: UiHelper.getResponsiveDimension(context, baseDimension: 350),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.red),
+                borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
           ),
           Container(
             margin: const EdgeInsets.all(16),
             height: UiHelper.getResponsiveDimension(context, baseDimension: 28),
             width: UiHelper.getResponsiveDimension(context, baseDimension: 120),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.red),
+                borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
           ),
           Container(
             margin: const EdgeInsets.all(16),
             height: UiHelper.getResponsiveDimension(context, baseDimension: 28),
             width: UiHelper.getResponsiveDimension(context, baseDimension: 350),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.red),
+                borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
           ),
           Container(
             margin: const EdgeInsets.all(16),
             height: UiHelper.getResponsiveDimension(context, baseDimension: 28),
             width: UiHelper.getResponsiveDimension(context, baseDimension: 350),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.red),
+                borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
           ),
           Container(
             margin: const EdgeInsets.all(16),
             height: UiHelper.getResponsiveDimension(context, baseDimension: 28),
             width: UiHelper.getResponsiveDimension(context, baseDimension: 350),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.red),
+                borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
           ),
           Container(
             margin: const EdgeInsets.all(16),
             height: UiHelper.getResponsiveDimension(context, baseDimension: 28),
             width: UiHelper.getResponsiveDimension(context, baseDimension: 350),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.red),
+                borderRadius: BorderRadius.circular(8), color: ColorsManager().colorScheme.primary20),
           ),
         ],
       ),

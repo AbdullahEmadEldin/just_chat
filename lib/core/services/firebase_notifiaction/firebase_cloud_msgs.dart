@@ -102,13 +102,11 @@ class FcmService {
 
     //! foreground
     FirebaseMessaging.onMessage.listen((remoteMsg) {
-      log('A7A 11111');
 
       handleCustomNotificationUi(remoteMsg);
     });
     //! background
     FirebaseMessaging.onMessageOpenedApp.listen((remoteMsg) {
-      log('A7A 0000');
       handleCustomNotificationUi(remoteMsg);
     });
   }

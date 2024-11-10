@@ -59,7 +59,7 @@ class _SendRecordButtonState extends State<SendRecordButton> {
     );
   }
 
-  void _sendTextMsg(BuildContext context) {
+  void _sendTextMsg(BuildContext context) async {
     final newMsg = MessageModel(
       chatId: widget.chatId,
       msgId: const Uuid().v1(),
@@ -79,6 +79,5 @@ class _SendRecordButtonState extends State<SendRecordButton> {
             message: newMsg,
           );
     }
-    context.read<MessagingCubit>().switchSendButtonIcon();
   }
 }

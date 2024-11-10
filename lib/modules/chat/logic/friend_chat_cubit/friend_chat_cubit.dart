@@ -17,7 +17,7 @@ part 'friend_chat_state.dart';
 class FriendsChatCubit extends Cubit<FriendsChatState> {
   FriendsChatCubit() : super(AllChatsInitial());
 
-  Stream<List<ChatModel>?> getAllChats() {
+  void getAllChats() {
     emit(GetChatsLoading());
     try {
       getIt<ChatRepoInterface>().getAllChats().listen((chatsList) async {
@@ -31,10 +31,8 @@ class FriendsChatCubit extends Cubit<FriendsChatState> {
           ),
         );
       });
-      return getIt<ChatRepoInterface>().getAllChats();
     } catch (e) {
       emit(GetChatsFailure(error: 'Error on getting chats: ${e.toString()}'));
-      return const Stream.empty();
     }
   }
 

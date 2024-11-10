@@ -54,17 +54,17 @@ class NetworkHelper {
         docName: 'supabaseVar', varName: 'anonKey');
     final supabase = SupabaseClient(appUrl, anonKey);
     //? fileName to shorten the uploaded path
-    final String fileName = filePath.split('/').last;
+    final String fileId = DateTime.now().millisecondsSinceEpoch.toString();
 
     try {
       final file = File(filePath);
       final storageResponse =
-          await supabase.storage.from('uploads').upload(fileName, file);
+          await supabase.storage.from('uploads').upload(fileId, file);
 
       ///
       //? getting Url
       log('storageResponse: $storageResponse');
-      final fileUrl = supabase.storage.from('uploads').getPublicUrl(fileName);
+      final fileUrl = supabase.storage.from('uploads').getPublicUrl(fileId);
       log('=====> URL : $fileUrl');
 
       return fileUrl;
@@ -123,16 +123,4 @@ class NetworkHelper {
     }
   }
 
-  /// This method to get the image bytes from it's URL as Uint8List to store it as BLOB in SQLite database.
-  ///
-  // static Future<Uint8List?> getImageBytesFromResponse(String? imageUrl) async {
-  //   if (imageUrl == null) {
-  //     return null;
-  //   }
-  //   final response = await DioConsumer().get(
-  //       path: imageUrl, options: Options(responseType: ResponseType.bytes));
-  //   print(
-  //       '============================>>>> Convert image ======= ${response.runtimeType}');
-  //   return response; // This returns the image as Uint8List
-  // }
 }

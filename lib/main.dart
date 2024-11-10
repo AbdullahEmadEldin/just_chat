@@ -89,7 +89,7 @@ void main() async {
   final bool notificationStatus =
       await CacheHelper.getData(key: SharedPrefKeys.notification) ?? true;
   //
-  if (notificationStatus == true) {
+  if (notificationStatus == true && getIt<FirebaseAuth>().currentUser != null) {
     log('=========>>> notificationStatus = $notificationStatus');
     FcmService.setupInteractedMessage();
   }
